@@ -7,7 +7,6 @@ RM			:= rm -f
 CFLAGS		:= -O 
 # CFLAGS		:= -Wall -Wextra -Werror -O 
 DFLAGS		:= -MMD -MP
-LFLAGS		:= -lreadline
 #=============================
 #src
 #=============================
