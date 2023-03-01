@@ -9,11 +9,12 @@
 #include <pthread.h>
 
 typedef struct s_philo t_philo;
-
-struct t_philo{
-	int	rh;
-	int	lh;
+struct s_philo{
+	struct timeval time;
+	struct timeval pre_eat_start;
+	struct timezone zone;
 };
+
 
 
 #endif

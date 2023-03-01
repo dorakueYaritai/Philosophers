@@ -19,7 +19,7 @@ SRCS	:= 	philo.c
 #directory
 #=============================
 INCDIR		= include/
-INCLUDE		= -I$(INCDIR)
+INCLUDE		= -I $(INCDIR)
 OBJDIR		= obj
 ifeq "$(strip $(OBJDIR))" ""
 OBJDIR	= .
