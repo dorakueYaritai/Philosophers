@@ -91,15 +91,15 @@ int main(int argc, char* argv[]) {
 	th_id = init_th_id(argc, argv);
 	printf("[inited] \n");
 	i = 0;
-	while (philos[i].isdeath == false)
-	{
-		pthread_create(&th_id[i], NULL, &routine, &philos[i]);
-		i++;
-	}
-	i = 0;
-	while (philos[i].isdeath == false)
-	{
-		pthread_join(th_id[i], NULL);
-		i++;
-	}
+	// while (philos[i].isdeath == false)
+	// {
+	// 	pthread_create(&th_id[i], NULL, &routine, &philos[i]);
+	// 	i++;
+	// }
+	// i = 0;
+	// while (philos[i].isdeath == false)
+	// {
+	// 	pthread_join(th_id[i], NULL);
+	// 	i++;
+	// }
 }

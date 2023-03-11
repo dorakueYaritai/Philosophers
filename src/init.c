@@ -21,7 +21,7 @@ t_philo	*init_philo(int argc, char *argv[], pthread_mutex_t	*mutex)
 		philo[i].time_to_die = -1;
 		philo[i].isdeath = false;
 		philo[i].philo_id = i;
-		philo[i].forks = mutex;
+		// philo[i].forks = mutex;
 		i++;
 	}
 	philo[i].isdeath = true;
@@ -39,7 +39,10 @@ pthread_mutex_t	*init_fork(char *philonum)
 	while (i < len)
 	{
 		if (pthread_mutex_init(&mutex[i], NULL) == -1)
+		{
+			printf("OK!\n");
 			return (NULL);
+		}
 		i++;
 	}
 	return (mutex);
