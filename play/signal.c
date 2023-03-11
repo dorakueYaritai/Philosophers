@@ -5,11 +5,21 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 
+#define IN_CMD 0
+#define OUT_CMD 1
+
+volatile sig_atomic_t g_status;
+
 void	signal_handler(int sig)
 {
 	if (sig == SIGINT)
+	{
+		kill(0, SIGINT);
 		printf("SIG INT!\n");
+	}
 }
+
+
 
 int	main()
 {
@@ -18,6 +28,7 @@ int	main()
 	pid_t	pid;
 	char	*line;
 
+	g_status = OUT_CMD;
 	sa.sa_flags = 0;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_handler = signal_handler;
@@ -40,12 +51,12 @@ int	main()
 		}
 		else
 		{
-			signal(SIGINT, SIG_IGN);
+			// signal(SIGINT, SIG_IGN);
 			wait(&status);
-			sigaction(SIGINT, &sa, NULL);
+			// sigaction(SIGINT, &sa, NULL);
 		}
 	}
 	return (0);
 }
 
-vpath %c $(SRCSDIR) $(SR)
+// vpath %c $(SRCSDIR) $(SR)

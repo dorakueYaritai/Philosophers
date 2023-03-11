@@ -12,7 +12,8 @@ DFLAGS		:= -MMD -MP
 #=============================
 # VPATH = srcs:srcs/UTIL
 SRCDIR    = src
-SRCS	:= 	philo.c
+SRCS	:= 	philo.c\
+			init.c
 
 
 #=============================
@@ -67,6 +68,24 @@ fclean:	clean
 	@echo $(RED)"----- $(NAME) fclean done-----"$(RESET)
 
 re: fclean all
+
+# debug:	CFLAGS+= -g
+# debug:	re
+
+NAME_DEBUG = dbg
+
+debug: $(NAME_DEBUG)
+
+$(NAME_DEBUG): $(OBJECTS)
+	@echo $(BLUE)"----- $(NAME) $(CC) start-----"$(RESET)
+	$(CC) -o $@ $^ $(CFLAGS) -g $(DFLAGS) $(INCLUDE) $(MFLAGS) $(LFLAGS)
+	@echo $(GREEN)"----- $(NAME) $(CC) done-----"$(RESET)
+	@echo $(SKYBLUE) "make .o" $(RESET)
+
+
+# @printf "$(ORANGE_DIM)"
+# $(CC) $(CFLAGS_DEBUG) $(OBJS) $(LIBS) -o $@
+# @printf "$(RESET)"
 
 -include $(DEPENDS)
 

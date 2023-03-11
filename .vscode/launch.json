@@ -1,0 +1,15 @@
+{
+ "version": "0.2.0",
+ "configurations": [
+	 {
+		"type": "lldb",
+		"request": "launch",
+		 "name": "Launch",
+		 "program": "${workspaceFolder}/dbg",
+		 "args": ["1", "1", "1", "2"],
+		 "cwd": "${workspaceFolder}",
+		 "preLaunchTask": "make_debug"
+	 }
+ ],
+ "compounds": []
+}

@@ -1,85 +1,105 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <pthread.h>
-#include <sys/time.h>
-#include <unistd.h>
 #include <philosophers.h>
 
-#define PHILO_NUM 4
-
-int mails = 0;
-
-void	print_time(t_philo *philo, char *doing)
+int	philo_eat(t_philo *philo)
 {
-	printf("%ld:%d X is %s	", philo->time.tv_sec, philo->time.tv_usec, doing);
-	printf("%ld:%d X is pre eating	", philo->pre_eat_start.tv_sec, philo->pre_eat_start.tv_usec);
-	printf("%ld differences\n", philo->time.tv_sec - philo->pre_eat_start.tv_sec);
-	printf("-----\n");
+	struct timeval t1;
+	struct timezone z1;
+	z1.tz_dsttime = 0;
+	z1.tz_minuteswest = 0;
+
+	gettimeofday(&t1, &z1);
+	if (philo->time_to_die != -1 && philo->time_to_die <= t1.tv_sec)
+	{
+		printf("%ddie       %ld\n", philo->philo_id, philo->time_to_die);
+		return (1);
+	}
+	printf("%dstart eat   %ld\n", philo->philo_id, t1.tv_sec);
+	philo->time_to_die = t1.tv_sec + philo->time_to_starve;
+	sleep((unsigned int)(philo->time_to_eat));
+	return (0);
 }
 
-void	update_eat_time(t_philo *philo)
+int	philo_sleep(t_philo *philo)
 {
-	philo->pre_eat_start.tv_sec = philo->time.tv_sec;
-	philo->pre_eat_start.tv_usec = philo->time.tv_usec;
-	gettimeofday(&philo->time, &philo->zone);
+	struct timeval t1;
+	struct timezone z1;
+	z1.tz_dsttime = 0;
+	z1.tz_minuteswest = 0;
+
+	gettimeofday(&t1, &z1);
+	if (philo->time_to_die <= t1.tv_sec)
+	{
+		printf("%ddie         %ld\n", philo->philo_id, philo->time_to_die);
+		return (1);
+	}
+	printf("%dstart sleep %ld\n", philo->philo_id, t1.tv_sec);
+	sleep((unsigned int)(philo->time_to_sleep));
+	return (0);
 }
 
-void	philo_eat(t_philo *philo)
+int	parse_argment(int argc, char *argv[])
 {
-	update_eat_time(philo);
-	print_time(philo, "eating");
-	sleep(1);
+	size_t	i;
+	size_t	j;
+	size_t	philo_num;
+	t_philo	*philo;
+
+	if (argc != 5)
+		return (1);
+	i = 1;
+	while (i < argc)
+	{
+		j = 0;
+		while(argv[i][j])
+		{
+			if (!(argv[i][j] >= '0' && argv[i][j] <= '9'))
+				return (1);
+			j++;
+		}
+		i++;
+	}
+	return (0);
 }
 
-void	update_sleep_time(t_philo *philo)
-{
-	gettimeofday(&philo->time, &philo->zone);
+void* routine(void *philo){
+	t_philo	*_philo;
+
+	_philo = (t_philo *)philo;
+	while (1)
+	{
+		if (philo_eat(philo))
+			return (1);
+		if (philo_sleep(philo))
+			return (1);
+	}
+	return NULL;
 }
-
-void	philo_sleep(t_philo *philo)
-{
-	update_sleep_time(philo);
-	print_time(philo, "sleeping");
-	sleep(2);
-}
-
-void	think()
-{
-	struct timeval time;
-	struct timezone zone;
-	zone.tz_dsttime = 0;
-	zone.tz_minuteswest = 0;
-	gettimeofday(&time, &zone);
-	printf("%d X is eating\n", time.tv_usec);
-}
-
-
-// void* routine(void *arg){
-// 	int	i = 0;
-// 	while (i < 100)
-// 	{
-// 		eat();
-// 		think();
-// 	}
-// 	return NULL;
-// }
-
-
-
 
 int main(int argc, char* argv[]) {
-    pthread_t th[PHILO_NUM];
-	t_philo	philo1;
-    int	i;
+	t_philo		*philos;
+	pthread_t	*th_id;
+	pthread_mutex_t	*mutex;
+	// pthread_mutex_t	mutex[5];
+	// pthread_t	th_id[5];
+	int			i;
 
+	if (parse_argment(argc, argv) == 1)
+		return (1);
+	printf("[parsed]\n");
+	mutex = init_fork(argv[1]);
+	philos = init_philo(argc, argv, mutex);
+	th_id = init_th_id(argc, argv);
+	printf("[inited] \n");
 	i = 0;
-	philo1.zone.tz_dsttime = 0;
-	philo1.zone.tz_minuteswest = 0;
-	int	j = 0;
-	gettimeofday(&philo1.time, &philo1.zone);
-	philo1.pre_eat_start.tv_sec = 0;
-	// print_time(&philo1);
-	philo_eat(&philo1);
-	philo_sleep(&philo1);
-	philo_eat(&philo1);
+	while (philos[i].isdeath == false)
+	{
+		pthread_create(&th_id[i], NULL, &routine, &philos[i]);
+		i++;
+	}
+	i = 0;
+	while (philos[i].isdeath == false)
+	{
+		pthread_join(th_id[i], NULL);
+		i++;
+	}
 }
