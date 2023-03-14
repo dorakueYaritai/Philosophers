@@ -2,14 +2,19 @@
  "version": "0.2.0",
  "configurations": [
 	 {
-		"type": "lldb",
-		"request": "launch",
-		 "name": "Launch",
+		 "name": "(lldb) 起動",
+		 "type": "cppdbg",
+		 "request": "launch",
 		 "program": "${workspaceFolder}/dbg",
-		 "args": ["1", "1", "1", "2"],
-		 "cwd": "${workspaceFolder}",
+		 "args": ["5", "5", "5", "5"],
+		//  "args": ["./dbg", "5", "5", "5", "5"],
+		 "stopAtEntry": false,
+		 "cwd": "${fileDirname}",
+		 "environment": [],
+		 "externalConsole": false,
+		 "MIMode": "lldb",
 		 "preLaunchTask": "make_debug"
-	 }
+	 },
  ],
  "compounds": []
 }

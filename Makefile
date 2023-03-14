@@ -73,8 +73,8 @@ re: fclean all
 # debug:	re
 
 NAME_DEBUG = dbg
-
-debug: $(NAME_DEBUG)
+debug: CFLAGS += -g
+debug: fclean $(NAME_DEBUG)
 
 $(NAME_DEBUG): $(OBJECTS)
 	@echo $(BLUE)"----- $(NAME) $(CC) start-----"$(RESET)

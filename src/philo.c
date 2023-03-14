@@ -7,6 +7,8 @@ int	philo_eat(t_philo *philo)
 	z1.tz_dsttime = 0;
 	z1.tz_minuteswest = 0;
 
+	pthread_mutex_lock(philo->fork_lh);
+	pthread_mutex_lock(philo->fork_rh);
 	gettimeofday(&t1, &z1);
 	if (philo->time_to_die != -1 && philo->time_to_die <= t1.tv_sec)
 	{
@@ -16,6 +18,8 @@ int	philo_eat(t_philo *philo)
 	printf("%dstart eat   %ld\n", philo->philo_id, t1.tv_sec);
 	philo->time_to_die = t1.tv_sec + philo->time_to_starve;
 	sleep((unsigned int)(philo->time_to_eat));
+	pthread_mutex_unlock(philo->fork_lh);
+	pthread_mutex_unlock(philo->fork_rh);
 	return (0);
 }
 
@@ -76,11 +80,14 @@ void* routine(void *philo){
 }
 
 int main(int argc, char* argv[]) {
+
 	t_philo		*philos;
+	t_waiter		waiter;
 	pthread_t	*th_id;
 	pthread_mutex_t	*mutex;
 	// pthread_mutex_t	mutex[5];
 	// pthread_t	th_id[5];
+	th_id = NULL;
 	int			i;
 
 	if (parse_argment(argc, argv) == 1)
@@ -90,16 +97,17 @@ int main(int argc, char* argv[]) {
 	philos = init_philo(argc, argv, mutex);
 	th_id = init_th_id(argc, argv);
 	printf("[inited] \n");
+
 	i = 0;
-	// while (philos[i].isdeath == false)
-	// {
-	// 	pthread_create(&th_id[i], NULL, &routine, &philos[i]);
-	// 	i++;
-	// }
-	// i = 0;
-	// while (philos[i].isdeath == false)
-	// {
-	// 	pthread_join(th_id[i], NULL);
-	// 	i++;
-	// }
+	while (philos[i].isdeath == false)
+	{
+		pthread_create(&th_id[i], NULL, &routine, &philos[i]);
+		i++;
+	}
+	i--;
+	while (i >= 0)
+	{
+		pthread_join(th_id[i], NULL);
+		i--;
+	}
 }

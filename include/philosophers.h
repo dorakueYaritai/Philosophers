@@ -21,9 +21,17 @@ struct s_philo{
 	int		philo_id;
 	bool	isdeath;
 	pthread_mutex_t	*forks;
-	// pthread_mutex_t	*fork_lh;
-	// pthread_mutex_t	*fork_rh;
+	pthread_mutex_t	*fork_lh;
+	pthread_mutex_t	*fork_rh;
 };
+
+typedef struct s_waiter t_waiter;
+struct s_waiter{
+	size_t	philonum;
+	time_t	*time_to_die;
+	bool	*isdeath;
+};
+
 
 // t_philo	*init_philo(int argc, char *argv[]);
 t_philo	*init_philo(int argc, char *argv[], pthread_mutex_t	*mutex);
