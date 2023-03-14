@@ -1,6 +1,6 @@
 #include <philosophers.h>
 
-pthread_t	*init_th_id(int argc, char *argv[])
+pthread_t	*init_th_id(char *argv[])
 {
 	pthread_t *th;
 	
@@ -16,7 +16,7 @@ pthread_t	*init_th_id(int argc, char *argv[])
 	return (th);
 }
 
-t_philo	*init_philo(int argc, char *argv[], pthread_mutex_t	*mutex)
+t_philo	*init_philo(char *argv[], pthread_mutex_t	*mutex)
 {
 	size_t	i;
 	size_t	philo_num = strtol(argv[1], NULL, 10);
@@ -29,14 +29,14 @@ t_philo	*init_philo(int argc, char *argv[], pthread_mutex_t	*mutex)
 		philo[i].time_to_eat = strtol(argv[3], NULL, 10);
 		philo[i].time_to_sleep = strtol(argv[4], NULL, 10);
 		philo[i].time_to_die = -1;
-		philo[i].isdeath = false;
+		philo[i].is_death = false;
 		philo[i].philo_id = i;
 		philo[i].forks = mutex;
 		philo[i].fork_lh = &mutex[i];
 		philo[i].fork_rh = &mutex[(i + 1) % philo_num];
 		i++;
 	}
-	philo[i].isdeath = true;
+	philo[i].is_death = true;
 	return (philo);
 }
 

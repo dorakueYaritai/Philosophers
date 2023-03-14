@@ -72,9 +72,9 @@ void* routine(void *philo){
 	while (1)
 	{
 		if (philo_eat(philo))
-			return (1);
+			return (NULL);
 		if (philo_sleep(philo))
-			return (1);
+			return (NULL);
 	}
 	return NULL;
 }
@@ -94,8 +94,8 @@ int main(int argc, char* argv[]) {
 		return (1);
 	printf("[parsed]\n");
 	mutex = init_fork(argv[1]);
-	philos = init_philo(argc, argv, mutex);
-	th_id = init_th_id(argc, argv);
+	philos = init_philo(argv, mutex);
+	th_id = init_th_id(argv);
 	printf("[inited] \n");
 
 	i = 0;

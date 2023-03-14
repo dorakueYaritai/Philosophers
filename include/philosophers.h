@@ -19,7 +19,11 @@ struct s_philo{
 	time_t	time_to_die;
 	time_t	start;
 	int		philo_id;
-	bool	isdeath;
+	int		philo_num;
+	bool	is_death;
+	bool	is_eating;
+	bool	is_sleeping;
+	bool	is_thinking;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	*fork_lh;
 	pthread_mutex_t	*fork_rh;
@@ -34,8 +38,8 @@ struct s_waiter{
 
 
 // t_philo	*init_philo(int argc, char *argv[]);
-t_philo	*init_philo(int argc, char *argv[], pthread_mutex_t	*mutex);
-pthread_t	*init_th_id(int argc, char *argv[]);
+t_philo	*init_philo(char *argv[], pthread_mutex_t	*mutex);
+pthread_t	*init_th_id(char *argv[]);
 pthread_mutex_t	*init_fork(char *philonum);
 
 
