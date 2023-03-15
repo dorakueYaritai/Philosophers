@@ -8,7 +8,11 @@ int	philo_eat(t_philo *philo)
 	z1.tz_minuteswest = 0;
 
 	pthread_mutex_lock(philo->fork_lh);
+	gettimeofday(&t1, &z1);
+	printf("%d has take a  %d fork %ld\n", philo->philo_id, philo->philo_id, t1.tv_sec);
 	pthread_mutex_lock(philo->fork_rh);
+	gettimeofday(&t1, &z1);
+	printf("%d has take a  %d fork %ld\n", philo->philo_id, (philo->philo_id + 1) % philo->philo_num, t1.tv_sec);
 	gettimeofday(&t1, &z1);
 	if (philo->time_to_die != -1 && philo->time_to_die <= t1.tv_sec)
 	{
@@ -99,7 +103,7 @@ int main(int argc, char* argv[]) {
 	printf("[inited] \n");
 
 	i = 0;
-	while (philos[i].isdeath == false)
+	while (philos[i].is_death == false)
 	{
 		pthread_create(&th_id[i], NULL, &routine, &philos[i]);
 		i++;

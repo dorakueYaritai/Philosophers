@@ -31,6 +31,7 @@ t_philo	*init_philo(char *argv[], pthread_mutex_t	*mutex)
 		philo[i].time_to_die = -1;
 		philo[i].is_death = false;
 		philo[i].philo_id = i;
+		philo[i].philo_num = philo_num;
 		philo[i].forks = mutex;
 		philo[i].fork_lh = &mutex[i];
 		philo[i].fork_rh = &mutex[(i + 1) % philo_num];
