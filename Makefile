@@ -13,7 +13,9 @@ DFLAGS		:= -MMD -MP
 # VPATH = srcs:srcs/UTIL
 SRCDIR    = src
 SRCS	:= 	philo.c\
-			init.c
+			init.c\
+			parse.c\
+			routine.c\
 
 
 #=============================

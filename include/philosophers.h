@@ -46,6 +46,8 @@ t_philo	*init_philo(char *argv[], pthread_mutex_t	*mutex);
 pthread_t	*init_th_id(char *argv[]);
 pthread_mutex_t	*init_fork(char *philonum);
 void	print_philo_status(t_philo *philo);
+void* routine(void *philo);
+int	parse_argment(int argc, char *argv[]);
 
 
 #endif

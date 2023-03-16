@@ -14,15 +14,12 @@ void	print_philo_status(t_philo *philo)
 pthread_t	*init_th_id(char *argv[])
 {
 	pthread_t *th;
-	
-	printf("malloc start haha %ld\n", sizeof(pthread_t));
+
 	th =  malloc(sizeof(pthread_t) * strtol(argv[1], NULL, 10));
 	if (th == NULL)
 	{
-		printf("malloc error\n");
 		exit(1);
 	}
-	printf("malloced]]]]]]]]]]]\n");
 	return (th);
 }
 
@@ -35,9 +32,9 @@ t_philo	*init_philo(char *argv[], pthread_mutex_t	*mutex)
 	i = 0;
 	while (i < philo_num)
 	{
-		philo[i].time_to_starve = strtol(argv[2], NULL, 10) * 1000;
-		philo[i].time_to_eat = strtol(argv[3], NULL, 10) * 1000;
-		philo[i].time_to_sleep = strtol(argv[4], NULL, 10) * 1000;
+		philo[i].time_to_starve = strtol(argv[2], NULL, 10);
+		philo[i].time_to_eat = strtol(argv[3], NULL, 10);
+		philo[i].time_to_sleep = strtol(argv[4], NULL, 10);
 		philo[i].time_to_die = -1;
 		philo[i].is_death = false;
 		philo[i].philo_id = i;
