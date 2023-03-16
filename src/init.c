@@ -1,5 +1,16 @@
 #include <philosophers.h>
 
+void	print_philo_status(t_philo *philo)
+{
+	printf("starve: %ld\n", philo->time_to_starve);
+	printf("eat: %ld\n", philo->time_to_eat);
+	printf("sleep: %ld\n", philo->time_to_sleep);
+	printf("die: %ld\n", philo->time_to_die);
+	printf("id: %d\n", philo->philo_id);
+	printf("fork1 id: %d\n", philo->fork1_id);
+	printf("fork2 id: %d\n", philo->fork2_id);
+}
+
 pthread_t	*init_th_id(char *argv[])
 {
 	pthread_t *th;
@@ -12,7 +23,6 @@ pthread_t	*init_th_id(char *argv[])
 		exit(1);
 	}
 	printf("malloced]]]]]]]]]]]\n");
-	// pthread_t *th =  malloc(sizeof(pthread_t) * strtol(argv[1], NULL, 10));
 	return (th);
 }
 
@@ -25,16 +35,28 @@ t_philo	*init_philo(char *argv[], pthread_mutex_t	*mutex)
 	i = 0;
 	while (i < philo_num)
 	{
-		philo[i].time_to_starve = strtol(argv[2], NULL, 10);
-		philo[i].time_to_eat = strtol(argv[3], NULL, 10);
-		philo[i].time_to_sleep = strtol(argv[4], NULL, 10);
+		philo[i].time_to_starve = strtol(argv[2], NULL, 10) * 1000;
+		philo[i].time_to_eat = strtol(argv[3], NULL, 10) * 1000;
+		philo[i].time_to_sleep = strtol(argv[4], NULL, 10) * 1000;
 		philo[i].time_to_die = -1;
 		philo[i].is_death = false;
 		philo[i].philo_id = i;
 		philo[i].philo_num = philo_num;
 		philo[i].forks = mutex;
-		philo[i].fork_lh = &mutex[i];
-		philo[i].fork_rh = &mutex[(i + 1) % philo_num];
+		if (i % 2 == 0)
+		{
+			philo[i].fork1_id = i;
+			philo[i].fork2_id = (i + 1) % philo_num;
+			philo[i].fork_lh = &mutex[philo[i].fork1_id];
+			philo[i].fork_rh = &mutex[philo[i].fork2_id];
+		}
+		else
+		{
+			philo[i].fork1_id = (i + 1) % philo_num;
+			philo[i].fork2_id = i;
+			philo[i].fork_lh = &mutex[philo[i].fork1_id];
+			philo[i].fork_rh = &mutex[philo[i].fork2_id];
+		}
 		i++;
 	}
 	philo[i].is_death = true;
@@ -60,3 +82,4 @@ pthread_mutex_t	*init_fork(char *philonum)
 	}
 	return (mutex);
 }
+
