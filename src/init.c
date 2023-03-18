@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 23:05:11 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/18 23:31:12 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/19 00:37:42 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@ t_philo	*init_philo(char *argv[], t_fork *m_forks, t_dead *dead_array)
 		philo[i].dead_info->is_death = false;
 		if (i % 2 == 0)
 		{
-			philo[i].first = &m_forks[i];
-			philo[i].second = &m_forks[(i + 1) % philo_num];
+			philo[i].first = &m_forks[(i + 1) % philo_num];
+			philo[i].second = &m_forks[i];
 		}
 		else
 		{
-			philo[i].second = &m_forks[i];
-			philo[i].first = &m_forks[(i + 1) % philo_num];
+			philo[i].first = &m_forks[i];
+			philo[i].second = &m_forks[(i + 1) % philo_num];
 		}
 		i++;
 	}
