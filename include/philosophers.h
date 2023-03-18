@@ -55,6 +55,8 @@ struct s_waiter{
 #define DEAD 3
 #define SLEEP 4
 #define NONE 0
+#define SUCCESS 0
+#define ERROR 1
 
 // parse.c
 int			parse_argment(int argc, char *argv[]);
@@ -71,12 +73,13 @@ void		print_philo_status(t_philo *philo);
 void*		 routine(void *philo);
 
 // routine_utils.c
-void		print_time(int id, long sec_milli, int act, int fork_id);
-int			check_am_i_dead(t_philo *philo);
+int			print_time(int id, long sec_milli, int act, int fork_id);
+bool	check_am_i_dead(t_philo *philo);
+// int			check_am_i_dead(t_philo *philo);
 
 // routine_fork.c
-void		take_fork(t_philo *philo, t_fork *fork);
-void		put_fork(t_philo *philo, t_fork *fork);
+int			take_fork(t_philo *philo, t_fork *fork);
+int			put_fork(t_philo *philo, t_fork *fork);
 
 // libft
 char		*ft_strjoin(char const *s1, char const *s2);

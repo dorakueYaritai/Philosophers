@@ -6,13 +6,13 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:37:21 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/18 11:15:02 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/18 12:33:49 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philosophers.h>
 
-void	print_time(int id, long sec_milli, int act, int fork_id)
+int	print_time(int id, long sec_milli, int act, int fork_id)
 {
 	char	*sec_milli_str;
 	char	*id_str;
@@ -40,14 +40,19 @@ void	print_time(int id, long sec_milli, int act, int fork_id)
 	{
 		join = ft_strjoin(join, " died\n");
 		if (write(1, join, strlen(join)) == -1)
-			exit (1);
-		exit (1);
+			return (ERROR);
+		return (SUCCESS);
+		// exit (1);
 	}
 	if (write(1, join, strlen(join)) == -1)
-		exit(1);
+	{
+		// exit(1);
+		return (ERROR);
+	}
+	return (SUCCESS);
 }
 
-int	check_am_i_dead(t_philo *philo)
+bool	check_am_i_dead(t_philo *philo)
 {
 	struct timeval t1;
 	long sec_milli;
@@ -56,9 +61,10 @@ int	check_am_i_dead(t_philo *philo)
 	sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;
 	if (philo->time_to_die != -1 && philo->time_to_die <= sec_milli)
 	{
-		print_time(philo->philo_id, philo->time_to_die, DEAD, 0);
+		return (true);
+		// return (print_time(philo->philo_id, philo->time_to_die, DEAD, 0));
 	}
-	return (0);
+	return (false);
 }
 
 void	print_time_printf(int id, long sec_milli, int act, int fork_id)

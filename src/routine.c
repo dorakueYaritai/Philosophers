@@ -14,9 +14,11 @@ static int	exe_act(t_philo *philo, int act)
 	sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;
 	if (philo->time_to_die != -1 && philo->time_to_die <= sec_milli)
 	{
-		print_time(philo->philo_id, philo->time_to_die, DEAD, 0);
+		return (ERROR);
+		// return (print_time(philo->philo_id, philo->time_to_die, DEAD, 0));
 	}
-	print_time(philo->philo_id, sec_milli, act, NONE);
+	if (print_time(philo->philo_id, sec_milli, act, NONE) == ERROR)
+		return (ERROR);
 	if (act == EAT)
 	{
 		philo->time_to_die = sec_milli + philo->time_to_starve;
@@ -26,27 +28,63 @@ static int	exe_act(t_philo *philo, int act)
 	{
 		usleep((unsigned int)(philo->time_to_sleep) * 1000);
 	}
+	return (SUCCESS);
 }
 
 static int	philo_eat(t_philo *philo)
 {
-	exe_act(philo, EAT);
-	put_fork(philo, philo->first);
-	put_fork(philo, philo->second);
+	if (exe_act(philo, EAT) == ERROR)
+	{
+		printf("1\n");
+		print_time(philo->philo_id, philo->time_to_die, DEAD, NONE);
+		return (ERROR);
+	}
+	if (put_fork(philo, philo->first))
+	{
+		printf("2\n");
+		print_time(philo->philo_id, philo->time_to_die, DEAD, NONE);
+		return (ERROR);
+	}
+	if (put_fork(philo, philo->second))
+	{
+		printf("3\n");
+		print_time(philo->philo_id, philo->time_to_die, DEAD, NONE);
+		return (ERROR);
+	}
 	return (philo_sleep(philo));
 }
 
 static int	philo_sleep(t_philo *philo)
 {
-	exe_act(philo, SLEEP);
+	if (exe_act(philo, SLEEP) == ERROR)
+	{
+		printf("4\n");
+		print_time(philo->philo_id, philo->time_to_die, DEAD, NONE);
+		return (ERROR);
+	}
 	return (philo_think(philo));
 }
 
 static int	philo_think(t_philo *philo)
 {
-	exe_act(philo, THINK);
-	take_fork(philo, philo->first);
-	take_fork(philo, philo->second);
+	if (exe_act(philo, THINK) == ERROR)
+	{
+		printf("5\n");
+		print_time(philo->philo_id, philo->time_to_die, DEAD, NONE);
+		return (ERROR);
+	}
+	if (take_fork(philo, philo->first))
+	{
+		printf("6\n");
+		print_time(philo->philo_id, philo->time_to_die, DEAD, NONE);
+		return (ERROR);
+	}
+	if (take_fork(philo, philo->second))
+	{
+		printf("7\n");
+		print_time(philo->philo_id, philo->time_to_die, DEAD, NONE);
+		return (ERROR);
+	}
 	return (philo_eat(philo));
 }
 
@@ -55,5 +93,5 @@ void* routine(void *philo){
 
 	_philo = (t_philo *)philo;
 	philo_think(philo);
-	return NULL;
+	return (NULL);
 }
