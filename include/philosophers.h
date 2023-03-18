@@ -20,6 +20,12 @@ struct s_fork{
 	int	fork_id;
 };
 
+typedef struct s_dead t_dead;
+struct s_dead{
+	bool			is_death;
+	pthread_mutex_t	is_death_mutex;
+};
+
 typedef struct s_philo t_philo;
 struct s_philo{
 	time_t	time_to_starve;
@@ -28,7 +34,7 @@ struct s_philo{
 	time_t	time_to_die;
 	int		philo_id;
 	bool	is_death;
-	pthread_mutex_t	*death_check;
+	pthread_mutex_t	*is_death_mutex;
 	t_fork			*first;
 	t_fork			*second;
 };
@@ -54,7 +60,10 @@ struct s_waiter{
 int			parse_argment(int argc, char *argv[]);
 // init.c
 t_philo		*init_philo(char *argv[], t_fork *m_forks);
-t_fork		*init_fork(char *philonum);
+// t_dead	*init_t_dead(char *philonum);
+// t_fork		*init_fork(char *philonum);
+t_dead	*init_t_dead(int philonum);
+t_fork	*init_fork(int philo_num);
 pthread_t	*init_th_id(char *argv[]);
 void		print_philo_status(t_philo *philo);
 

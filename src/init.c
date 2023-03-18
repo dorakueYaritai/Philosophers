@@ -52,16 +52,16 @@ t_philo	*init_philo(char *argv[], t_fork *m_forks)
 	return (philo);
 }
 
-t_fork	*init_fork(char *philonum)
+// t_fork	*init_fork(char *philonum)
+t_fork	*init_fork(int philo_num)
 {
 	t_fork	*fork;
-	int	len = atoi(philonum);
 
-	fork = malloc(sizeof(t_fork) * len);
+	fork = malloc(sizeof(t_fork) * philo_num);
 	if (fork == NULL)
 		return (NULL);
 	int	i = 0;
-	while (i < len)
+	while (i < philo_num)
 	{
 		if (pthread_mutex_init(&fork[i].fork , NULL) == -1)
 		{
@@ -80,56 +80,43 @@ t_fork	*init_fork(char *philonum)
 	return (fork);
 }
 
-
-// pthread_mutex_t	*init_fork(char *philonum)
-// {
-// 	pthread_mutex_t	*mutex;
-// 	int	len = atoi(philonum);
-
-// 	mutex = malloc(sizeof(pthread_mutex_t) * len);
-// 	if (mutex == NULL)
-// 		return (NULL);
-// 	int	i = 0;
-// 	while (i < len)
-// 	{
-// 		if (pthread_mutex_init(&mutex[i], NULL) == -1)
-// 		{
-// 			printf("mutex init failure!\n");
-// 			exit(1);
-// 		}
-// 		i++;
-// 	}
-// 	return (mutex);
-// }
-
-pthread_mutex_t	*init_fork_check(char *philonum)
+pthread_mutex_t	*init_dead_check(char *philonum)
 {
-	pthread_mutex_t	*mutex;
+	pthread_mutex_t	*dead_check;
 	int	len = atoi(philonum);
-
-	mutex = malloc(sizeof(pthread_mutex_t) * len);
-	if (mutex == NULL)
+	dead_check = malloc(sizeof(pthread_mutex_t) * len);
+	if (dead_check == NULL)
 		return (NULL);
 	int	i = 0;
 	while (i < len)
 	{
-		if (pthread_mutex_init(&mutex[i], NULL) == -1)
+		if (pthread_mutex_init(&dead_check[i], NULL) == -1)
 		{
-			printf("mutex init failure!\n");
+			printf("fork deadcheck failure!\n");
+			exit(1);
+		}
+	}
+	return (dead_check);
+}
+
+// t_dead	*init_t_dead(char *philonum)
+t_dead	*init_t_dead(int philo_num)
+{
+	t_dead	*dead_check;
+
+	dead_check = malloc(sizeof(t_dead) * philo_num);
+	if (dead_check == NULL)
+		return (NULL);
+	int	i = 0;
+	while (i < philo_num)
+	{
+		if (pthread_mutex_init(&dead_check[i].is_death_mutex, NULL) == -1)
+		{
+			printf("fork deadcheck failure!\n");
 			exit(1);
 		}
 		i++;
 	}
-	return (mutex);
-}
-
-bool	*init_is_fork_available(char *philonum)
-{
-	bool	*is_fork_available;
-	int	len = atoi(philonum);
-	is_fork_available = malloc(sizeof(bool) * len);
-	if (is_fork_available == NULL)
-		return (NULL);
-	return (is_fork_available);
+	return (dead_check);
 }
 
