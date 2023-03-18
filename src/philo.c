@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:16:41 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/18 23:12:49 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/18 23:15:09 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,6 @@ int	threads_join(t_philo *philos, pthread_t *th_id, int philo_num)
 	return (0);
 }
 
-// int kill_everyone(t_philo *philos, 
-// 	t_dead *dead_info_array, int philo_num, int dead_id)
-
 int kill_everyone(t_dead *dead_info_array, int philo_num, int dead_id)
 {
 	int	i;
@@ -86,7 +83,6 @@ int	print_sub(int id, long sec_milli, long sec_milli_philo)
 	write(1, join, ft_strlen(join));
 }
 
-// int monitor_philos_death(t_philo *philos, t_dead *dead_info_array, int philo_num)
 int monitor_philos_death(t_dead *dead_info_array, int philo_num)
 {
 	int	i;
@@ -98,19 +94,14 @@ int monitor_philos_death(t_dead *dead_info_array, int philo_num)
 		i = 0;
 		while (i < philo_num)
 		{
-			// pthread_mutex_lock(&philos[i].dead_info.is_death_mutex);
 			pthread_mutex_lock(&dead_info_array[i].is_death_mutex);
 			gettimeofday(&t1, NULL);
 			sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;
-			// print_sub(i, sec_milli, philos[i].time_to_die);
-			// if (philos[i].time_to_die < sec_milli && philos[i].time_to_die != -1)
 			if (*dead_info_array[i].time_to_die < sec_milli && *dead_info_array[i].time_to_die != -1)
 			{
-				// printf("%d: I found dead person!!\n", i);
 				kill_everyone(dead_info_array, philo_num, i);
 				return (print_time(i, sec_milli, DEAD, NONE));
 			}
-			// pthread_mutex_unlock(&philos[i].dead_info.is_death_mutex);
 			pthread_mutex_unlock(&dead_info_array[i].is_death_mutex);
 			i++;
 		}
@@ -136,7 +127,7 @@ int main(int argc, char* argv[]) {
 
 	if (threads_create(philos, th_id, philo_num) == 1)
 		return (1);
-	monitor_philos_death(philos, dead_info_array, philo_num);
+	monitor_philos_death(dead_info_array, philo_num);
 	if (threads_join(philos, th_id, philo_num) == 2)
 		return (2);
 	return (0);
