@@ -22,6 +22,7 @@ struct s_fork{
 
 typedef struct s_dead t_dead;
 struct s_dead{
+	time_t			*time_to_die;
 	bool			is_death;
 	pthread_mutex_t	is_death_mutex;
 };
@@ -47,7 +48,6 @@ struct s_waiter{
 	size_t			philonum;
 	time_t			*time_to_die;
 	pthread_mutex_t	*forks;
-
 	bool	*isdeath;
 };
 

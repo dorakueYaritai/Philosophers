@@ -15,10 +15,10 @@ static int	exe_act(t_philo *philo, int act)
 	{
 		return (ERROR);
 	}
-	if (act == EAT)
-		philo->time_to_die = sec_milli + philo->time_to_starve;
 	if (print_time(philo->philo_id, sec_milli, act, NONE) == ERROR)
 		return (ERROR);
+	if (act == EAT)
+		philo->time_to_die = sec_milli + philo->time_to_starve;
 	if (act == EAT)
 		usleep((unsigned int)(philo->time_to_eat) * 1000);
 	else if (act == SLEEP)
@@ -64,10 +64,21 @@ static int	philo_think(t_philo *philo)
 	return (philo_eat(philo));
 }
 
+void	birth_philo_baby(t_philo *philo)
+{
+	struct timeval t1;
+	long sec_milli;
+
+	gettimeofday(&t1, NULL);
+	sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;
+	philo->time_to_die = sec_milli + philo->time_to_starve;
+}
+
 void* routine(void *philo){
 	t_philo	*_philo;
 
 	_philo = (t_philo *)philo;
+	birth_philo_baby(philo);
 	philo_think(philo);
 	return (NULL);
 }

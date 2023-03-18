@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:16:41 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/18 16:50:50 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/18 23:12:49 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,9 @@ int	threads_join(t_philo *philos, pthread_t *th_id, int philo_num)
 {
 	int	i;
 
-	write(1, "I am in join!\n", 14);
 	i = 0;
 	while (i < philo_num)
 	{
-		write(1, "done!\n", 6);
 		if (pthread_join(th_id[i], NULL) != 0)
 		{
 			printf("[NOOOOOOOOOOON!!!!!!!!]\n");
@@ -48,8 +46,10 @@ int	threads_join(t_philo *philos, pthread_t *th_id, int philo_num)
 	return (0);
 }
 
-int kill_everyone(t_philo *philos, 
-	t_dead *dead_info_array, int philo_num, int dead_id)
+// int kill_everyone(t_philo *philos, 
+// 	t_dead *dead_info_array, int philo_num, int dead_id)
+
+int kill_everyone(t_dead *dead_info_array, int philo_num, int dead_id)
 {
 	int	i;
 
@@ -86,8 +86,8 @@ int	print_sub(int id, long sec_milli, long sec_milli_philo)
 	write(1, join, ft_strlen(join));
 }
 
-int monitor_philos_death(t_philo *philos, 
-	t_dead *dead_info_array, int philo_num)
+// int monitor_philos_death(t_philo *philos, t_dead *dead_info_array, int philo_num)
+int monitor_philos_death(t_dead *dead_info_array, int philo_num)
 {
 	int	i;
 	struct timeval t1;
@@ -103,10 +103,11 @@ int monitor_philos_death(t_philo *philos,
 			gettimeofday(&t1, NULL);
 			sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;
 			// print_sub(i, sec_milli, philos[i].time_to_die);
-			if (philos[i].time_to_die < sec_milli && philos[i].time_to_die != -1)
+			// if (philos[i].time_to_die < sec_milli && philos[i].time_to_die != -1)
+			if (*dead_info_array[i].time_to_die < sec_milli && *dead_info_array[i].time_to_die != -1)
 			{
 				// printf("%d: I found dead person!!\n", i);
-				kill_everyone(philos, dead_info_array, philo_num, i);
+				kill_everyone(dead_info_array, philo_num, i);
 				return (print_time(i, sec_milli, DEAD, NONE));
 			}
 			// pthread_mutex_unlock(&philos[i].dead_info.is_death_mutex);

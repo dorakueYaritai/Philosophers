@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/18 23:05:11 by kakiba            #+#    #+#             */
+/*   Updated: 2023/03/18 23:09:34 by kakiba           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <philosophers.h>
 
-void	print_philo_status(t_philo *philo)
-{
-	printf("starve: %ld\n", philo->time_to_starve);
-	printf("eat: %ld\n", philo->time_to_eat);
-	printf("sleep: %ld\n", philo->time_to_sleep);
-	printf("die: %ld\n", philo->time_to_die);
-	printf("id: %d\n", philo->philo_id);
-}
+// void	print_philo_status(t_philo *philo)
+// {
+// 	printf("starve: %ld\n", philo->time_to_starve);
+// 	printf("eat: %ld\n", philo->time_to_eat);
+// 	printf("sleep: %ld\n", philo->time_to_sleep);
+// 	printf("die: %ld\n", philo->time_to_die);
+// 	printf("id: %d\n", philo->philo_id);
+// }
 
 pthread_t	*init_th_id(char *argv[])
 {
@@ -34,9 +46,10 @@ t_philo	*init_philo(char *argv[], t_fork *m_forks, t_dead *dead_array)
 		philo[i].time_to_eat = strtol(argv[3], NULL, 10);
 		philo[i].time_to_sleep = strtol(argv[4], NULL, 10);
 		philo[i].time_to_die = -1;
-		// philo[i].is_death = false;
 		philo[i].philo_id = i;
 		philo[i].dead_info = &dead_array[i];
+		dead_array[i].time_to_die = &philo[i].time_to_die;
+		// philo[i].dead_info = dead_array[i];
 		// philo[i].dead_info.is_death = false;
 		philo[i].dead_info->is_death = false;
 		if (i % 2 == 0)
@@ -51,11 +64,9 @@ t_philo	*init_philo(char *argv[], t_fork *m_forks, t_dead *dead_array)
 		}
 		i++;
 	}
-	// philo[i].is_death = true;
 	return (philo);
 }
 
-// t_fork	*init_fork(char *philonum)
 t_fork	*init_fork(int philo_num)
 {
 	t_fork	*fork;
@@ -83,30 +94,10 @@ t_fork	*init_fork(int philo_num)
 	return (fork);
 }
 
-pthread_mutex_t	*init_dead_check(char *philonum)
-{
-	pthread_mutex_t	*dead_check;
-	int	len = atoi(philonum);
-	dead_check = malloc(sizeof(pthread_mutex_t) * len);
-	if (dead_check == NULL)
-		return (NULL);
-	memset(dead_check, 0, sizeof(pthread_mutex_t) * len);
-	int	i = 0;
-	while (i < len)
-	{
-		if (pthread_mutex_init(&dead_check[i], NULL) == -1)
-		{
-			printf("fork deadcheck failure!\n");
-			exit(1);
-		}
-	}
-	return (dead_check);
-}
-
-// t_dead	*init_t_dead(char *philonum)
 t_dead	*init_t_dead(int philo_num)
 {
 	t_dead	*dead_check;
+	char	*ptr;
 
 	dead_check = malloc(sizeof(t_dead) * philo_num);
 	if (dead_check == NULL)
@@ -114,6 +105,7 @@ t_dead	*init_t_dead(int philo_num)
 	int	i = 0;
 	while (i < philo_num)
 	{
+		ptr = (char *)&dead_check[i];
 		if (pthread_mutex_init(&dead_check[i].is_death_mutex, NULL) == -1)
 		{
 			printf("fork deadcheck failure!\n");
@@ -123,4 +115,3 @@ t_dead	*init_t_dead(int philo_num)
 	}
 	return (dead_check);
 }
-
