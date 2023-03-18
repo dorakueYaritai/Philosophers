@@ -63,11 +63,11 @@ static int	philo_think(t_philo *philo)
 {
 	if (exe_act(philo, THINK) == ERROR)
 		return (ERROR);
-	if (take_fork(philo, philo->first) == ERROR)
+	if (take_fork(philo, philo->first, NULL) == ERROR)
 	{
 		return (ERROR);
 	}
-	if (take_fork(philo, philo->second) == ERROR)
+	if (take_fork(philo, philo->second, philo->first) == ERROR)
 	{
 		put_fork(philo, philo->first);
 		return (ERROR);

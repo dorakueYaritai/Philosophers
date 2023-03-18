@@ -77,7 +77,8 @@ bool	check_am_i_dead(t_philo *philo);
 // int			check_am_i_dead(t_philo *philo);
 
 // routine_fork.c
-int			take_fork(t_philo *philo, t_fork *fork);
+int			take_fork(t_philo *philo, t_fork *fork, t_fork *had);
+// int			take_fork(t_philo *philo, t_fork *fork);
 int			put_fork(t_philo *philo, t_fork *fork);
 
 // libft
