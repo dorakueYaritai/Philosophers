@@ -37,7 +37,8 @@ struct s_philo{
 	pthread_mutex_t	*is_death_mutex;
 	t_fork			*first;
 	t_fork			*second;
-	t_dead			dead_info;
+	t_dead			*dead_info;
+	// t_dead			dead_info;
 };
 // bool	does_want_eat;
 

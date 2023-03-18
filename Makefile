@@ -15,7 +15,6 @@ SRCDIR    = src
 SRCS	:= 	philo.c\
 			init.c\
 			parse.c\
-			routine.c\
 			ft_strjoin.c\
 			ft_itoa.c\
 			ft_memmove.c\
@@ -25,6 +24,7 @@ SRCS	:= 	philo.c\
 			ft_memset.c\
 			ft_calloc.c\
 			ft_ltoa.c\
+			routine.c\
 			routine_fork.c\
 			routine_utils.c\
 

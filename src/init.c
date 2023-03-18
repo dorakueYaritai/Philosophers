@@ -36,8 +36,9 @@ t_philo	*init_philo(char *argv[], t_fork *m_forks, t_dead *dead_array)
 		philo[i].time_to_die = -1;
 		// philo[i].is_death = false;
 		philo[i].philo_id = i;
-		philo[i].dead_info = dead_array[i];
-		philo[i].dead_info.is_death = false;
+		philo[i].dead_info = &dead_array[i];
+		// philo[i].dead_info.is_death = false;
+		philo[i].dead_info->is_death = false;
 		if (i % 2 == 0)
 		{
 			philo[i].first = &m_forks[i];
@@ -50,7 +51,7 @@ t_philo	*init_philo(char *argv[], t_fork *m_forks, t_dead *dead_array)
 		}
 		i++;
 	}
-	philo[i].is_death = true;
+	// philo[i].is_death = true;
 	return (philo);
 }
 

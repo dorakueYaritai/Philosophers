@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:36:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/18 16:19:41 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/18 16:48:09 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,10 @@ int	take_fork(t_philo *philo, t_fork *fork)
 	pthread_mutex_unlock(&fork->fork_check);
 	gettimeofday(&t1, NULL);
 	sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;
-	// if (philo->time_to_die < sec_milli && philo->time_to_die != -1)
 	if (check_am_i_dead(philo) == true)
 	{
+		put_fork(philo, fork);
 		return (ERROR);
-		// pthread_mutex_unlock(&fork->fork);
 	}
 	return (print_time(philo->philo_id, sec_milli, FORK, fork->fork_id));
 }
@@ -63,9 +62,9 @@ bool	check_am_i_dead(t_philo *philo)
 {
 	bool	data;
 
-	pthread_mutex_lock(&philo->dead_info.is_death_mutex);
-	data = philo->dead_info.is_death;
-	pthread_mutex_unlock(&philo->dead_info.is_death_mutex);
+	pthread_mutex_lock(&philo->dead_info->is_death_mutex);
+	data = philo->dead_info->is_death;
+	pthread_mutex_unlock(&philo->dead_info->is_death_mutex);
 	return (data);
 }
 

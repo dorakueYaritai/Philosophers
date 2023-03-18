@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:16:41 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/18 16:22:30 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/18 16:50:50 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,17 @@ int kill_everyone(t_philo *philos,
 	while (i < philo_num)
 	{
 		if (i != dead_id)
-			pthread_mutex_lock(&philos[i].dead_info.is_death_mutex);
-			// pthread_mutex_lock(&dead_info_array[i].is_death_mutex);
-		philos[i].dead_info.is_death = true;
-		// dead_info_array[i].is_death = true;
+			pthread_mutex_lock(&dead_info_array[i].is_death_mutex);
+			// pthread_mutex_lock(&philos[i].dead_info.is_death_mutex);
+		// philos[i].dead_info.is_death = true;
+		dead_info_array[i].is_death = true;
 		i++;
 	}
 	i = 0;
 	while (i < philo_num)
 	{
-		pthread_mutex_unlock(&philos[i].dead_info.is_death_mutex);
-		// pthread_mutex_unlock(&dead_info_array[i].is_death_mutex);
+		// pthread_mutex_unlock(&philos[i].dead_info.is_death_mutex);
+		pthread_mutex_unlock(&dead_info_array[i].is_death_mutex);
 		i++;
 	}
 }
@@ -98,8 +98,8 @@ int monitor_philos_death(t_philo *philos,
 		i = 0;
 		while (i < philo_num)
 		{
-			pthread_mutex_lock(&philos[i].dead_info.is_death_mutex);
-			// pthread_mutex_lock(&dead_info_array[i].is_death_mutex);
+			// pthread_mutex_lock(&philos[i].dead_info.is_death_mutex);
+			pthread_mutex_lock(&dead_info_array[i].is_death_mutex);
 			gettimeofday(&t1, NULL);
 			sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;
 			// print_sub(i, sec_milli, philos[i].time_to_die);
@@ -109,8 +109,8 @@ int monitor_philos_death(t_philo *philos,
 				kill_everyone(philos, dead_info_array, philo_num, i);
 				return (print_time(i, sec_milli, DEAD, NONE));
 			}
-			pthread_mutex_unlock(&philos[i].dead_info.is_death_mutex);
-			// pthread_mutex_unlock(&dead_info_array[i].is_death_mutex);
+			// pthread_mutex_unlock(&philos[i].dead_info.is_death_mutex);
+			pthread_mutex_unlock(&dead_info_array[i].is_death_mutex);
 			i++;
 		}
 		usleep(5000);
@@ -132,6 +132,7 @@ int main(int argc, char* argv[]) {
 	dead_info_array = init_t_dead(philo_num);
 	philos = init_philo(argv, forks, dead_info_array);
 	th_id = init_th_id(argv);
+
 	if (threads_create(philos, th_id, philo_num) == 1)
 		return (1);
 	monitor_philos_death(philos, dead_info_array, philo_num);
@@ -139,3 +140,14 @@ int main(int argc, char* argv[]) {
 		return (2);
 	return (0);
 }
+
+	// int i = 0;
+	// while (i < philo_num)
+	// {
+	// 	// pthread_mutex_lock(&philos[i].dead_info->is_death_mutex);		printf("%p\n", (&philos[i].dead_info->is_death_mutex));
+	// 	// pthread_mutex_lock(&dead_info_array[i].is_death_mutex);
+	// 	printf("%p\n", (&philos[i].dead_info->is_death_mutex));
+	// 	printf("%p\n", (&dead_info_array[i].is_death_mutex));
+	// 	printf("------\n");
+	// 	i++;
+	// }
