@@ -27,19 +27,12 @@ struct s_philo{
 	time_t	time_to_sleep;
 	time_t	time_to_die;
 	int		philo_id;
-	int		philo_num;
-	bool	does_want_eat;
 	bool	is_death;
-	bool	is_eating;
-	bool	is_sleeping;
-	bool	is_thinking;
 	pthread_mutex_t	*death_check;
-	int	fork1_id;
-	int	fork2_id;
-	t_fork			*forks;
 	t_fork			*first;
 	t_fork			*second;
 };
+// bool	does_want_eat;
 
 typedef struct s_waiter t_waiter;
 struct s_waiter{

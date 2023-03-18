@@ -7,8 +7,6 @@ void	print_philo_status(t_philo *philo)
 	printf("sleep: %ld\n", philo->time_to_sleep);
 	printf("die: %ld\n", philo->time_to_die);
 	printf("id: %d\n", philo->philo_id);
-	printf("fork1 id: %d\n", philo->fork1_id);
-	printf("fork2 id: %d\n", philo->fork2_id);
 }
 
 pthread_t	*init_th_id(char *argv[])
@@ -38,21 +36,15 @@ t_philo	*init_philo(char *argv[], t_fork *m_forks)
 		philo[i].time_to_die = -1;
 		philo[i].is_death = false;
 		philo[i].philo_id = i;
-		philo[i].philo_num = philo_num;
-		philo[i].forks = m_forks;
 		if (i % 2 == 0)
 		{
-			philo[i].fork1_id = i;
-			philo[i].fork2_id = (i + 1) % philo_num;
-			philo[i].first = &m_forks[philo[i].fork1_id];
-			philo[i].second = &m_forks[philo[i].fork2_id];
+			philo[i].first = &m_forks[i];
+			philo[i].second = &m_forks[(i + 1) % philo_num];
 		}
 		else
 		{
-			philo[i].fork1_id = (i + 1) % philo_num;
-			philo[i].fork2_id = i;
-			philo[i].first = &m_forks[philo[i].fork1_id];
-			philo[i].second = &m_forks[philo[i].fork2_id];
+			philo[i].second = &m_forks[i];
+			philo[i].first = &m_forks[(i + 1) % philo_num];
 		}
 		i++;
 	}

@@ -7,7 +7,6 @@ int main(int argc, char* argv[]) {
 	t_fork	*forks;
 	int			i;
 
-	th_id = NULL;
 	if (parse_argment(argc, argv) == 1)
 		return (1);
 	forks = init_fork(argv[1]);
@@ -17,13 +16,15 @@ int main(int argc, char* argv[]) {
 	i = 0;
 	while (philos[i].is_death == false)
 	{
-		pthread_create(&th_id[i], NULL, &routine, &philos[i]);
+		if (pthread_create(&th_id[i], NULL, &routine, &philos[i]) != 0)
+			return (1);
 		i++;
 	}
 	i--;
 	while (i >= 0)
 	{
-		pthread_join(th_id[i], NULL);
+		if (pthread_join(th_id[i], NULL) != 0)
+			return (2);
 		i--;
 	}
 }
