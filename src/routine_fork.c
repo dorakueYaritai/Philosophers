@@ -6,13 +6,13 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:36:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 00:03:18 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/19 01:02:54 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philosophers.h>
 
-int	take_fork(t_philo *philo, t_fork *fork)
+int	take_fork(t_philo *philo, t_fork *fork, t_fork *had)
 {
 	struct timeval t1;
 	long sec_milli;
@@ -24,6 +24,22 @@ int	take_fork(t_philo *philo, t_fork *fork)
 		{
 			pthread_mutex_unlock(&fork->fork_check);
 			return (ERROR);
+		}
+		// if (had == NULL)
+		// {
+		// 	// write(1, "a\n", 2);
+		// 	pthread_mutex_unlock(&fork->fork_check);
+		// 	// write(1, "b\n", 2);
+		// 	return (take_fork(philo, fork, NULL));
+		// }
+		if (had)
+		{
+			pthread_mutex_unlock(&fork->fork_check);
+			put_fork(philo, had);
+			usleep(10000);
+			take_fork(philo, had, NULL);
+			pthread_mutex_lock(&fork->fork_check);
+			// take_fork(philo, fork, had);
 		}
 	}
 	if (check_am_i_dead(philo) == true)
@@ -81,10 +97,10 @@ int	print_time(int id, long sec_milli, int act, int fork_id)
 
 	if (act == FORK)
 	{
-		join = ft_strjoin(join, " has taken a fork ");
-		join = ft_strjoin(join, ft_itoa(fork_id));
-		join = ft_strjoin(join, "\n");
-		// join = ft_strjoin(join, " has taken a fork \n");
+		// join = ft_strjoin(join, " has taken a fork ");
+		// join = ft_strjoin(join, ft_itoa(fork_id));
+		// join = ft_strjoin(join, "\n");
+		join = ft_strjoin(join, " has taken a fork\n");
 	}
 	else if (act == EAT)
 		join = ft_strjoin(join, " is eating\n");
