@@ -23,8 +23,6 @@ pthread_t	*init_th_id(char *argv[])
 	return (th);
 }
 
-// t_philo	*init_philo(char *argv[], pthread_mutex_t *m_forks \
-// 	, pthread_mutex_t *m_fork_check, bool *is_fork_available)
 t_philo	*init_philo(char *argv[], t_fork *m_forks)
 {
 	size_t	i;
@@ -44,33 +42,15 @@ t_philo	*init_philo(char *argv[], t_fork *m_forks)
 		philo[i].forks = m_forks;
 		if (i % 2 == 0)
 		{
-			// philo[i].fork1_id = i;
-			// philo[i].fork2_id = (i + 1) % philo_num;
-			// philo[i].fork_lh = &m_forks[philo[i].fork1_id];
-			// philo[i].fork_rh = &m_forks[philo[i].fork2_id];
-			// philo[i].fork_check_lh = &m_fork_check[philo[i].fork1_id];
-			// philo[i].fork_check_rh = &m_fork_check[philo[i].fork2_id];
 			philo[i].fork1_id = i;
 			philo[i].fork2_id = (i + 1) % philo_num;
-			philo[i].fork_lh = &m_forks[philo[i].fork1_id].fork;
-			philo[i].fork_rh = &m_forks[philo[i].fork2_id].fork;
 			philo[i].first = &m_forks[philo[i].fork1_id];
 			philo[i].second = &m_forks[philo[i].fork2_id];
-			// philo[i].fork_check_lh = &m_fork_check[philo[i].fork1_id];
-			// philo[i].fork_check_rh = &m_fork_check[philo[i].fork2_id];
 		}
 		else
 		{
-			// philo[i].fork1_id = (i + 1) % philo_num;
-			// philo[i].fork2_id = i;
-			// philo[i].fork_lh = &m_forks[philo[i].fork1_id];
-			// philo[i].fork_rh = &m_forks[philo[i].fork2_id];
-			// philo[i].fork_check_lh = &m_fork_check[philo[i].fork1_id];
-			// philo[i].fork_check_rh = &m_fork_check[philo[i].fork2_id];
 			philo[i].fork1_id = (i + 1) % philo_num;
 			philo[i].fork2_id = i;
-			philo[i].fork_lh = &m_forks[philo[i].fork1_id].fork;
-			philo[i].fork_rh = &m_forks[philo[i].fork2_id].fork;
 			philo[i].first = &m_forks[philo[i].fork1_id];
 			philo[i].second = &m_forks[philo[i].fork2_id];
 		}

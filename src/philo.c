@@ -3,18 +3,14 @@
 
 int main(int argc, char* argv[]) {
 	t_philo		*philos;
-	// t_waiter		waiter;
 	pthread_t	*th_id;
-	// pthread_mutex_t	*forks;
-	pthread_mutex_t	*fork_check;
 	t_fork	*forks;
-	th_id = NULL;
 	int			i;
 
+	th_id = NULL;
 	if (parse_argment(argc, argv) == 1)
 		return (1);
 	forks = init_fork(argv[1]);
-	// fork_check = init_fork_check(argv[1]);
 	philos = init_philo(argv, forks);
 	th_id = init_th_id(argv);
 

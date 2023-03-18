@@ -33,17 +33,10 @@ struct s_philo{
 	bool	is_eating;
 	bool	is_sleeping;
 	bool	is_thinking;
-	bool	*is_fork_available_lh;
-	bool	*is_fork_available_rh;
-	pthread_mutex_t	*fork_check_lh;
-	pthread_mutex_t	*fork_check_rh;
-	t_fork			*forks;
-	// pthread_mutex_t	*forks;
-	pthread_mutex_t	*fork_lh;
-	pthread_mutex_t	*fork_rh;
 	pthread_mutex_t	*death_check;
 	int	fork1_id;
 	int	fork2_id;
+	t_fork			*forks;
 	t_fork			*first;
 	t_fork			*second;
 };
@@ -57,23 +50,41 @@ struct s_waiter{
 	bool	*isdeath;
 };
 
-t_philo	*init_philo(char *argv[], t_fork *m_forks);
-pthread_t	*init_th_id(char *argv[]);
-// pthread_mutex_t	*init_fork(char *philonum);
-t_fork	*init_fork(char *philonum);
-bool	*init_is_fork_available(char *philonum);
-void	print_philo_status(t_philo *philo);
-void* routine(void *philo);
-int	parse_argment(int argc, char *argv[]);
-char	*ft_strjoin(char const *s1, char const *s2);
-size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
-char	*ft_itoa(int n);
-void	*ft_memmove(void *dst, const void *src, size_t len);
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-size_t	ft_strlen(const char *s);
-void	*ft_memset(void *b, int c, size_t len);
-void	*ft_calloc(size_t count, size_t size);
-char	*ft_ltoa(long n);
+#define FORK 0
+#define EAT 1
+#define THINK 2
+#define DEAD 3
+#define SLEEP 4
+#define NONE 0
 
+// parse.c
+int			parse_argment(int argc, char *argv[]);
+// init.c
+t_philo		*init_philo(char *argv[], t_fork *m_forks);
+t_fork		*init_fork(char *philonum);
+pthread_t	*init_th_id(char *argv[]);
+void		print_philo_status(t_philo *philo);
+
+// routine.c
+void*		 routine(void *philo);
+
+// routine_utils.c
+void		print_time(int id, long sec_milli, int act, int fork_id);
+int			check_am_i_dead(t_philo *philo);
+
+// routine_fork.c
+void		take_fork(t_philo *philo, t_fork *fork);
+void		put_fork(t_philo *philo, t_fork *fork);
+
+// libft
+char		*ft_strjoin(char const *s1, char const *s2);
+size_t		ft_strlcat(char *dst, const char *src, size_t dstsize);
+char		*ft_itoa(int n);
+void		*ft_memmove(void *dst, const void *src, size_t len);
+size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
+size_t		ft_strlen(const char *s);
+void		*ft_memset(void *b, int c, size_t len);
+void		*ft_calloc(size_t count, size_t size);
+char		*ft_ltoa(long n);
 
 #endif

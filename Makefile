@@ -25,7 +25,8 @@ SRCS	:= 	philo.c\
 			ft_memset.c\
 			ft_calloc.c\
 			ft_ltoa.c\
-
+			routine_fork.c\
+			routine_utils.c\
 
 #=============================
 #directory
