@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:36:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/18 10:43:52 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/18 11:05:15 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	take_fork(t_philo *philo, t_fork *fork)
 
 void	put_fork(t_philo *philo, t_fork *fork)
 {
+	check_am_i_dead(philo);
 	pthread_mutex_unlock(&fork->fork);
 	fork->is_fork_available = true;
 }

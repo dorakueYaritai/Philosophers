@@ -17,7 +17,6 @@ int main(int argc, char* argv[]) {
 	i = 0;
 	while (philos[i].is_death == false)
 	{
-		// print_philo_status(&philos[i]);
 		pthread_create(&th_id[i], NULL, &routine, &philos[i]);
 		i++;
 	}
