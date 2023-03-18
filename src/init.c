@@ -21,7 +21,7 @@ pthread_t	*init_th_id(char *argv[])
 	return (th);
 }
 
-t_philo	*init_philo(char *argv[], t_fork *m_forks)
+t_philo	*init_philo(char *argv[], t_fork *m_forks, t_dead *dead_array)
 {
 	size_t	i;
 	size_t	philo_num = strtol(argv[1], NULL, 10);
@@ -34,8 +34,10 @@ t_philo	*init_philo(char *argv[], t_fork *m_forks)
 		philo[i].time_to_eat = strtol(argv[3], NULL, 10);
 		philo[i].time_to_sleep = strtol(argv[4], NULL, 10);
 		philo[i].time_to_die = -1;
-		philo[i].is_death = false;
+		// philo[i].is_death = false;
 		philo[i].philo_id = i;
+		philo[i].dead_info = dead_array[i];
+		philo[i].dead_info.is_death = false;
 		if (i % 2 == 0)
 		{
 			philo[i].first = &m_forks[i];
@@ -87,6 +89,7 @@ pthread_mutex_t	*init_dead_check(char *philonum)
 	dead_check = malloc(sizeof(pthread_mutex_t) * len);
 	if (dead_check == NULL)
 		return (NULL);
+	memset(dead_check, 0, sizeof(pthread_mutex_t) * len);
 	int	i = 0;
 	while (i < len)
 	{

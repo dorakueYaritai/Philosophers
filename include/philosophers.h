@@ -37,6 +37,7 @@ struct s_philo{
 	pthread_mutex_t	*is_death_mutex;
 	t_fork			*first;
 	t_fork			*second;
+	t_dead			dead_info;
 };
 // bool	does_want_eat;
 
@@ -61,9 +62,8 @@ struct s_waiter{
 // parse.c
 int			parse_argment(int argc, char *argv[]);
 // init.c
-t_philo		*init_philo(char *argv[], t_fork *m_forks);
-// t_dead	*init_t_dead(char *philonum);
-// t_fork		*init_fork(char *philonum);
+t_philo	*init_philo(char *argv[], t_fork *m_forks, t_dead *dead_array);
+// t_philo		*init_philo(char *argv[], t_fork *m_forks);
 t_dead	*init_t_dead(int philonum);
 t_fork	*init_fork(int philo_num);
 pthread_t	*init_th_id(char *argv[]);
