@@ -39,7 +39,7 @@ struct s_philo{
 	t_fork			*first;
 	t_fork			*second;
 	t_dead			*dead_info;
-	// t_dead			dead_info;
+	t_dead			dead_info2;
 };
 // bool	does_want_eat;
 
