@@ -34,14 +34,12 @@ struct s_philo{
 	time_t	time_to_sleep;
 	time_t	time_to_die;
 	int		philo_id;
-	bool	is_death;
-	pthread_mutex_t	*is_death_mutex;
 	t_fork			*first;
 	t_fork			*second;
 	t_dead			*dead_info;
-	t_dead			dead_info2;
+	// pthread_mutex_t	*is_death_mutex;
+	// t_dead			dead_info2;
 };
-// bool	does_want_eat;
 
 typedef struct s_waiter t_waiter;
 struct s_waiter{

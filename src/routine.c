@@ -8,6 +8,7 @@ static int	exe_act(t_philo *philo, int act)
 {
 	struct timeval t1;
 	long sec_milli;
+	long time;
 
 	gettimeofday(&t1, NULL);
 	sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;
@@ -18,11 +19,21 @@ static int	exe_act(t_philo *philo, int act)
 	if (print_time(philo->philo_id, sec_milli, act, NONE) == ERROR)
 		return (ERROR);
 	if (act == EAT)
+	{
 		philo->time_to_die = sec_milli + philo->time_to_starve;
-	if (act == EAT)
 		usleep((unsigned int)(philo->time_to_eat) * 1000);
+	}
 	else if (act == SLEEP)
 		usleep((unsigned int)(philo->time_to_sleep) * 1000);
+	else if (act == THINK)
+	{
+		// if (sec_milli - philo->time_to_die > philo->time_to_eat + philo->time_to_sleep)
+		// 	usleep((unsigned int)(time / 2)* 1000);
+
+		time = sec_milli - philo->time_to_eat - philo->time_to_sleep - philo->time_to_die;
+		if (time > 0)
+			usleep((unsigned int)(time / 5)* 1000);
+	}
 	return (SUCCESS);
 }
 
