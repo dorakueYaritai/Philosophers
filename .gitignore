@@ -3,3 +3,6 @@
 *.d
 philo
 a.out
+out
+settings.json
+.vscode

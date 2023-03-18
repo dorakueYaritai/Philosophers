@@ -34,6 +34,8 @@
     "**/.vscode/**"
   ],
   "files.associations": {
-    "main2": "c"
+    "main2": "c",
+    "stdlib.h": "c",
+    "philosophers.h": "c"
   }
 }
