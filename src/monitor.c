@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 14:24:18 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 14:27:32 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/19 15:03:06 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ int	feed_time_check(t_shere *shere, int id)
 			wish->let_me_eat = OK;
 	}
 	ft_pthread_mutex_unlock(&wish->mutex);
+	return (SUCCESS);
 }
 
 // PTHREAD_MUTEX_INITIALIZER()
@@ -115,7 +116,7 @@ int monitor_philos_death(t_shere *shere)
 	{
 		if (philo_is_die(shere, i, num) == true)
 			return (1);
-		// feed_time_check(shere, i);
+		feed_time_check(shere, i);
 		if (i == num - 1)
 			usleep(5000);
 		i = (i + 1) % num;

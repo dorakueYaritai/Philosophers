@@ -21,7 +21,6 @@ static int	exe_act(t_philo *philo, int act)
 	if (act == EAT)
 	{
 		philo->time_to_die = sec_milli + philo->time_to_starve;
-		update_request_status(philo, philo->forks[FIRST], philo->forks[SECOND]);
 		usleep((unsigned int)(philo->time_to_eat) * 1000);
 	}
 	else if (act == SLEEP)
@@ -41,14 +40,17 @@ static int	philo_eat(t_philo *philo)
 {
 	if (exe_act(philo, EAT) == ERROR)
 	{
-		put_fork(philo, philo->forks[FIRST]);
-		put_fork(philo, philo->forks[SECOND]);
+		put_forks(philo);
+		// put_fork(philo, philo->forks[FIRST]);
+		// put_fork(philo, philo->forks[SECOND]);
 		return (ERROR);
 	}
-	if (put_fork(philo, philo->forks[FIRST]) == ERROR)
+	if (put_forks(philo) == ERROR)
 		return (ERROR);
-	if (put_fork(philo, philo->forks[SECOND]) == ERROR)
-		return (ERROR);
+	// if (put_fork(philo, philo->forks[FIRST]) == ERROR)
+	// 	return (ERROR);
+	// if (put_fork(philo, philo->forks[SECOND]) == ERROR)
+	// 	return (ERROR);
 	return (philo_sleep(philo));
 }
 
@@ -63,15 +65,20 @@ static int	philo_think(t_philo *philo)
 {
 	if (exe_act(philo, THINK) == ERROR)
 		return (ERROR);
-	if (take_fork(philo,philo->forks[FIRST], NULL) == ERROR)
+	if (take_forks(philo) == ERROR)
 	{
+		// write(1, "a", 1);
 		return (ERROR);
 	}
-	if (take_fork(philo, philo->forks[SECOND], philo->forks[FIRST]) == ERROR)
-	{
-		put_fork(philo, philo->forks[FIRST]);
-		return (ERROR);
-	}
+	// if (take_fork(philo,philo->forks[FIRST], NULL) == ERROR)
+	// {
+	// 	return (ERROR);
+	// }
+	// if (take_fork(philo, philo->forks[SECOND], philo->forks[FIRST]) == ERROR)
+	// {
+	// 	put_fork(philo, philo->forks[FIRST]);
+	// 	return (ERROR);
+	// }
 	return (philo_eat(philo));
 }
 
