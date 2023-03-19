@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:16:41 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/18 23:46:38 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/19 09:22:11 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	print_sub(int id, long sec_milli, long sec_milli_philo)
 	write(1, join, ft_strlen(join));
 }
 
+// PTHREAD_MUTEX_INITIALIZER()
 int monitor_philos_death(t_dead *dead_info_array, int philo_num)
 {
 	int	i;

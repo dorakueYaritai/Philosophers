@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 17:42:27 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 00:18:29 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/19 01:06:35 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,35 @@
 
 typedef struct s_data t_data;
 struct s_data{
-	int		num1;
-	int		num2;
 	char	ch1;
 	char	ch2;
 	char	ch3;
 	char	ch4;
+	int		num1;
+	int		num2;
 };
 
-int    main()
-{
-    t_data    data;
-    char    *ptr;
+// int    main()
+// {
+//     t_data    data;
+//     char    *ptr;
 
-	// memset(&data, 0, sizeof(t_data));
-    data.num1 = 0;
-    // data.num1 = -1;
-    // data.num2 = 1;
-	printf("%p\n", data);
-    printf("%p\n", &data);
+// 	// memset(&data, 0, sizeof(t_data));
+//     data.num1 = 0;
+//     // data.num1 = -1;
+//     // data.num2 = 1;
+// 	printf("%p\n", data);
+//     printf("%p\n", &data);
+// }
+
+int main()
+{
+    t_data data;
+
+    printf("%p\n", data);
+    printf("%p\n", &data.ch1);
+    printf("%p\n", &data.num1);
+    printf("%p\n", &data.num2);
 }
 
 // int	main()

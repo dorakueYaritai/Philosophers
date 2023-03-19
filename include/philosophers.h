@@ -12,6 +12,20 @@
 #include <ctype.h>
 #include <errno.h>
 
+
+typedef struct s_shered_resourse t_shered_resourse;
+struct s_shered_resourse{
+	bool			is_available;
+	pthread_mutex_t	is_available_mutex;
+	pthread_mutex_t	stuff;
+};
+
+// typedef struct s_fork t_fork;
+// struct s_fork{
+// 	t_shered_resourse	fork;
+// 	int	fork_id;
+// };
+
 typedef struct s_fork t_fork;
 struct s_fork{
 	bool			is_fork_available;
