@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:37:21 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 16:34:15 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/19 19:50:46 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,12 @@ int	print_time(int id, long sec_milli, int act, int fork_id)
 	join = ft_strjoin(join, id_str);
 
 	if (act == FORK)
-		join = ft_strjoin(join, " has taken a fork\n");
+	{
+		join = ft_strjoin(join, " has taken	a fork ");
+		join = ft_strjoin(join, ft_ltoa(fork_id));
+		join = ft_strjoin(join, "\n");
+		// join = ft_strjoin(join, " has taken a fork\n");
+	}
 	else if (act == EAT)
 		join = ft_strjoin(join, " is eating\n");
 	else if (act == THINK)
@@ -61,6 +66,12 @@ int	print_time(int id, long sec_milli, int act, int fork_id)
 		if (write(1, join, strlen(join)) == -1)
 			return (ERROR);
 		return (SUCCESS);
+	}
+	else if (act == PUTOFF)
+	{
+		join = ft_strjoin(join, " has putoff a	fork ");
+		join = ft_strjoin(join, ft_ltoa(fork_id));
+		join = ft_strjoin(join, "\n");
 	}
 	if (write(1, join, strlen(join)) == -1)
 		return (ERROR);

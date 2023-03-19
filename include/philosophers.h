@@ -11,7 +11,13 @@
 #include <sys/time.h>
 #include <ctype.h>
 #include <errno.h>
+#include <limits.h>
 
+typedef struct s_list t_list;
+struct s_list{
+	void	*content;
+	t_list	*next;
+};
 
 typedef struct s_shered_resourse t_shered_resourse;
 struct s_shered_resourse{
@@ -42,10 +48,29 @@ struct s_wish{
 	int					let_me_eat;
 };
 
+typedef struct s_status t_status;
+struct s_status{
+	time_t			time_to_starve;
+	time_t			time_to_eat;
+	time_t			time_to_sleep;
+	time_t			time_to_die;
+	int				must_eat_times;
+};
+
+// typedef struct s_philo t_philo;
+// struct s_philo{
+// 	int				philo_id;
+// 	t_status		status;
+// 	t_fork			*forks[2];
+// 	t_dead			*dead_info;
+// 	t_wish			*wish;
+// };
+
 typedef struct s_philo t_philo;
 struct s_philo{
 	int				philo_id;
 	int				requtest_id;
+	int				must_eat_times;
 	time_t			time_to_starve;
 	time_t			time_to_eat;
 	time_t			time_to_sleep;
@@ -53,15 +78,14 @@ struct s_philo{
 	t_fork			*forks[2];
 	t_dead			*dead_info;
 	t_wish			*wish;
-	// t_fork			*first;
-	// t_fork			*second;
 };
 
 typedef struct s_shere t_shere;
 struct s_shere{
 	t_wish				*wishs;
 	t_dead				*dead_info;
-	int					philo_num;
+	t_fork				*forks;
+	long				philo_num;
 };
 
 #define FORK 0
@@ -82,15 +106,21 @@ struct s_shere{
 #define THANK_YOU 0
 #define PLEASE 1
 #define OK 2
+#define ERR_INVALID_ARG 1
+#define ERR_ARG_NUM 2
 
 // parse.c
 int			parse_argment(int argc, char *argv[]);
 
 // monitor.c
 int monitor_philos_death(t_shere *shere);
+// bool	guys_forks_avilable(t_fork *forks, int id, int num);
+bool	guys_forks_avilable(t_shere *shere, int id, int num);
 
 // init.c
-t_philo	*init_philos(char *argv[], t_fork *m_forks, t_shere *shere);
+t_philo	*init_philos(t_status *status, t_shere *shere);
+// t_philo	*init_philos(t_status *status, t_fork *m_forks, t_shere *shere);
+// t_philo	*init_philos(t_status *status, t_shere *shere);
 
 // init_other.c
 pthread_t	*init_th_id(int philo_num);
@@ -98,6 +128,7 @@ t_wish		*init_wishs(int philo_num);
 t_dead		*init_t_dead(int philo_num);
 t_fork		*init_fork(int philo_num);
 int			init_shered_resourse(t_shered_resourse	*resourse);
+int			init_status(t_status *status, char **argv, int argc);
 
 // routine.c
 int			update_time_to_die(t_philo *philo, long new_time_to_die);
@@ -133,5 +164,11 @@ void		*ft_calloc(size_t count, size_t size);
 int			ft_pthread_mutex_trylock(t_shered_resourse *sourse);
 int			ft_pthread_mutex_unlock(t_shered_resourse *sourse);
 int			ft_pthread_mutex_lock(t_shered_resourse *sourse);
+int			ft_isdigit_str(char *str, size_t sign_allowable);
+long		ft_strtol(const char *nptr, char **endptr, int base);
+int			ft_toupper(int c);
+int			ft_isalnum(int c);
+int			ft_isdigit(int c);
+int			ft_isalpha(int c);
 
 #endif

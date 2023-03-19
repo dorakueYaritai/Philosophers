@@ -16,10 +16,10 @@ SRCS	:= 	philo.c\
 		 	monitor.c\
 			init_philo.c\
 			init_other.c\
+			init_other2.c\
 			parse.c\
 			wish.c\
 			routine_init.c\
-			routine_exe.c\
 			ft_strjoin.c\
 			ft_itoa.c\
 			ft_memmove.c\
@@ -30,10 +30,13 @@ SRCS	:= 	philo.c\
 			ft_calloc.c\
 			ft_positive_mod.c\
 			ft_ltoa.c\
+			ft_isdigit_str.c\
 			routine.c\
 			routine_fork.c\
 			routine_utils.c\
 			ft_pthread_mutex_trylock.c\
+			ft_strtol.c\
+			ft_is_utils.c\
 
 #=============================
 #directory
