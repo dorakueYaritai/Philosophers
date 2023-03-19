@@ -38,33 +38,32 @@ struct s_dead{
 	// pthread_mutex_t	is_death_mutex;
 };
 
-// typedef struct s_dead t_dead;
-// struct s_dead{
-// 	time_t			*time_to_die;
-// 	bool			is_death;
-// 	pthread_mutex_t	is_death_mutex;
-// };
+typedef struct s_wish t_wish;
+struct s_wish{
+	t_shered_resourse	mutex;
+	int					let_me_eat;
+};
 
 typedef struct s_philo t_philo;
 struct s_philo{
-	time_t	time_to_starve;
-	time_t	time_to_eat;
-	time_t	time_to_sleep;
-	time_t	time_to_die;
-	int		philo_id;
-	t_fork			*forks[2];
+	int				philo_id;
 	int				requtest_id;
+	time_t			time_to_starve;
+	time_t			time_to_eat;
+	time_t			time_to_sleep;
+	time_t			time_to_die;
+	t_fork			*forks[2];
 	t_dead			*dead_info;
+	t_wish			*wish;
 	// t_fork			*first;
 	// t_fork			*second;
 };
 
-typedef struct s_waiter t_waiter;
-struct s_waiter{
-	size_t			philonum;
-	time_t			*time_to_die;
-	pthread_mutex_t	*forks;
-	bool	*isdeath;
+typedef struct s_shere t_shere;
+struct s_shere{
+	t_wish				*wishs;
+	t_dead				*dead_info;
+	int					philo_num;
 };
 
 #define FORK 0
@@ -82,13 +81,23 @@ struct s_waiter{
 #define HUNGRY 1
 #define CALLING_FOR_AMBULANCE 2
 #define SITTING_ON_A_COFFIN 2
+#define THANK_YOU 0
+#define PLEASE 1
+#define OK 2
 
 // parse.c
 int			parse_argment(int argc, char *argv[]);
+
+// monitor.c
+int monitor_philos_death(t_shere *shere);
+
 // init.c
-t_philo	*init_philo(char *argv[], t_fork *m_forks, t_dead *dead_array);
+// t_philo	*init_philo(char *argv[], t_fork *m_forks, t_dead *dead_array, t_wish *wishs);
+t_philo	*init_philo(char *argv[], t_fork *m_forks, t_shere *shere);
+
 // t_philo		*init_philo(char *argv[], t_fork *m_forks);
 t_dead	*init_t_dead(int philonum);
+t_wish	*init_wishs(int philo_num);
 t_fork	*init_fork(int philo_num);
 pthread_t	*init_th_id(char *argv[]);
 void		print_philo_status(t_philo *philo);

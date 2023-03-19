@@ -21,7 +21,7 @@ static int	exe_act(t_philo *philo, int act)
 	if (act == EAT)
 	{
 		philo->time_to_die = sec_milli + philo->time_to_starve;
-		// update_request_status(philo, philo->forks[FIRST], philo->forks[SECOND]);
+		update_request_status(philo, philo->forks[FIRST], philo->forks[SECOND]);
 		usleep((unsigned int)(philo->time_to_eat) * 1000);
 	}
 	else if (act == SLEEP)
@@ -30,10 +30,9 @@ static int	exe_act(t_philo *philo, int act)
 	{
 		// if (sec_milli - philo->time_to_die > philo->time_to_eat + philo->time_to_sleep)
 		// 	usleep((unsigned int)(time / 2)* 1000);
-
-		time = sec_milli - philo->time_to_eat - philo->time_to_sleep - philo->time_to_die;
-		if (time > 0)
-			usleep((unsigned int)(time / 5)* 1000);
+		// time = sec_milli - philo->time_to_eat - philo->time_to_sleep - philo->time_to_die;
+		// if (time > 0)
+		// 	usleep((unsigned int)(time / 5)* 1000);
 	}
 	return (SUCCESS);
 }
@@ -44,8 +43,6 @@ static int	philo_eat(t_philo *philo)
 	{
 		put_fork(philo, philo->forks[FIRST]);
 		put_fork(philo, philo->forks[SECOND]);
-		// put_fork(philo, philo->first);
-		// put_fork(philo, philo->second);
 		return (ERROR);
 	}
 	if (put_fork(philo, philo->forks[FIRST]) == ERROR)

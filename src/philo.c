@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:16:41 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 10:47:54 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/19 14:26:03 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,90 +46,27 @@ int	threads_join(t_philo *philos, pthread_t *th_id, int philo_num)
 	return (0);
 }
 
-int kill_everyone(t_dead *dead_info_array, int philo_num, int dead_id)
-{
-	int	i;
-
-	i = 0;
-	while (i < philo_num)
-	{
-		if (i != dead_id)
-			ft_pthread_mutex_lock(&dead_info_array[i].mutex);
-			// pthread_mutex_lock(&dead_info_array[i].is_death_mutex);
-		dead_info_array[i].is_death = true;
-		i++;
-	}
-	i = 0;
-	while (i < philo_num)
-	{
-		ft_pthread_mutex_unlock(&dead_info_array[i].mutex);
-		// pthread_mutex_unlock(&philos[i].dead_info.is_death_mutex);
-		// pthread_mutex_unlock(&dead_info_array[i].is_death_mutex);
-		i++;
-	}
-}
-
-int	print_sub(int id, long sec_milli, long sec_milli_philo)
-{
-	char	*id_str;
-	char	*join;
-
-	id_str = ft_itoa(id);
-	join = ft_strjoin(id_str, "/now:");
-	join = ft_strjoin(join, ft_ltoa(sec_milli));
-	join = ft_strjoin(join, " vs philo:");
-	join = ft_strjoin(join, ft_ltoa(sec_milli_philo));
-	join = ft_strjoin(join, "\n");
-	write(1, join, ft_strlen(join));
-}
-
-// PTHREAD_MUTEX_INITIALIZER()
-int monitor_philos_death(t_dead *dead_info_array, int philo_num)
-{
-	int	i;
-	struct timeval t1;
-	long sec_milli;
-
-	while (1)
-	{
-		i = 0;
-		while (i < philo_num)
-		{
-			ft_pthread_mutex_lock(&dead_info_array[i].mutex);
-			gettimeofday(&t1, NULL);
-			sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;
-			if (*dead_info_array[i].time_to_die < sec_milli && *dead_info_array[i].time_to_die != -1)
-			{
-				kill_everyone(dead_info_array, philo_num, i);
-				return (print_time(i, sec_milli, DEAD, NONE));
-			}
-			ft_pthread_mutex_unlock(&dead_info_array[i].mutex);
-			i++;
-		}
-		usleep(5000);
-	}
-	return (0);
-}
-
 int main(int argc, char* argv[]) {
 	t_philo		*philos;
 	pthread_t	*th_id;
-	t_dead		*dead_info_array;
-	int			philo_num;
+	t_shere		shere;
 
 	if (parse_argment(argc, argv) == 1)
 		return (1);
-	philo_num = atoi(argv[1]);
-	dead_info_array = init_t_dead(philo_num);
-	philos = init_philo(argv, init_fork(philo_num), dead_info_array);
+	shere.philo_num = atoi(argv[1]);
+	shere.dead_info = init_t_dead(shere.philo_num);
+	shere.wishs = init_wishs(shere.philo_num);
+	philos = init_philo(argv, init_fork(shere.philo_num), &shere);
 	th_id = init_th_id(argv);
-
-	if (threads_create(philos, th_id, philo_num) == 1)
+	if (threads_create(philos, th_id, shere.philo_num) == 1)
 		return (1);
-	monitor_philos_death(dead_info_array, philo_num);
-	if (threads_join(philos, th_id, philo_num) == 2)
+	monitor_philos_death(&shere);
+	if (threads_join(philos, th_id, shere.philo_num) == 2)
 		return (2);
 	return (0);
+	// printf("%p\n", (philos[0].wish));
+	// printf("%p\n", (&shere.wishs[0]));
+	
 }
 
 	// int i = 0;

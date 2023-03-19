@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:36:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 13:17:34 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/19 14:35:46 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	update_request_status(t_philo *philo, t_fork *fork, t_fork *had)
 	long	time;
 	int		status;
 
-	pthread_mutex_lock(&fork->check_request_status);
 	gettimeofday(&t1, NULL);
 	sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;
 	time = philo->time_to_die - sec_milli;
@@ -29,6 +28,7 @@ int	update_request_status(t_philo *philo, t_fork *fork, t_fork *had)
 		status = SITTING_ON_A_COFFIN;
 	else
 		status = FULL;
+	pthread_mutex_lock(&fork->check_request_status);
 	if (had)
 	{
 		pthread_mutex_lock(&had->check_request_status);
@@ -40,6 +40,26 @@ int	update_request_status(t_philo *philo, t_fork *fork, t_fork *had)
 	if (had)
 		pthread_mutex_unlock(&had->check_request_status);
 	pthread_mutex_unlock(&fork->check_request_status);
+}
+
+int	update_wish_status(t_wish *wish)
+{
+	ft_pthread_mutex_lock(&wish->mutex);
+	wish->let_me_eat = PLEASE;
+	ft_pthread_mutex_unlock(&wish->mutex);
+}
+
+bool	check_wish_status(t_wish *wish)
+{
+	bool	ret;
+
+	ft_pthread_mutex_lock(&wish->mutex);
+	if (wish->let_me_eat == OK)
+		ret = true;
+	else
+		ret = false;
+	ft_pthread_mutex_unlock(&wish->mutex);
+	return (ret);
 }
 
 bool	is_neighbor_hungry(t_philo *philo, t_fork *fork)

@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 23:05:11 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 13:14:14 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/19 13:56:22 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ pthread_t	*init_th_id(char *argv[])
 	return (th);
 }
 
-t_philo	*init_philo(char *argv[], t_fork *m_forks, t_dead *dead_array)
+// t_philo	*init_philo(char *argv[], t_fork *m_forks, t_dead *dead_array)
+// t_philo	*init_philo(char *argv[], t_fork *m_forks, t_dead *dead_array, t_wish *wishs)
+t_philo	*init_philo(char *argv[], t_fork *m_forks, t_shere *shere)
 {
 	size_t	i;
 	size_t	philo_num = strtol(argv[1], NULL, 10);
@@ -41,7 +43,7 @@ t_philo	*init_philo(char *argv[], t_fork *m_forks, t_dead *dead_array)
 
 	philo = malloc(sizeof(t_philo) * philo_num);
 	i = 0;
-	if (m_forks == NULL || dead_array == NULL)
+	if (shere == NULL || m_forks == NULL || shere->dead_info == NULL)
 		return (NULL);
 	while (i < philo_num)
 	{
@@ -50,16 +52,14 @@ t_philo	*init_philo(char *argv[], t_fork *m_forks, t_dead *dead_array)
 		philo[i].time_to_sleep = strtol(argv[4], NULL, 10);
 		philo[i].time_to_die = -1;
 		philo[i].philo_id = i;
-		philo[i].dead_info = &dead_array[i];
-		// philo[i].dead_info2 = dead_array[i];
-		dead_array[i].time_to_die = &philo[i].time_to_die;
-		// philo[i].dead_info.is_death = false;
+		philo[i].dead_info = &shere->dead_info[i];
+		philo[i].wish = &shere->wishs[i];
+		shere->dead_info[i].time_to_die = &philo[i].time_to_die;
 		philo[i].dead_info->is_death = false;
 		if (i % 2 == 0)
 		{
 			philo[i].forks[FIRST] = &m_forks[i];
 			philo[i].forks[SECOND] = &m_forks[(i + 1) % philo_num];
-			// philo[i].forks[FIRST]->time_to_die[i % 2] = 
 		}
 		else
 		{
@@ -121,4 +121,29 @@ t_dead	*init_t_dead(int philo_num)
 		i++;
 	}
 	return (dead_check);
+}
+
+t_wish	*init_wishs(int philo_num)
+{
+	t_wish	*wishs;
+	int		i;
+
+	wishs = malloc(sizeof(t_wish) * philo_num);
+	if (wishs == NULL)
+	{
+		exit(1);
+		return (NULL);
+	}
+	i = 0;
+	while (i < philo_num)
+	{
+		if (init_shered_resourse(&wishs[i].mutex) == ERROR)
+		{
+			exit(1);
+			return (NULL);
+		}
+		wishs[i].let_me_eat = THANK_YOU;
+		i++;
+	}
+	return (wishs);
 }

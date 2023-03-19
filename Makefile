@@ -13,6 +13,7 @@ DFLAGS		:= -MMD -MP
 # VPATH = srcs:srcs/UTIL
 SRCDIR    = src
 SRCS	:= 	philo.c\
+		 	monitor.c\
 			init.c\
 			parse.c\
 			ft_strjoin.c\
