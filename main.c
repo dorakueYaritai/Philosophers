@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 17:42:27 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 01:06:35 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/19 15:36:58 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,42 @@ struct s_data{
 //     printf("%p\n", &data);
 // }
 
+int ft_positive_mod(int dividend, int divisor)
+{
+	int	ans;
+
+	ans = dividend % divisor;
+	if (ans < 0)
+		ans += divisor;
+	return (ans);
+}
+
 int main()
 {
-    t_data data;
-
-    printf("%p\n", data);
-    printf("%p\n", &data.ch1);
-    printf("%p\n", &data.num1);
-    printf("%p\n", &data.num2);
+    printf("%d\n", -1 % 3);
+    printf("%d\n", ft_positive_mod(-1, 3));
+    printf("%d\n", ft_positive_mod(-2, 3));
+    printf("%d\n", ft_positive_mod(-3, 3));
+    printf("%d\n", ft_positive_mod(-4, 3));
+    // printf("%d\n", ft_positive_mod(0, 3));
+    // printf("%d\n", ft_positive_mod(1, 3));
+    // printf("%d\n", ft_positive_mod(2, 3));
+    // printf("%d\n", ft_positive_mod(3, 3));
+    // printf("%d\n", ft_positive_mod(4, 3));
+    // printf("%p\n", &data.ch1);
+    // printf("%p\n", &data.num1);
+    // printf("%p\n", &data.num2);
 }
+
+// int main()
+// {
+//     t_data data;
+
+//     printf("%p\n", data);
+//     printf("%p\n", &data.ch1);
+//     printf("%p\n", &data.num1);
+//     printf("%p\n", &data.num2);
+// }
 
 // int	main()
 // {

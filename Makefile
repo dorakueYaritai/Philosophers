@@ -24,6 +24,7 @@ SRCS	:= 	philo.c\
 			ft_strlen.c\
 			ft_memset.c\
 			ft_calloc.c\
+			ft_positive_mod.c\
 			ft_ltoa.c\
 			routine.c\
 			routine_fork.c\

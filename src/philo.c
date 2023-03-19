@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:16:41 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 14:26:03 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/19 15:33:16 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,37 +58,28 @@ int main(int argc, char* argv[]) {
 	shere.wishs = init_wishs(shere.philo_num);
 	philos = init_philo(argv, init_fork(shere.philo_num), &shere);
 	th_id = init_th_id(argv);
+
 	if (threads_create(philos, th_id, shere.philo_num) == 1)
 		return (1);
 	monitor_philos_death(&shere);
 	if (threads_join(philos, th_id, shere.philo_num) == 2)
 		return (2);
 	return (0);
-	// printf("%p\n", (philos[0].wish));
-	// printf("%p\n", (&shere.wishs[0]));
-	
+	printf("%p\n", (philos[0].wish));
+	printf("%p\n", (&shere.wishs[0]));
 }
 
 	// int i = 0;
-	// while (i < philo_num)
+	// while (i < shere.philo_num)
 	// {
-	// 	// printf("%p\n", (&philos[i].dead_info));
-	// 	// printf("%p\n", (&philos[i].dead_info2));
-	// 	// printf("%p\n", (philos[i].dead_info2));
-	// 	// printf("%p\n", (philos[i].dead_info));
-	// 	// printf("%p\n", (&dead_info_array[i]));
-	// 	// printf("--  --\n");
+	// 	printf("%ld\n", (philos[i].time_to_die));
+	// 	printf("%ld\n", (*philos[i].dead_info->time_to_die));
+	// 	printf("%ld\n", (*shere.dead_info[i].time_to_die));
+	// 	philos[i].time_to_die = 500;
+	// 	printf("%ld\n", (philos[i].time_to_die));
+	// 	printf("%ld\n", (*philos[i].dead_info->time_to_die));
+	// 	printf("%ld\n", (*shere.dead_info[i].time_to_die));
+	// 	printf("--  --\n");
 
-	// 	printf("%p\n", (philos[i].dead_info2.is_death_mutex));
-	// 	if (pthread_mutex_lock(&philos[i].dead_info2.is_death_mutex))
-	// 		return (-1);
-	// 	printf("%p\n", (&philos[i].dead_info2.is_death_mutex));
-	// 	printf("%p\n", (philos[i].dead_info->is_death_mutex));
-	// 	if (pthread_mutex_lock(&philos[i].dead_info->is_death_mutex))
-	// 		return (-1);
-	// 	printf("%p\n", (&philos[i].dead_info->is_death_mutex));
-	// 	printf("%p\n", (&dead_info_array[i].is_death_mutex));
-	// 	printf("------\n");
 	// 	i++;
 	// }
-

@@ -45,12 +45,12 @@ static int	philo_eat(t_philo *philo)
 		// put_fork(philo, philo->forks[SECOND]);
 		return (ERROR);
 	}
-	if (put_forks(philo) == ERROR)
+	// if (put_forks(philo) == ERROR)
+	// 	return (ERROR);
+	if (put_fork(philo, philo->forks[FIRST]) == ERROR)
 		return (ERROR);
-	// if (put_fork(philo, philo->forks[FIRST]) == ERROR)
-	// 	return (ERROR);
-	// if (put_fork(philo, philo->forks[SECOND]) == ERROR)
-	// 	return (ERROR);
+	if (put_fork(philo, philo->forks[SECOND]) == ERROR)
+		return (ERROR);
 	return (philo_sleep(philo));
 }
 
@@ -98,5 +98,6 @@ void* routine(void *philo){
 	_philo = (t_philo *)philo;
 	birth_philo_baby(philo);
 	philo_think(philo);
+	write(1, "done!\n", 6);
 	return (NULL);
 }

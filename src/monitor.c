@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 14:24:18 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 15:03:06 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/19 16:07:16 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,17 +69,42 @@ bool	is_ok_the_guy_eat(t_dead *dead_info, int id, int philo_num)
 	int right_id;
 	bool	ret;
 
-	if (fork == NULL)
-		return (false);
-	left_id = (id - 1) % philo_num; //
-	right_id = (id + 1) % philo_num;
-	// pthread_mutex_lock(&fork->check_request_status);
+	left_id = ft_positive_mod(id - 1, philo_num);
+	right_id = ft_positive_mod(id + 1, philo_num);
 	ft_pthread_mutex_lock(&dead_info[id].mutex);
 	ft_pthread_mutex_lock(&dead_info[left_id].mutex);
 	ft_pthread_mutex_lock(&dead_info[right_id].mutex);
 	// 死にそうランキング1位タイだったらOK
-	if (dead_info[id].time_to_die >= dead_info[left_id].time_to_die && \
-		dead_info[id].time_to_die >= dead_info[right_id].time_to_die)
+	char	*str;
+
+	str = ft_ltoa(id);
+	write(1, str, ft_strlen(str));
+	write(1, "	", 1);
+	str = ft_ltoa(*dead_info[id].time_to_die);
+	write(1, str, ft_strlen(str));
+	write(1, ":	", 1);
+
+	str = ft_ltoa(left_id);
+	write(1, str, ft_strlen(str));
+	write(1, "	", 1);
+	str = ft_ltoa(*dead_info[left_id].time_to_die);
+	write(1, str, ft_strlen(str));
+	write(1, ":	", 1);
+
+
+	str = ft_ltoa(right_id);
+	write(1, str, ft_strlen(str));
+	write(1, "	", 1);
+	str = ft_ltoa(*dead_info[right_id].time_to_die);
+	write(1, str, ft_strlen(str));
+	write(1, ":	", 1);
+
+	write(1, "\n", 1);
+
+	// if (*dead_info[id].time_to_die <= *dead_info[left_id].time_to_die && \
+	// 	*dead_info[id].time_to_die <= *dead_info[right_id].time_to_die)
+	if (*dead_info[id].time_to_die >= *dead_info[left_id].time_to_die && \
+		*dead_info[id].time_to_die >= *dead_info[right_id].time_to_die)
 		ret = true;
 	else
 		ret = false;
@@ -112,15 +137,18 @@ int monitor_philos_death(t_shere *shere)
 
 	num = shere->philo_num;
 	i = 0;
-	while (i < num)
+	while (1)
 	{
 		if (philo_is_die(shere, i, num) == true)
 			return (1);
 		feed_time_check(shere, i);
-		if (i == num - 1)
-			usleep(5000);
-		i = (i + 1) % num;
+		// if (i == num - 1)
+		// 	usleep(5000);
+		i++;
+		if (i == num)
+			i = 0;
 		// i++;
+		usleep(5000);
 	}
 	return (0);
 	// while (1)
