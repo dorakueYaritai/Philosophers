@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 14:24:18 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 16:11:32 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/19 17:07:03 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,21 +119,7 @@ int monitor_philos_death(t_shere *shere)
 		i++;
 		if (i == num)
 			i = 0;
-		// i++;
 		usleep(5000);
 	}
 	return (0);
-	// while (1)
-	// {
-	// 	i = 0;
-	// 	while (i < num)
-	// 	{
-	// 		if (philo_is_die(shere, i, num) == true)
-	// 			return (1);
-	// 		// feed_time_check(shere, i);
-	// 		i++;
-	// 	}
-	// 	usleep(5000);
-	// }
-	// return (0);
 }

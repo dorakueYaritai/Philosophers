@@ -1,8 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/19 16:36:38 by kakiba            #+#    #+#             */
+/*   Updated: 2023/03/19 16:44:37 by kakiba           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <philosophers.h>
 
+int	philo_think(t_philo *philo);
+int	update_time_to_die(t_philo *philo, long new_time_to_die);
 static int	philo_sleep(t_philo *philo);
-static int	philo_think(t_philo *philo);
 static int	philo_eat(t_philo *philo);
+static int	exe_act(t_philo *philo, int act);
 
 int	update_time_to_die(t_philo *philo, long new_time_to_die)
 {
@@ -53,7 +67,7 @@ static int	philo_sleep(t_philo *philo)
 	return (philo_think(philo));
 }
 
-static int	philo_think(t_philo *philo)
+int	philo_think(t_philo *philo)
 {
 	if (exe_act(philo, THINK) == ERROR)
 		return (ERROR);
@@ -64,22 +78,3 @@ static int	philo_think(t_philo *philo)
 	return (philo_eat(philo));
 }
 
-void	birth_philo_baby(t_philo *philo)
-{
-	struct timeval t1;
-	long sec_milli;
-
-	gettimeofday(&t1, NULL);
-	sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;
-	update_time_to_die(philo, sec_milli + philo->time_to_starve);
-}
-
-void* routine(void *philo){
-	t_philo	*_philo;
-
-	_philo = (t_philo *)philo;
-	birth_philo_baby(philo);
-	philo_think(philo);
-	write(1, "done!\n", 6);
-	return (NULL);
-}

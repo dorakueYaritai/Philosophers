@@ -14,8 +14,12 @@ DFLAGS		:= -MMD -MP
 SRCDIR    = src
 SRCS	:= 	philo.c\
 		 	monitor.c\
-			init.c\
+			init_philo.c\
+			init_other.c\
 			parse.c\
+			wish.c\
+			routine_init.c\
+			routine_exe.c\
 			ft_strjoin.c\
 			ft_itoa.c\
 			ft_memmove.c\

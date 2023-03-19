@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:16:41 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 15:33:16 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/19 17:07:12 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int main(int argc, char* argv[]) {
 	shere.philo_num = atoi(argv[1]);
 	shere.dead_info = init_t_dead(shere.philo_num);
 	shere.wishs = init_wishs(shere.philo_num);
-	philos = init_philo(argv, init_fork(shere.philo_num), &shere);
-	th_id = init_th_id(argv);
+	philos = init_philos(argv, init_fork(shere.philo_num), &shere);
+	th_id = init_th_id(shere.philo_num);
 
 	if (threads_create(philos, th_id, shere.philo_num) == 1)
 		return (1);

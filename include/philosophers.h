@@ -24,8 +24,6 @@ typedef struct s_fork t_fork;
 struct s_fork{
 	t_shered_resourse	fork;
 	pthread_mutex_t		check_request_status;
-	int					request_status[2];
-	long				life_expectancy[2];
 	time_t				*time_to_die[2];
 	int					fork_id;
 };
@@ -92,31 +90,34 @@ int			parse_argment(int argc, char *argv[]);
 int monitor_philos_death(t_shere *shere);
 
 // init.c
-// t_philo	*init_philo(char *argv[], t_fork *m_forks, t_dead *dead_array, t_wish *wishs);
-t_philo	*init_philo(char *argv[], t_fork *m_forks, t_shere *shere);
+t_philo	*init_philos(char *argv[], t_fork *m_forks, t_shere *shere);
 
-// t_philo		*init_philo(char *argv[], t_fork *m_forks);
-t_dead	*init_t_dead(int philonum);
-t_wish	*init_wishs(int philo_num);
-t_fork	*init_fork(int philo_num);
-pthread_t	*init_th_id(char *argv[]);
-void		print_philo_status(t_philo *philo);
+// init_other.c
+pthread_t	*init_th_id(int philo_num);
+t_wish		*init_wishs(int philo_num);
+t_dead		*init_t_dead(int philo_num);
+t_fork		*init_fork(int philo_num);
+int			init_shered_resourse(t_shered_resourse	*resourse);
 
 // routine.c
+int			update_time_to_die(t_philo *philo, long new_time_to_die);
+int			philo_think(t_philo *philo);
+
+// routine_init.c
 void*		 routine(void *philo);
 
 // routine_utils.c
 int			print_time(int id, long sec_milli, int act, int fork_id);
-bool	check_am_i_dead(t_philo *philo);
-// int			check_am_i_dead(t_philo *philo);
+bool		check_am_i_dead(t_philo *philo);
 
 // routine_fork.c
 int			take_forks(t_philo *philo);
-int			take_fork(t_philo *philo, t_fork *fork, t_fork *had);
-// int			take_fork(t_philo *philo, t_fork *fork);
-int			put_fork(t_philo *philo, t_fork *fork);
 int			put_forks(t_philo *philo);
-int	update_request_status(t_philo *philo, t_fork *fork, t_fork *had);
+
+// wish.c
+int		update_wish_status(t_wish *wish);
+bool	is_wish_come(t_wish *wish);
+int		thanks_a_host(t_wish *wish);
 
 // libft
 char		*ft_strjoin(char const *s1, char const *s2);
