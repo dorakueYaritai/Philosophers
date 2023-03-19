@@ -23,32 +23,27 @@ struct s_shered_resourse{
 typedef struct s_fork t_fork;
 struct s_fork{
 	t_shered_resourse	fork;
+	pthread_mutex_t		check_request_status;
 	int					request_status[2];
+	long				life_expectancy[2];
+	time_t				*time_to_die[2];
 	int					fork_id;
 };
 
-// typedef struct s_fork t_fork;
-// struct s_fork{
-// 	bool			is_fork_available;
-// 	pthread_mutex_t	fork_check;
-// 	pthread_mutex_t	fork;
-// 	int	fork_id;
-// };
+typedef struct s_dead t_dead;
+struct s_dead{
+	t_shered_resourse	mutex;
+	time_t				*time_to_die;
+	bool				is_death;
+	// pthread_mutex_t	is_death_mutex;
+};
 
 // typedef struct s_dead t_dead;
 // struct s_dead{
-// 	// t_shered_resourse	is_death;
-// 	time_t				*time_to_die;
-// 	bool				is_death;
+// 	time_t			*time_to_die;
+// 	bool			is_death;
 // 	pthread_mutex_t	is_death_mutex;
 // };
-
-typedef struct s_dead t_dead;
-struct s_dead{
-	time_t			*time_to_die;
-	bool			is_death;
-	pthread_mutex_t	is_death_mutex;
-};
 
 typedef struct s_philo t_philo;
 struct s_philo{
@@ -57,11 +52,11 @@ struct s_philo{
 	time_t	time_to_sleep;
 	time_t	time_to_die;
 	int		philo_id;
-	t_fork			*first;
-	t_fork			*second;
+	t_fork			*forks[2];
+	int				requtest_id;
 	t_dead			*dead_info;
-	// pthread_mutex_t	*is_death_mutex;
-	// t_dead			dead_info2;
+	// t_fork			*first;
+	// t_fork			*second;
 };
 
 typedef struct s_waiter t_waiter;
@@ -77,9 +72,16 @@ struct s_waiter{
 #define THINK 2
 #define DEAD 3
 #define SLEEP 4
+#define PUTOFF 5
 #define NONE 0
 #define SUCCESS 0
 #define ERROR 1
+#define FIRST 0
+#define SECOND 1
+#define FULL 0
+#define HUNGRY 1
+#define CALLING_FOR_AMBULANCE 2
+#define SITTING_ON_A_COFFIN 2
 
 // parse.c
 int			parse_argment(int argc, char *argv[]);
@@ -103,6 +105,7 @@ bool	check_am_i_dead(t_philo *philo);
 int			take_fork(t_philo *philo, t_fork *fork, t_fork *had);
 // int			take_fork(t_philo *philo, t_fork *fork);
 int			put_fork(t_philo *philo, t_fork *fork);
+int	update_request_status(t_philo *philo, t_fork *fork, t_fork *had);
 
 // libft
 char		*ft_strjoin(char const *s1, char const *s2);
@@ -115,5 +118,7 @@ void		*ft_memset(void *b, int c, size_t len);
 void		*ft_calloc(size_t count, size_t size);
 char		*ft_ltoa(long n);
 int			ft_pthread_mutex_trylock(t_shered_resourse *sourse);
+int			ft_pthread_mutex_unlock(t_shered_resourse *sourse);
+int			ft_pthread_mutex_lock(t_shered_resourse *sourse);
 
 #endif

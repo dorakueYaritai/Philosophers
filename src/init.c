@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 23:05:11 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 10:13:44 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/19 13:14:14 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,11 @@ t_philo	*init_philo(char *argv[], t_fork *m_forks, t_dead *dead_array)
 	size_t	i;
 	size_t	philo_num = strtol(argv[1], NULL, 10);
 	t_philo	*philo;
-	philo = malloc(sizeof(t_philo) * (philo_num + 1));
+
+	philo = malloc(sizeof(t_philo) * philo_num);
 	i = 0;
+	if (m_forks == NULL || dead_array == NULL)
+		return (NULL);
 	while (i < philo_num)
 	{
 		philo[i].time_to_starve = strtol(argv[2], NULL, 10);
@@ -54,101 +57,67 @@ t_philo	*init_philo(char *argv[], t_fork *m_forks, t_dead *dead_array)
 		philo[i].dead_info->is_death = false;
 		if (i % 2 == 0)
 		{
-			philo[i].first = &m_forks[(i + 1) % philo_num];
-			philo[i].second = &m_forks[i];
+			philo[i].forks[FIRST] = &m_forks[i];
+			philo[i].forks[SECOND] = &m_forks[(i + 1) % philo_num];
+			// philo[i].forks[FIRST]->time_to_die[i % 2] = 
 		}
 		else
 		{
-			philo[i].first = &m_forks[i];
-			philo[i].second = &m_forks[(i + 1) % philo_num];
+			philo[i].forks[FIRST] = &m_forks[(i + 1) % philo_num];
+			philo[i].forks[SECOND] = &m_forks[i];
 		}
 		i++;
 	}
 	return (philo);
 }
 
-t_shered_resourse	*init_shered_resourse(t_shered_resourse	*resourse)
+int	init_shered_resourse(t_shered_resourse	*resourse)
 {
 	if (pthread_mutex_init(&resourse->stuff, NULL) == -1)
-		return (NULL);
+		return (ERROR);
 	if (pthread_mutex_init(&resourse->is_available_mutex, NULL) == -1)
-		return (NULL);
+		return (ERROR);
 	resourse->is_available = true;
-	return (resourse);
+	return (SUCCESS);
 }
 
 t_fork	*init_fork(int philo_num)
 {
 	t_fork	*forks;
+	int		i;
 
 	forks = malloc(sizeof(t_fork) * philo_num);
 	if (forks == NULL)
 		return (NULL);
-	int	i = 0;
+	i = 0;
 	while (i < philo_num)
 	{
-		init_shered_resourse(&forks[i].fork);
-		// if (pthread_mutex_init(&forks[i].fork.stuff, NULL) == -1)
-		// {
-		// 	printf("forks init failure!\n");
-		// 	exit(1);
-		// }
-		// if (pthread_mutex_init(&forks[i].fork.is_available_mutex, NULL) == -1)
-		// {
-		// 	printf("forks init failure!\n");
-		// 	exit(1);
-		// }
-		// forks[i].is_forks_available = true;
+		if (init_shered_resourse(&forks[i].fork) == ERROR)
+			return (NULL);
 		forks[i].fork_id = i;
+		forks[i].request_status[0] = FULL;
+		forks[i].request_status[1] = FULL;
+		forks[i].life_expectancy[0] = __LONG_MAX__;
+		forks[i].life_expectancy[1] = __LONG_MAX__;
 		i++;
 	}
 	return (forks);
 }
 
-// t_fork	*init_fork(int philo_num)
-// {
-// 	t_fork	*fork;
-
-// 	fork = malloc(sizeof(t_fork) * philo_num);
-// 	if (fork == NULL)
-// 		return (NULL);
-// 	int	i = 0;
-// 	while (i < philo_num)
-// 	{
-// 		if (pthread_mutex_init(&fork[i].fork , NULL) == -1)
-// 		{
-// 			printf("fork init failure!\n");
-// 			exit(1);
-// 		}
-// 		if (pthread_mutex_init(&fork[i].fork_check , NULL) == -1)
-// 		{
-// 			printf("fork init failure!\n");
-// 			exit(1);
-// 		}
-// 		fork[i].is_fork_available = true;
-// 		fork[i].fork_id = i;
-// 		i++;
-// 	}
-// 	return (fork);
-// }
-
 t_dead	*init_t_dead(int philo_num)
 {
 	t_dead	*dead_check;
-	char	*ptr;
+	int	i;
 
+	i = 0;
 	dead_check = malloc(sizeof(t_dead) * philo_num);
 	if (dead_check == NULL)
 		return (NULL);
-	int	i = 0;
 	while (i < philo_num)
 	{
-		ptr = (char *)&dead_check[i];
-		if (pthread_mutex_init(&dead_check[i].is_death_mutex, NULL) == -1)
-		{
-			printf("fork deadcheck failure!\n");
-			exit(1);
-		}
+		if (init_shered_resourse(&dead_check[i].mutex) == ERROR)
+			return (NULL);
+		dead_check[i].is_death = false;
 		i++;
 	}
 	return (dead_check);

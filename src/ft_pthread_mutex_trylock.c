@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:27:09 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 10:22:44 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/19 10:46:04 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,16 @@ static int	ret_unlock(pthread_mutex_t	*mutex, int status)
 {
 	pthread_mutex_unlock(mutex);
 	return (status);
+}
+
+int	ft_pthread_mutex_lock(t_shered_resourse *sourse)
+{
+	return (pthread_mutex_lock(&sourse->stuff));
+}
+
+int	ft_pthread_mutex_unlock(t_shered_resourse *sourse)
+{
+	return (pthread_mutex_unlock(&sourse->stuff));
 }
 
 int	ft_pthread_mutex_trylock(t_shered_resourse *sourse)
@@ -42,6 +52,7 @@ int	ft_pthread_mutex_trylock(t_shered_resourse *sourse)
 		return (SUCCESS);
 	}
 }
+
 
 // int	ft_pthread_mutex_trylock(t_shered_resourse sourse)
 // {
