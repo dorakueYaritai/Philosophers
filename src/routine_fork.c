@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:36:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 15:58:59 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/19 16:16:53 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int	take_forks(t_philo *philo)
 		if (check_am_i_dead(philo) == true)
 			return (ERROR);
 	}
-	// write(1, "a", 1);
 	if (take_fork(philo, first, NULL) == ERROR)
 		return (ERROR);
 	if (take_fork(philo, second, first) == ERROR)
@@ -70,13 +69,6 @@ int	take_forks(t_philo *philo)
 		put_fork(philo, first);
 		return (ERROR);
 	}
-	// if (take_fork(philo, philo->forks[FIRST], NULL) == ERROR)
-	// 	return (ERROR);
-	// if (take_fork(philo, philo->forks[SECOND], philo->forks[FIRST]) == ERROR)
-	// {
-	// 	put_fork(philo, philo->forks[FIRST]);
-	// 	return (ERROR);
-	// }
 	return (0);
 }
 
@@ -87,8 +79,6 @@ int	take_fork(t_philo *philo, t_fork *fork, t_fork *had)
 
 	while (1)
 	{
-		// update_request_status(philo, fork, had);
-		// be_kind_neighbors(philo, fork, had);
 		if (check_am_i_dead(philo) == true)
 			return (ERROR);
 		if (ft_pthread_mutex_trylock(&fork->fork) == SUCCESS)

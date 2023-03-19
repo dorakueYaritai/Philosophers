@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 14:24:18 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 16:07:16 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/19 16:11:32 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,36 +75,8 @@ bool	is_ok_the_guy_eat(t_dead *dead_info, int id, int philo_num)
 	ft_pthread_mutex_lock(&dead_info[left_id].mutex);
 	ft_pthread_mutex_lock(&dead_info[right_id].mutex);
 	// 死にそうランキング1位タイだったらOK
-	char	*str;
-
-	str = ft_ltoa(id);
-	write(1, str, ft_strlen(str));
-	write(1, "	", 1);
-	str = ft_ltoa(*dead_info[id].time_to_die);
-	write(1, str, ft_strlen(str));
-	write(1, ":	", 1);
-
-	str = ft_ltoa(left_id);
-	write(1, str, ft_strlen(str));
-	write(1, "	", 1);
-	str = ft_ltoa(*dead_info[left_id].time_to_die);
-	write(1, str, ft_strlen(str));
-	write(1, ":	", 1);
-
-
-	str = ft_ltoa(right_id);
-	write(1, str, ft_strlen(str));
-	write(1, "	", 1);
-	str = ft_ltoa(*dead_info[right_id].time_to_die);
-	write(1, str, ft_strlen(str));
-	write(1, ":	", 1);
-
-	write(1, "\n", 1);
-
-	// if (*dead_info[id].time_to_die <= *dead_info[left_id].time_to_die && \
-	// 	*dead_info[id].time_to_die <= *dead_info[right_id].time_to_die)
-	if (*dead_info[id].time_to_die >= *dead_info[left_id].time_to_die && \
-		*dead_info[id].time_to_die >= *dead_info[right_id].time_to_die)
+	if (*dead_info[id].time_to_die <= *dead_info[left_id].time_to_die && \
+		*dead_info[id].time_to_die <= *dead_info[right_id].time_to_die)
 		ret = true;
 	else
 		ret = false;
