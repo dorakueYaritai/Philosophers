@@ -6,42 +6,24 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:36:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 10:25:45 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/19 10:30:14 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philosophers.h>
-
-	// while (1)
-	// {
-	// 	if (ft_pthread_mutex_trylock(&fork->fork) == SUCCESS)
-	// 		break;
-	// }
 
 int	take_fork(t_philo *philo, t_fork *fork, t_fork *had)
 {
 	struct timeval t1;
 	long sec_milli;
 
-	// ft_pthread_mutex_trylock(fork->fork);
-	pthread_mutex_lock(&fork->fork.is_available_mutex);
-	while (fork->fork.is_available == false)
+	while (1)
 	{
 		if (check_am_i_dead(philo) == true)
-		{
-			pthread_mutex_lock(&fork->fork.is_available_mutex);
-			// pthread_mutex_unlock(&fork->fork_check);
 			return (ERROR);
-		}
+		if (ft_pthread_mutex_trylock(&fork->fork) == SUCCESS)
+			break;
 	}
-	if (check_am_i_dead(philo) == true)
-	{
-		pthread_mutex_unlock(&fork->fork.is_available_mutex);
-		return (ERROR);
-	}
-	pthread_mutex_lock(&fork->fork.stuff);
-	fork->fork.is_available == false;
-	pthread_mutex_unlock(&fork->fork.is_available_mutex);
 	gettimeofday(&t1, NULL);
 	sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;
 	if (check_am_i_dead(philo) == true)
