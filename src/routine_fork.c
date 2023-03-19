@@ -6,50 +6,42 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:36:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 01:02:54 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/19 10:25:45 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philosophers.h>
+
+	// while (1)
+	// {
+	// 	if (ft_pthread_mutex_trylock(&fork->fork) == SUCCESS)
+	// 		break;
+	// }
 
 int	take_fork(t_philo *philo, t_fork *fork, t_fork *had)
 {
 	struct timeval t1;
 	long sec_milli;
 
-	pthread_mutex_lock(&fork->fork_check);
-	while (fork->is_fork_available == false)
+	// ft_pthread_mutex_trylock(fork->fork);
+	pthread_mutex_lock(&fork->fork.is_available_mutex);
+	while (fork->fork.is_available == false)
 	{
 		if (check_am_i_dead(philo) == true)
 		{
-			pthread_mutex_unlock(&fork->fork_check);
+			pthread_mutex_lock(&fork->fork.is_available_mutex);
+			// pthread_mutex_unlock(&fork->fork_check);
 			return (ERROR);
-		}
-		// if (had == NULL)
-		// {
-		// 	// write(1, "a\n", 2);
-		// 	pthread_mutex_unlock(&fork->fork_check);
-		// 	// write(1, "b\n", 2);
-		// 	return (take_fork(philo, fork, NULL));
-		// }
-		if (had)
-		{
-			pthread_mutex_unlock(&fork->fork_check);
-			put_fork(philo, had);
-			usleep(10000);
-			take_fork(philo, had, NULL);
-			pthread_mutex_lock(&fork->fork_check);
-			// take_fork(philo, fork, had);
 		}
 	}
 	if (check_am_i_dead(philo) == true)
 	{
-		pthread_mutex_unlock(&fork->fork_check);
+		pthread_mutex_unlock(&fork->fork.is_available_mutex);
 		return (ERROR);
 	}
-	pthread_mutex_lock(&fork->fork);
-	fork->is_fork_available = false;
-	pthread_mutex_unlock(&fork->fork_check);
+	pthread_mutex_lock(&fork->fork.stuff);
+	fork->fork.is_available == false;
+	pthread_mutex_unlock(&fork->fork.is_available_mutex);
 	gettimeofday(&t1, NULL);
 	sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;
 	if (check_am_i_dead(philo) == true)
@@ -60,19 +52,81 @@ int	take_fork(t_philo *philo, t_fork *fork, t_fork *had)
 	return (print_time(philo->philo_id, sec_milli, FORK, fork->fork_id));
 }
 
+// int	take_fork(t_philo *philo, t_fork *fork, t_fork *had)
+// {
+// 	struct timeval t1;
+// 	long sec_milli;
+
+// 	pthread_mutex_lock(&fork->fork_check);
+// 	while (fork->is_fork_available == false)
+// 	{
+// 		if (check_am_i_dead(philo) == true)
+// 		{
+// 			pthread_mutex_unlock(&fork->fork_check);
+// 			return (ERROR);
+// 		}
+// 		// if (had == NULL)
+// 		// {
+// 		// 	// write(1, "a\n", 2);
+// 		// 	pthread_mutex_unlock(&fork->fork_check);
+// 		// 	// write(1, "b\n", 2);
+// 		// 	return (take_fork(philo, fork, NULL));
+// 		// }
+// 		if (had)
+// 		{
+// 			pthread_mutex_unlock(&fork->fork_check);
+// 			put_fork(philo, had);
+// 			usleep(10000);
+// 			take_fork(philo, had, NULL);
+// 			pthread_mutex_lock(&fork->fork_check);
+// 			// take_fork(philo, fork, had);
+// 		}
+// 	}
+// 	if (check_am_i_dead(philo) == true)
+// 	{
+// 		pthread_mutex_unlock(&fork->fork_check);
+// 		return (ERROR);
+// 	}
+// 	pthread_mutex_lock(&fork->fork);
+// 	fork->is_fork_available = false;
+// 	pthread_mutex_unlock(&fork->fork_check);
+// 	gettimeofday(&t1, NULL);
+// 	sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;
+// 	if (check_am_i_dead(philo) == true)
+// 	{
+// 		put_fork(philo, fork);
+// 		return (ERROR);
+// 	}
+// 	return (print_time(philo->philo_id, sec_milli, FORK, fork->fork_id));
+// }
+
 int	put_fork(t_philo *philo, t_fork *fork)
 {
 	if (check_am_i_dead(philo) == true)
 	{
-		pthread_mutex_unlock(&fork->fork);
-		fork->is_fork_available = false;
+		pthread_mutex_unlock(&fork->fork.stuff);
+		fork->fork.is_available = false;
 		return (ERROR);
 	}
-	if (pthread_mutex_unlock(&fork->fork))
+	if (pthread_mutex_unlock(&fork->fork.stuff))
 		return (ERROR);
-	fork->is_fork_available = true;
+	fork->fork.is_available = true;
 	return (SUCCESS);
 }
+
+// int	put_fork(t_philo *philo, t_fork *fork)
+// {
+// 	if (check_am_i_dead(philo) == true)
+// 	{
+// 		pthread_mutex_unlock(&fork->fork);
+// 		fork->is_fork_available = false;
+// 		return (ERROR);
+// 	}
+// 	if (pthread_mutex_unlock(&fork->fork))
+// 		return (ERROR);
+// 	fork->is_fork_available = true;
+// 	return (SUCCESS);
+// }
 
 bool	check_am_i_dead(t_philo *philo)
 {

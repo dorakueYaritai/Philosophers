@@ -27,6 +27,7 @@ SRCS	:= 	philo.c\
 			routine.c\
 			routine_fork.c\
 			routine_utils.c\
+			ft_pthread_mutex_trylock.c\
 
 #=============================
 #directory

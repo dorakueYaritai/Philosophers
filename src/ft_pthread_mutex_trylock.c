@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:27:09 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 09:49:37 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/19 10:22:44 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,27 @@ static int	ret_unlock(pthread_mutex_t	*mutex, int status)
 	return (status);
 }
 
-int	ft_pthread_mutex_trylock(t_shered_resourse sourse)
+int	ft_pthread_mutex_trylock(t_shered_resourse *sourse)
 {
-	if (pthread_mutex_lock(&sourse.is_available_mutex))
+	if (pthread_mutex_lock(&sourse->is_available_mutex))
 		return (ERROR);
-	if (s->is_available == false)
+	if (sourse->is_available == false)
 	{
-		// ret_unlock(&sourse.is_available_mutex, ERROR);
-		pthread_mutex_unlock(&sourse.is_available_mutex);
+		// ret_unlock(&sourse->is_available_mutex, ERROR);
+		pthread_mutex_unlock(&sourse->is_available_mutex);
 		return (ERROR);
 	}
 	else
 	{
-		if (pthread_mutex_lock(&sourse.stuff))
+		if (pthread_mutex_lock(&sourse->stuff))
 		{
-			// ret_unlock(&sourse.is_available_mutex, ERROR);
-			pthread_mutex_unlock(&sourse.is_available_mutex);
+			// ret_unlock(&sourse->is_available_mutex, ERROR);
+			pthread_mutex_unlock(&sourse->is_available_mutex);
 			return (ERROR);
 		}
-		s->is_available = false;
-		// ret_unlock(&sourse.is_available_mutex, SUCCESS);
-		pthread_mutex_unlock(&sourse.is_available_mutex);
+		sourse->is_available = false;
+		// ret_unlock(&sourse->is_available_mutex, SUCCESS);
+		pthread_mutex_unlock(&sourse->is_available_mutex);
 		return (SUCCESS);
 	}
 }
@@ -69,13 +69,3 @@ int	ft_pthread_mutex_trylock(t_shered_resourse sourse)
 // 		return (SUCCESS);
 // 	}
 // }
-
-bool	check_am_i_dead(t_philo *philo)
-{
-	bool	data;
-
-	pthread_mutex_lock(&philo->dead_info->is_death_mutex);
-	data = philo->dead_info->is_death;
-	pthread_mutex_unlock(&philo->dead_info->is_death_mutex);
-	return (data);
-}

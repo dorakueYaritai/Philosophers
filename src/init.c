@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 23:05:11 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 00:37:42 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/19 10:13:44 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,32 +67,70 @@ t_philo	*init_philo(char *argv[], t_fork *m_forks, t_dead *dead_array)
 	return (philo);
 }
 
+t_shered_resourse	*init_shered_resourse(t_shered_resourse	*resourse)
+{
+	if (pthread_mutex_init(&resourse->stuff, NULL) == -1)
+		return (NULL);
+	if (pthread_mutex_init(&resourse->is_available_mutex, NULL) == -1)
+		return (NULL);
+	resourse->is_available = true;
+	return (resourse);
+}
+
 t_fork	*init_fork(int philo_num)
 {
-	t_fork	*fork;
+	t_fork	*forks;
 
-	fork = malloc(sizeof(t_fork) * philo_num);
-	if (fork == NULL)
+	forks = malloc(sizeof(t_fork) * philo_num);
+	if (forks == NULL)
 		return (NULL);
 	int	i = 0;
 	while (i < philo_num)
 	{
-		if (pthread_mutex_init(&fork[i].fork , NULL) == -1)
-		{
-			printf("fork init failure!\n");
-			exit(1);
-		}
-		if (pthread_mutex_init(&fork[i].fork_check , NULL) == -1)
-		{
-			printf("fork init failure!\n");
-			exit(1);
-		}
-		fork[i].is_fork_available = true;
-		fork[i].fork_id = i;
+		init_shered_resourse(&forks[i].fork);
+		// if (pthread_mutex_init(&forks[i].fork.stuff, NULL) == -1)
+		// {
+		// 	printf("forks init failure!\n");
+		// 	exit(1);
+		// }
+		// if (pthread_mutex_init(&forks[i].fork.is_available_mutex, NULL) == -1)
+		// {
+		// 	printf("forks init failure!\n");
+		// 	exit(1);
+		// }
+		// forks[i].is_forks_available = true;
+		forks[i].fork_id = i;
 		i++;
 	}
-	return (fork);
+	return (forks);
 }
+
+// t_fork	*init_fork(int philo_num)
+// {
+// 	t_fork	*fork;
+
+// 	fork = malloc(sizeof(t_fork) * philo_num);
+// 	if (fork == NULL)
+// 		return (NULL);
+// 	int	i = 0;
+// 	while (i < philo_num)
+// 	{
+// 		if (pthread_mutex_init(&fork[i].fork , NULL) == -1)
+// 		{
+// 			printf("fork init failure!\n");
+// 			exit(1);
+// 		}
+// 		if (pthread_mutex_init(&fork[i].fork_check , NULL) == -1)
+// 		{
+// 			printf("fork init failure!\n");
+// 			exit(1);
+// 		}
+// 		fork[i].is_fork_available = true;
+// 		fork[i].fork_id = i;
+// 		i++;
+// 	}
+// 	return (fork);
+// }
 
 t_dead	*init_t_dead(int philo_num)
 {

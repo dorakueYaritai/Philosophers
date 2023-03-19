@@ -20,19 +20,28 @@ struct s_shered_resourse{
 	pthread_mutex_t	stuff;
 };
 
+typedef struct s_fork t_fork;
+struct s_fork{
+	t_shered_resourse	fork;
+	int					request_status[2];
+	int					fork_id;
+};
+
 // typedef struct s_fork t_fork;
 // struct s_fork{
-// 	t_shered_resourse	fork;
+// 	bool			is_fork_available;
+// 	pthread_mutex_t	fork_check;
+// 	pthread_mutex_t	fork;
 // 	int	fork_id;
 // };
 
-typedef struct s_fork t_fork;
-struct s_fork{
-	bool			is_fork_available;
-	pthread_mutex_t	fork_check;
-	pthread_mutex_t	fork;
-	int	fork_id;
-};
+// typedef struct s_dead t_dead;
+// struct s_dead{
+// 	// t_shered_resourse	is_death;
+// 	time_t				*time_to_die;
+// 	bool				is_death;
+// 	pthread_mutex_t	is_death_mutex;
+// };
 
 typedef struct s_dead t_dead;
 struct s_dead{
@@ -105,5 +114,6 @@ size_t		ft_strlen(const char *s);
 void		*ft_memset(void *b, int c, size_t len);
 void		*ft_calloc(size_t count, size_t size);
 char		*ft_ltoa(long n);
+int			ft_pthread_mutex_trylock(t_shered_resourse *sourse);
 
 #endif
