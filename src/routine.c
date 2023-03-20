@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:36:38 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/20 20:26:23 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 20:27:41 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,16 +72,6 @@ static int	exe_act(t_philo *philo, int act)
 	gettimeofday(&t1, NULL);
 	sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;
 	update_wish_status(philo->wish, act, sec_milli, NONE, philo->philo_id);
-	if (act == LET_EAT)
-	{
-		usleep((unsigned int)(philo->status.time_to_eat) * 1000);
-		if (update_time_to_die(philo, sec_milli + philo->status.time_to_starve) == FINISH)
-			return (ERROR);
-	}
-	else if (act == LET_SLEEP)
-	{
-		usleep((unsigned int)(philo->status.time_to_sleep) * 1000);
-	}
 	while (1)
 	{
 		answer = is_wish_come(philo->wish, philo->philo_id);
@@ -92,6 +82,16 @@ static int	exe_act(t_philo *philo, int act)
 			return (ERROR);
 		}
 		// usleep(10);
+	}
+	if (act == LET_EAT)
+	{
+		usleep((unsigned int)(philo->status.time_to_eat) * 1000);
+		if (update_time_to_die(philo, sec_milli + philo->status.time_to_starve) == FINISH)
+			return (ERROR);
+	}
+	else if (act == LET_SLEEP)
+	{
+		usleep((unsigned int)(philo->status.time_to_sleep) * 1000);
 	}
 	return (SUCCESS);
 }
