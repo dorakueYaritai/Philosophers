@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 14:24:18 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/20 19:01:30 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 20:19:41 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,7 @@ int	is_ok_the_guy_eat(t_shere *shere,int id, int num)
 	ft_pthread_mutex_unlock(&shere->dead_info[right_id].mutex);
 
 	// 死にそうランキング1位タイだったらOK
-	ultra_debug(id, left_id, right_id, shere->dead_info);
+	// ultra_debug(id, left_id, right_id, shere->dead_info);
 
 	if (array[0] <= array[1] && array[0] <= array[2])
 		return (LET_OK);
