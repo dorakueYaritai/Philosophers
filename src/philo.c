@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:16:41 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 21:32:40 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/19 23:01:22 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static int	threads_create(t_philo *philos, pthread_t *th_id, int philo_num);
 static int	threads_join(t_philo *philos, pthread_t *th_id, int philo_num);
-
 
 int main(int argc, char* argv[]) {
 	t_philo		*philos;
@@ -34,6 +33,17 @@ int main(int argc, char* argv[]) {
 	philos = init_philos(&status, &shere);
 	th_id = init_th_id(shere.philo_num);
 
+	if (threads_create(philos, th_id, shere.philo_num) == 1)
+	{
+		exit(1);
+		return (1);
+	}
+	monitor_philos_death(&shere);
+	if (threads_join(philos, th_id, shere.philo_num) == 2)
+		return (2);
+	return (0);
+}
+
 	// if (ft_pthread_mutex_trylock(&shere.forks->fork) == 0)
 	// {
 	// 	printf("OK!\n");
@@ -47,27 +57,20 @@ int main(int argc, char* argv[]) {
 	// 	printf("USED!\n");
 	// }
 
-	if (guys_forks_avilable(shere.forks, 1, 4))
-	{
-		printf("OK!\n");
-		return (0);
-	}
-	else
-	{
-		printf("NO!\n");
-		return (0);
-	}
+	// if (guys_forks_avilable(shere.forks, 1, 4))
+	// if (guys_forks_avilable(&shere, 4, 4))
+	// {
+	// 	printf("OK!\n");
+	// 	ft_pthread_mutex_lock(&shere.forks[4 % 4].fork);
+	// 	ft_pthread_mutex_unlock(&shere.forks[4 % 4].fork);
+	// 	return (0);
+	// }
+	// else
+	// {
+	// 	printf("NO!\n");
+	// 	return (0);
+	// }
 
-	if (threads_create(philos, th_id, shere.philo_num) == 1)
-	{
-		exit(1);
-		return (1);
-	}
-	monitor_philos_death(&shere);
-	if (threads_join(philos, th_id, shere.philo_num) == 2)
-		return (2);
-	return (0);
-}
 
 static int	threads_create(t_philo *philos, pthread_t *th_id, int philo_num)
 {

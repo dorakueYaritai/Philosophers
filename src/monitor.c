@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 14:24:18 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 21:33:47 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 09:44:54 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,10 @@ bool	guys_forks_avilable(t_shere *shere, int id, int num)
 	ret = false;
 	b1 = false;
 	b2 = false;
-	if (ft_pthread_mutex_trylock(&shere->forks[id].fork) == SUCCESS)
+	if (ft_pthread_mutex_trylock(&shere->forks[id % num].fork) == SUCCESS)
 	{
 		b1 = true;
-		ft_pthread_mutex_unlock(&shere->forks[id].fork);
+		ft_pthread_mutex_unlock(&shere->forks[id % num].fork);
 	}
 	if (ft_pthread_mutex_trylock(&shere->forks[(id + 1) % num].fork) == SUCCESS)
 	{
@@ -144,6 +144,28 @@ bool	guys_forks_avilable(t_shere *shere, int id, int num)
 // 	return (ret);
 // }
 
+void	ultra_debug(int id, int left_id, int right_id, t_dead *dead_info)
+{
+   char    *str;
+
+    str = ft_strjoin("", "A");
+    str = ft_strjoin(str, ft_ltoa(id));
+    str = ft_strjoin(str, " ");
+    str = ft_strjoin(str, ft_ltoa(*dead_info[id].time_to_die));
+    str = ft_strjoin(str, ": ");
+
+    str = ft_strjoin(str, ft_ltoa(left_id));
+    str = ft_strjoin(str, " ");
+    str = ft_strjoin(str, ft_ltoa(*dead_info[left_id].time_to_die));
+    str = ft_strjoin(str, ": ");
+
+    str = ft_strjoin(str, ft_ltoa(right_id));
+    str = ft_strjoin(str, " ");
+    str = ft_strjoin(str, ft_ltoa(*dead_info[right_id].time_to_die));
+    str = ft_strjoin(str, ": \n");
+	write(1, str, strlen(str));
+}
+
 // bool	is_ok_the_guy_eat(t_dead *dead_info, int id, int num)
 bool	is_ok_the_guy_eat(t_shere *shere,int id, int num)
 {
@@ -155,8 +177,8 @@ bool	is_ok_the_guy_eat(t_shere *shere,int id, int num)
 	// return (true);
 	// if (guys_forks_avilable(shere->forks, id, num) == true)
 	// 	return (true);
-	if (guys_forks_avilable(shere, id, num) == true)
-		return (true);
+	// if (guys_forks_avilable(shere, id, num) == true)
+	// 	return (true);
 	left_id = ft_positive_mod(id - 1, num);
 	right_id = ft_positive_mod(id + 1, num);
 	ft_pthread_mutex_lock(&shere->dead_info[id].mutex);
@@ -172,27 +194,11 @@ bool	is_ok_the_guy_eat(t_shere *shere,int id, int num)
 	ft_pthread_mutex_unlock(&shere->dead_info[right_id].mutex);
 
 	// 死にそうランキング1位タイだったらOK
+	ultra_debug(id, left_id, right_id, shere->dead_info);
 
-//    char    *str;
-
-//     str = ft_strjoin("", "A");
-//     str = ft_strjoin(str, ft_ltoa(id));
-//     str = ft_strjoin(str, "    ");
-//     str = ft_strjoin(str, ft_ltoa(*dead_info[id].time_to_die));
-//     str = ft_strjoin(str, ":    ");
-
-//     str = ft_strjoin(str, ft_ltoa(left_id));
-//     str = ft_strjoin(str, "    ");
-//     str = ft_strjoin(str, ft_ltoa(*dead_info[left_id].time_to_die));
-//     str = ft_strjoin(str, ":    ");
-
-//     str = ft_strjoin(str, ft_ltoa(right_id));
-//     str = ft_strjoin(str, "    ");
-//     str = ft_strjoin(str, ft_ltoa(*dead_info[right_id].time_to_die));
-//     str = ft_strjoin(str, ":    \n");
-// 	write(1, str, strlen(str));
-
-	if (array[0] <= array[1] || array[0] <= array[2])
+	if (array[0] <= array[1] && array[0] <= array[2])
+		ret = true;
+	else if (array[1] == -1 || array[2] == -1)
 		ret = true;
 	else
 		ret = false;

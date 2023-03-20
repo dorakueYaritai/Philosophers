@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:36:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 19:55:53 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/19 23:08:40 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ int	put_fork(t_philo *philo, t_fork *fork)
 	return (ret);//
 	// return (SUCCESS);
 }
-
 
 // static int	put_fork(t_philo *philo, t_fork *fork)
 // {

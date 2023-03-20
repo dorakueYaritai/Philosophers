@@ -6,25 +6,11 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:37:21 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 19:50:46 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 09:38:51 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philosophers.h>
-
-void	print_time_printf(int id, long sec_milli, int act, int fork_id)
-{
-	if (act == FORK)
-		printf("%ld %d has taken a fork\n", sec_milli, id);
-	else if (act == EAT)
-		printf("%ld %d is eating\n",  sec_milli, id);
-	else if (act == THINK)
-		printf("%ld %d is thinking\n",  sec_milli, id);
-	else if (act == SLEEP)
-		printf("%ld %d is sleeping\n",  sec_milli, id);
-	else if (act == DEAD)
-		printf("%ld %d died\n", sec_milli, id);
-}
 
 bool	check_am_i_dead(t_philo *philo)
 {
@@ -49,10 +35,10 @@ int	print_time(int id, long sec_milli, int act, int fork_id)
 
 	if (act == FORK)
 	{
-		join = ft_strjoin(join, " has taken	a fork ");
-		join = ft_strjoin(join, ft_ltoa(fork_id));
-		join = ft_strjoin(join, "\n");
-		// join = ft_strjoin(join, " has taken a fork\n");
+		// join = ft_strjoin(join, " has taken	a fork ");
+		// join = ft_strjoin(join, ft_ltoa(fork_id));
+		// join = ft_strjoin(join, "\n");
+		join = ft_strjoin(join, " has taken a fork\n");
 	}
 	else if (act == EAT)
 		join = ft_strjoin(join, " is eating\n");
@@ -69,12 +55,26 @@ int	print_time(int id, long sec_milli, int act, int fork_id)
 	}
 	else if (act == PUTOFF)
 	{
-		join = ft_strjoin(join, " has putoff a	fork ");
-		join = ft_strjoin(join, ft_ltoa(fork_id));
-		join = ft_strjoin(join, "\n");
+		join = "";
+		// join = ft_strjoin(join, " has putoff a	fork ");
+		// join = ft_strjoin(join, ft_ltoa(fork_id));
+		// join = ft_strjoin(join, "\n");
 	}
 	if (write(1, join, strlen(join)) == -1)
 		return (ERROR);
 	return (SUCCESS);
 }
 
+void	print_time_printf(int id, long sec_milli, int act, int fork_id)
+{
+	if (act == FORK)
+		printf("%ld %d has taken a fork\n", sec_milli, id);
+	else if (act == EAT)
+		printf("%ld %d is eating\n",  sec_milli, id);
+	else if (act == THINK)
+		printf("%ld %d is thinking\n",  sec_milli, id);
+	else if (act == SLEEP)
+		printf("%ld %d is sleeping\n",  sec_milli, id);
+	else if (act == DEAD)
+		printf("%ld %d died\n", sec_milli, id);
+}
