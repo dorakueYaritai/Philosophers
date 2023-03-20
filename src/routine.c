@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:36:38 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/20 20:24:56 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 20:26:23 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ static int	exe_act(t_philo *philo, int act)
 	if (act == LET_EAT)
 	{
 		usleep((unsigned int)(philo->status.time_to_eat) * 1000);
+		if (update_time_to_die(philo, sec_milli + philo->status.time_to_starve) == FINISH)
+			return (ERROR);
 	}
 	else if (act == LET_SLEEP)
 	{
@@ -90,11 +92,6 @@ static int	exe_act(t_philo *philo, int act)
 			return (ERROR);
 		}
 		// usleep(10);
-	}
-	if (act == LET_EAT)
-	{
-		if (update_time_to_die(philo, sec_milli + philo->status.time_to_starve) == FINISH)
-			return (ERROR);
 	}
 	return (SUCCESS);
 }
