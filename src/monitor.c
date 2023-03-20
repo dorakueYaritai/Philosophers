@@ -6,26 +6,12 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 14:24:18 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/20 15:28:41 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 19:01:30 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <philosophers.h>
-
-// int	print_sub(int id, long sec_milli, long sec_milli_philo)
-// {
-// 	char	*id_str;
-// 	char	*join;
-
-// 	id_str = ft_itoa(id);
-// 	join = ft_strjoin(id_str, "/now:");
-// 	join = ft_strjoin(join, ft_ltoa(sec_milli));
-// 	join = ft_strjoin(join, " vs philo:");
-// 	join = ft_strjoin(join, ft_ltoa(sec_milli_philo));
-// 	join = ft_strjoin(join, "\n");
-// 	write(1, join, ft_strlen(join));
-// }
 
 int kill_everyone(t_shere *shere, int philo_num, int dead_id)
 {
@@ -39,10 +25,6 @@ int kill_everyone(t_shere *shere, int philo_num, int dead_id)
 			ft_pthread_mutex_lock(&shere->dead_info[i].mutex);
 			ft_pthread_mutex_lock(&shere->wishs[i].mutex);
 		}
-			// char	*join;
-			// join = ft_strjoin(":", ft_ltoa(&shere->wishs[i].let_me_eat));
-			// join = ft_strjoin(join, "\n");
-			// write(1, join, ft_strlen(join));
 		shere->dead_info[i].is_death = true;
 		shere->wishs[i].let_me_eat = LET_YOU_ARE_ALREADY_DEAD;
 		i++;
@@ -50,13 +32,11 @@ int kill_everyone(t_shere *shere, int philo_num, int dead_id)
 	i = 0;
 	while (i < philo_num)
 	{
-		// if (i != dead_id)
-		// {
-			ft_pthread_mutex_unlock(&shere->dead_info[i].mutex);
-			ft_pthread_mutex_unlock(&shere->wishs[i].mutex);
-		// }
+		ft_pthread_mutex_unlock(&shere->dead_info[i].mutex);
+		ft_pthread_mutex_unlock(&shere->wishs[i].mutex);
 		i++;
 	}
+	return (SUCCESS);
 }
 
 bool	did_the_old_man_go_heaven(t_shere *shere, int id)
@@ -65,24 +45,44 @@ bool	did_the_old_man_go_heaven(t_shere *shere, int id)
 	long			sec_milli;
 
 	ft_pthread_mutex_lock(&shere->dead_info[id].mutex);
-	// if (shere->dead_info[id].is_death == true)
-	// {
-	// 	ft_pthread_mutex_unlock(&shere->dead_info[id].mutex);
-	// 	write(1, "die found!\n", 11);
-	// 	return (true);
-	// }
 	gettimeofday(&t1, NULL);
 	sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;
 	if (*shere->dead_info[id].time_to_die < sec_milli && *shere->dead_info[id].time_to_die != -1)
 	{
-		// write(1, "die found!\n", 11);
 		kill_everyone(shere, shere->philo_num, id);
 		print_time(id, sec_milli, LET_DEAD, NONE);
-		// write(1, "die done!\n", 10);
 		return (true);
 	}
 	ft_pthread_mutex_unlock(&shere->dead_info[id].mutex);
 	return (false);
+}
+
+bool	check_max_loop(t_shere *shere)
+{
+	int	i;
+
+	i = 0;
+	while (i < shere->philo_num)
+	{
+		ft_pthread_mutex_lock(&shere->dead_info[i].mutex);
+		if (*(shere->dead_info[i].must_eat_times) >= 0)
+		{
+			while (i >= 0)
+			{
+				ft_pthread_mutex_unlock(&shere->dead_info[i].mutex);
+				i--;
+			}
+			return (false);
+		}
+		i++;
+	}
+	i--;
+	while (i >= 0)
+	{
+		ft_pthread_mutex_unlock(&shere->dead_info[i].mutex);
+		i--;
+	}
+	return (true);
 }
 
 // bool	guys_forks_avilable(t_fork *forks, int id, int num)
@@ -132,7 +132,6 @@ bool	guys_forks_avilable(t_shere *shere, int id, int num)
 		b2 = true;
 		ft_pthread_mutex_unlock(&shere->forks[(id + 1) % num].fork);
 	}
-	// write(1, "tryed!\n", 7);
 	if (b1 && b2)
 	{
 		// write(1, "omedetou!\n", 10);
@@ -189,11 +188,11 @@ void	ultra_debug(int id, int left_id, int right_id, t_dead *dead_info)
 }
 
 // bool	is_ok_the_guy_eat(t_dead *dead_info, int id, int num)
-bool	is_ok_the_guy_eat(t_shere *shere,int id, int num)
+int	is_ok_the_guy_eat(t_shere *shere,int id, int num)
 {
 	int left_id;
 	int right_id;
-	bool	ret;
+	int	ret;
 	time_t	array[3];
 
 	// return (true);
@@ -216,15 +215,14 @@ bool	is_ok_the_guy_eat(t_shere *shere,int id, int num)
 	ft_pthread_mutex_unlock(&shere->dead_info[right_id].mutex);
 
 	// 死にそうランキング1位タイだったらOK
-	// ultra_debug(id, left_id, right_id, shere->dead_info);
+	ultra_debug(id, left_id, right_id, shere->dead_info);
 
 	if (array[0] <= array[1] && array[0] <= array[2])
-		ret = true;
+		return (LET_OK);
 	else if (array[1] == -1 || array[2] == -1)
-		ret = true;
+		return (LET_OK);
 	else
-		ret = false;
-	return (ret);
+		return (LET_TRY_TO_TAKE_FORKS);
 }
 
 int	feed_time_check(t_shere *shere, int id)
@@ -248,24 +246,32 @@ int	listen_to_old_guys_request(t_shere *shere, int id)
 	int		request;
 	long	sec_milli;
 	int		fork_id;
-	bool	should_i_print;
 
-	should_i_print = false;
 	wish = &shere->wishs[id];
 	ft_pthread_mutex_lock(&wish->mutex);
+	if (shere->must_eat_times_exists && check_max_loop(shere))
+	{
+		// write(1, "KILL SITAYO!\n", 13);
+		ft_pthread_mutex_lock(&shere->dead_info[id].mutex);
+		kill_everyone(shere, shere->philo_num, id);
+		return (LET_DEAD);
+	}
 	if (did_the_old_man_go_heaven(shere, id) == true)
 		return (LET_DEAD);
 	request = wish->let_me_eat;
+	if (request == LET_TRY_TO_TAKE_FORKS)
+		wish->let_me_eat = is_ok_the_guy_eat(shere, id, shere->philo_num);
+	if (request != LET_EAT && request != LET_SLEEP && request != LET_THINK &&
+			request != LET_TAKE_A_FORK)
+	{
+		ft_pthread_mutex_unlock(&wish->mutex);
+		return (SUCCESS);
+	}
 	sec_milli = wish->sec_milli;
 	fork_id = wish->fork_id;
-	if (request == LET_TRY_TO_TAKE_FORKS && is_ok_the_guy_eat(shere, id, shere->philo_num) == false)
-		;
-	else
-		wish->let_me_eat = LET_OK;
+	wish->let_me_eat = LET_OK;
 	ft_pthread_mutex_unlock(&wish->mutex);
-	if (request == LET_EAT || request == LET_SLEEP || request == LET_THINK ||
-		request == LET_TAKE_A_FORK)
-		print_time(id, sec_milli, request, fork_id);
+	print_time(id, sec_milli, request, fork_id);
 	return (SUCCESS);
 }
 

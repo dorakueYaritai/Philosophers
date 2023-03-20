@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:36:38 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/20 15:08:48 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 17:55:03 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,13 @@ int	update_time_to_die(t_philo *philo, long new_time_to_die)
 {
 	ft_pthread_mutex_lock(&philo->dead_info->mutex);
 	*philo->dead_info->time_to_die = new_time_to_die;
+
+	// *(philo->dead_info->must_eat_times) -= 1;
+	philo->status.must_eat_times -= 1;
+
+	// *(philo->dead_info->must_eat_times) -= 1;
+	// if (--philo->status.must_eat_times == 0)
+	// 	return (FINISH);
 	ft_pthread_mutex_unlock(&philo->dead_info->mutex);
 	return (SUCCESS);
 }
@@ -78,7 +85,8 @@ static int	exe_act(t_philo *philo, int act)
 	}
 	if (act == LET_EAT)
 	{
-		update_time_to_die(philo, sec_milli + philo->status.time_to_starve);
+		if (update_time_to_die(philo, sec_milli + philo->status.time_to_starve) == FINISH)
+			return (ERROR);
 		usleep((unsigned int)(philo->status.time_to_eat) * 1000);
 	}
 	else if (act == LET_SLEEP)

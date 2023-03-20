@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 18:03:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/20 10:02:13 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 18:53:10 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,22 @@ int	init_status(t_status *status, char **argv, int argc)
 		return (ERROR);
 	if (argc == 6)
 		status->must_eat_times = ft_strtol(argv[5], NULL, 10);
+	else
+		status->must_eat_times = -1;
+	return (SUCCESS);
+}
+
+int	init_shere(t_shere *shere, t_status *status, char *philo_num_arg)
+{
+	int	i;
+
+	shere->philo_num = ft_strtol(philo_num_arg, NULL, 10);
+	shere->dead_info = init_t_dead(shere->philo_num);
+	shere->wishs = init_wishs(shere->philo_num);
+	shere->forks = init_fork(shere->philo_num);
+	i = 0;
+	if (status->must_eat_times < 0)
+		shere->must_eat_times_exists = false;
+	else
+		shere->must_eat_times_exists = true;
 }

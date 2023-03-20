@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:27:09 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/20 13:32:21 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 17:44:06 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ int	ft_pthread_mutex_unlock(t_shered_resourse *sourse)
 	int	ret;
 	ret = pthread_mutex_unlock(&sourse->stuff);
 	if (ret == 0)
+	{
 		sourse->is_available = true;
-		return (ret);
+	}
+	return (ret);
 }
 
 static int	ret_unlock(pthread_mutex_t	*mutex, int status)

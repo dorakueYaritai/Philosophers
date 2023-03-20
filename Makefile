@@ -4,7 +4,8 @@
 NAME		:= philo
 CC			:= cc 
 RM			:= rm -f
-CFLAGS		:= -O 
+# CFLAGS		:= -O 
+CFLAGS		:= -Wall -Wextra -O 
 # CFLAGS		:= -Wall -Wextra -Werror -O 
 DFLAGS		:= -MMD -MP
 #=============================
@@ -103,7 +104,6 @@ $(NAME_DEBUG): $(OBJECTS)
 	$(CC) -o $@ $^ $(CFLAGS) -g $(DFLAGS) $(INCLUDE) $(MFLAGS) $(LFLAGS)
 	@echo $(GREEN)"----- $(NAME) $(CC) done-----"$(RESET)
 	@echo $(SKYBLUE) "make .o" $(RESET)
-
 
 # @printf "$(ORANGE_DIM)"
 # $(CC) $(CFLAGS_DEBUG) $(OBJS) $(LIBS) -o $@

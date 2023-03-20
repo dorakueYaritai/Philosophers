@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 09:53:14 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/20 14:19:31 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 18:33:46 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_dead t_dead;
 struct s_dead{
 	t_shered_resourse	mutex;
 	time_t				*time_to_die;
+	int					*must_eat_times;
 	bool				is_death;
 	// pthread_mutex_t	is_death_mutex;
 };
@@ -101,6 +102,7 @@ struct s_shere{
 	t_dead				*dead_info;
 	t_fork				*forks;
 	long				philo_num;
+	bool				must_eat_times_exists;
 };
 
 enum {
@@ -117,20 +119,7 @@ enum {
 	LET_REJECT,
 };
 
-
-#define FORK 0
-#define EAT 1
-#define THINK 2
-#define DEAD 3
-#define SLEEP 4
-#define PUTOFF 5
-#define THANK_U 6
-#define PLEASE 7
-#define OK 8
-#define U_ARE_ALREADY_DEAD 9
-// #define DEAD 10
-#define REJECT 11
-
+#define FINISH 2
 #define NONE 0
 #define SUCCESS 0
 #define ERROR 1
@@ -158,12 +147,13 @@ t_philo	*init_philos(t_status *status, t_shere *shere);
 // t_philo	*init_philos(t_status *status, t_shere *shere);
 
 // init_other.c
+int			init_shere(t_shere *shere, t_status *status, char *philo_num_arg);
 pthread_t	*init_th_id(int philo_num);
 t_wish		*init_wishs(int philo_num);
 t_dead		*init_t_dead(int philo_num);
 t_fork		*init_fork(int philo_num);
 int			init_shered_resourse(t_shered_resourse	*resourse);
-int			init_status(t_status *status, char **argv, int argc);
+int	init_status(t_status *status, char **argv, int argc);
 
 // routine.c
 int			update_time_to_die(t_philo *philo, long new_time_to_die);
