@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 23:05:11 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/20 15:25:02 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 15:45:20 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ static int	init_philo_sub(t_philo *philo,
 
 	philo_num = shere->philo_num;
 	i = philo->philo_id;
-	philo->status = *status;
+	// philo->status = *status;
 
-	// philo->status.time_to_starve = status->time_to_starve;
-	// philo->status.time_to_eat = status->time_to_eat;
-	// philo->status.time_to_sleep = status->time_to_sleep;
-	// philo->status.time_to_die = status->time_to_die;
-	// philo->status.must_eat_times = status->must_eat_times;
+	philo->status.time_to_starve = status->time_to_starve;
+	philo->status.time_to_eat = status->time_to_eat;
+	philo->status.time_to_sleep = status->time_to_sleep;
+	philo->status.time_to_die = status->time_to_die;
+	philo->status.must_eat_times = status->must_eat_times;
 
 	philo->dead_info = &shere->dead_info[i];
 	philo->wish = &shere->wishs[i];
