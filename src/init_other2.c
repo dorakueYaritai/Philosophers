@@ -6,10 +6,11 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 18:03:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 18:09:05 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 10:02:13 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
 #include <philosophers.h>
 
 int	init_status(t_status *status, char **argv, int argc)

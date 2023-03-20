@@ -6,10 +6,11 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:50:14 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 21:13:36 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 12:15:53 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
 #include <philosophers.h>
 
 int	init_shered_resourse(t_shered_resourse	*resourse)
@@ -79,7 +80,9 @@ t_wish	*init_wishs(int philo_num)
 			exit(1);
 			return (NULL);
 		}
-		wishs[i].let_me_eat = THANK_YOU;
+		wishs[i].let_me_eat = LET_THANK_YOU;
+		wishs[i].fork_id = 0;
+		wishs[i].sec_milli = 0;
 		i++;
 	}
 	return (wishs);

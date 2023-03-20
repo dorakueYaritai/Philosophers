@@ -1,4 +1,16 @@
-#ifndef PHILOSOPHERS_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philosophers.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/20 09:53:14 by kakiba            #+#    #+#             */
+/*   Updated: 2023/03/20 14:19:31 by kakiba           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+# ifndef PHILOSOPHERS_H
 #define PHILOSOPHERS_H
 
 #include <stdio.h>
@@ -46,6 +58,8 @@ typedef struct s_wish t_wish;
 struct s_wish{
 	t_shered_resourse	mutex;
 	int					let_me_eat;
+	long				sec_milli;
+	int					fork_id;
 };
 
 typedef struct s_status t_status;
@@ -70,11 +84,12 @@ typedef struct s_philo t_philo;
 struct s_philo{
 	int				philo_id;
 	int				requtest_id;
-	int				must_eat_times;
-	time_t			time_to_starve;
-	time_t			time_to_eat;
-	time_t			time_to_sleep;
-	time_t			time_to_die;
+	t_status		status;
+	// int				must_eat_times;
+	// time_t			time_to_starve;
+	// time_t			time_to_eat;
+	// time_t			time_to_sleep;
+	// time_t			time_to_die;
 	t_fork			*forks[2];
 	t_dead			*dead_info;
 	t_wish			*wish;
@@ -88,12 +103,34 @@ struct s_shere{
 	long				philo_num;
 };
 
+enum {
+	LET_TRY_TO_TAKE_FORKS,
+	LET_TAKE_A_FORK,
+	LET_PUT_OFF_A_FORK,
+	LET_EAT,
+	LET_THINK,
+	LET_DEAD,
+	LET_SLEEP,
+	LET_THANK_YOU,
+	LET_OK,
+	LET_YOU_ARE_ALREADY_DEAD,
+	LET_REJECT,
+};
+
+
 #define FORK 0
 #define EAT 1
 #define THINK 2
 #define DEAD 3
 #define SLEEP 4
 #define PUTOFF 5
+#define THANK_U 6
+#define PLEASE 7
+#define OK 8
+#define U_ARE_ALREADY_DEAD 9
+// #define DEAD 10
+#define REJECT 11
+
 #define NONE 0
 #define SUCCESS 0
 #define ERROR 1
@@ -103,9 +140,7 @@ struct s_shere{
 #define HUNGRY 1
 #define CALLING_FOR_AMBULANCE 2
 #define SITTING_ON_A_COFFIN 2
-#define THANK_YOU 0
-#define PLEASE 1
-#define OK 2
+
 #define ERR_INVALID_ARG 1
 #define ERR_ARG_NUM 2
 
@@ -146,29 +181,14 @@ int			take_forks(t_philo *philo);
 int			put_forks(t_philo *philo);
 
 // wish.c
-int		update_wish_status(t_wish *wish);
-bool	is_wish_come(t_wish *wish);
+// int	update_wish_status(t_wish *wish, int request, long sec_milli, int fork_id);
+int	update_wish_status(t_wish *wish, int request, long sec_milli, int fork_id, int id);
+// int	is_wish_come(t_wish *wish);
+int	is_wish_come(t_wish *wish, int id);
 int		thanks_a_host(t_wish *wish);
 
-// libft
-char		*ft_strjoin(char const *s1, char const *s2);
-size_t		ft_strlcat(char *dst, const char *src, size_t dstsize);
-char		*ft_itoa(int n);
-char		*ft_ltoa(long n);
-int			 ft_positive_mod(int dividend, int divisor);
-void		*ft_memmove(void *dst, const void *src, size_t len);
-size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
-size_t		ft_strlen(const char *s);
-void		*ft_memset(void *b, int c, size_t len);
-void		*ft_calloc(size_t count, size_t size);
 int			ft_pthread_mutex_trylock(t_shered_resourse *sourse);
 int			ft_pthread_mutex_unlock(t_shered_resourse *sourse);
 int			ft_pthread_mutex_lock(t_shered_resourse *sourse);
-int			ft_isdigit_str(char *str, size_t sign_allowable);
-long		ft_strtol(const char *nptr, char **endptr, int base);
-int			ft_toupper(int c);
-int			ft_isalnum(int c);
-int			ft_isdigit(int c);
-int			ft_isalpha(int c);
 
 #endif

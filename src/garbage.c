@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:29:52 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 16:39:45 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 12:20:32 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	put_fork(t_philo *philo, t_fork *fork)
 		fork->fork.is_available = false;
 		return (ERROR);
 	}
-	ret = print_time(philo->philo_id, sec_milli, PUTOFF, fork->fork_id);//
+	ret = print_time(philo->philo_id, sec_milli, LET_PUT_OFF_A_FORK, fork->fork_id);//
 	fork->fork.is_available = true;
 	if (pthread_mutex_unlock(&fork->fork.stuff))
 		return (ERROR);
@@ -43,19 +43,19 @@ int	print_time(int id, long sec_milli, int act, int fork_id)
 	join = ft_strjoin(sec_milli_str, " ");
 	join = ft_strjoin(join, id_str);
 
-	if (act == FORK)
+	if (act == LET_TAKE_A_FORK)
 	{
 		join = ft_strjoin(join, " has taken a fork ");
 		join = ft_strjoin(join, ft_itoa(fork_id));
 		join = ft_strjoin(join, "\n");
 	}
-	else if (act == EAT)
+	else if (act == LET_EAT)
 		join = ft_strjoin(join, " is eating\n");
-	else if (act == THINK)
+	else if (act == LET_THINK)
 		join = ft_strjoin(join, " is thinking\n");
-	else if (act == SLEEP)
+	else if (act == LET_SLEEP)
 		join = ft_strjoin(join, " is sleeping\n");
-	else if (act == DEAD)
+	else if (act == LET_DEAD)
 	{
 		join = ft_strjoin(join, " died\n");
 		if (write(1, join, strlen(join)) == -1)

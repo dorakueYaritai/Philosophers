@@ -6,11 +6,11 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 17:21:19 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 17:29:15 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 10:00:06 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <philosophers.h>
+#include <libft.h>
 
 static t_list	*ft_lstnew(void	*content)
 {

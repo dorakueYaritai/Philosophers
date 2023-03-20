@@ -6,11 +6,11 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 12:28:21 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/17 22:32:16 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 10:00:06 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <philosophers.h>
+#include <libft.h>
 
 long	ft_abs(long n)
 {

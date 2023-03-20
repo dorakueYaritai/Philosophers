@@ -6,21 +6,29 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:27:09 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 21:17:10 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 13:32:21 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
 #include <philosophers.h>
-
 
 int	ft_pthread_mutex_lock(t_shered_resourse *sourse)
 {
-	return (pthread_mutex_lock(&sourse->stuff));
+	int	ret;
+	ret = pthread_mutex_lock(&sourse->stuff);
+	if (ret == 0)
+		sourse->is_available = false;
+	return (ret);
 }
 
 int	ft_pthread_mutex_unlock(t_shered_resourse *sourse)
 {
-	return (pthread_mutex_unlock(&sourse->stuff));
+	int	ret;
+	ret = pthread_mutex_unlock(&sourse->stuff);
+	if (ret == 0)
+		sourse->is_available = true;
+		return (ret);
 }
 
 static int	ret_unlock(pthread_mutex_t	*mutex, int status)

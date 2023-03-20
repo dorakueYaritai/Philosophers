@@ -6,10 +6,11 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 23:05:11 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 20:22:30 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 10:08:38 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
 #include <philosophers.h>
 
 // static int	init_philo_sub(t_philo *philo,
@@ -26,26 +27,24 @@ static int	init_philo_sub(t_philo *philo,
 	i = philo->philo_id;
 	// philo->status = *status;
 	
-	// philo->status.time_to_starve = status->time_to_starve;
-	// philo->status.time_to_eat = status->time_to_eat;
-	// philo->status.time_to_sleep = status->time_to_sleep;
-	// philo->status.time_to_die = status->time_to_die;
-	// philo->status.must_eat_times = status->must_eat_times;
+	philo->status.time_to_starve = status->time_to_starve;
+	philo->status.time_to_eat = status->time_to_eat;
+	philo->status.time_to_sleep = status->time_to_sleep;
+	philo->status.time_to_die = status->time_to_die;
+	philo->status.must_eat_times = status->must_eat_times;
 
-	philo->time_to_starve = status->time_to_starve;
-	philo->time_to_eat = status->time_to_eat;
-	philo->time_to_sleep = status->time_to_sleep;
-	philo->time_to_die = status->time_to_die;
-	philo->must_eat_times = status->must_eat_times;
-
-	// philo->time_to_starve = strtol(argv[2], NULL, 10);
-	// philo->time_to_eat = strtol(argv[3], NULL, 10);
-	// philo->time_to_sleep = strtol(argv[4], NULL, 10);
+	// philo->time_to_starve = status->time_to_starve;
+	// philo->time_to_eat = status->time_to_eat;
+	// philo->time_to_sleep = status->time_to_sleep;
+	// philo->time_to_die = status->time_to_die;
+	// philo->must_eat_times = status->must_eat_times;
 
 	philo->dead_info = &shere->dead_info[i];
 	philo->wish = &shere->wishs[i];
-	// shere->dead_info[i].time_to_die = &philo->status.time_to_die;
-	shere->dead_info[i].time_to_die = &philo->time_to_die;
+
+	shere->dead_info[i].time_to_die = &philo->status.time_to_die;
+	// shere->dead_info[i].time_to_die = &philo->time_to_die;
+
 	philo->dead_info->is_death = false;
 	if (i % 2 == 0)
 	{

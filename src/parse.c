@@ -1,3 +1,4 @@
+#include <libft.h>
 #include <philosophers.h>
 
 int	parse_argment(int argc, char *argv[])

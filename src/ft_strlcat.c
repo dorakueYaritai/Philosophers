@@ -6,11 +6,11 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 03:53:34 by hioikawa          #+#    #+#             */
-/*   Updated: 2023/03/17 10:50:30 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 10:00:06 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <philosophers.h>
+#include <libft.h>
 
 
 static size_t	ft_strnlen_s(const char *s, size_t maxlen)

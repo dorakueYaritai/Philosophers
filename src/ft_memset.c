@@ -6,11 +6,11 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 02:27:40 by hioikawa          #+#    #+#             */
-/*   Updated: 2023/03/17 10:57:19 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 10:00:06 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <philosophers.h>
+#include <libft.h>
 
 void	*ft_memset(void *b, int c, size_t len)
 {

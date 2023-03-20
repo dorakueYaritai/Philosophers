@@ -6,10 +6,11 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:36:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/19 23:08:40 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 14:19:54 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
 #include <philosophers.h>
 
 static int	put_fork(t_philo *philo, t_fork *fork);
@@ -19,19 +20,24 @@ int	take_forks(t_philo *philo)
 {
 	t_fork	*first;
 	t_fork	*second;
+	int		ans;
 
 	first = philo->forks[FIRST];
 	second = philo->forks[SECOND];
-	update_wish_status(philo->wish);
+	update_wish_status(philo->wish, LET_TRY_TO_TAKE_FORKS, NONE, NONE, philo->philo_id);
+	// update_wish_status(philo->wish, LET_TRY_TO_TAKE_FORKS, NONE, NONE);
+	// 手付けていいですか と じっさいfork とる時二回。
 	while (1)
 	{
-		if (check_am_i_dead(philo) == true)
-			return (ERROR);
-		if (is_wish_come(philo->wish) == true)
-		{
-			// thanks_a_host(philo->wish);
+		// if (check_am_i_dead(philo) == true)
+		// 	return (ERROR);
+		ans = is_wish_come(philo->wish, philo->philo_id);
+		// ans = is_wish_come(philo->wish);
+		if (ans == LET_OK)
 			break;
-		}
+		else if (ans == LET_YOU_ARE_ALREADY_DEAD)
+			return (ERROR);
+		usleep(10000);
 	}
 	if (take_fork(philo, first, NULL) == ERROR)
 		return (ERROR);
@@ -51,30 +57,67 @@ static int	take_fork(t_philo *philo, t_fork *fork, t_fork *had)
 
 	while (1)
 	{
-		if (check_am_i_dead(philo) == true)
-			return (ERROR);
+		// if (check_am_i_dead(philo) == true)
+		// 	return (ERROR);
 		if (ft_pthread_mutex_trylock(&fork->fork) == SUCCESS)
 			break;
-		if (had)
-		{
-			if (put_fork(philo, had) == ERROR)
-				return (ERROR);
-			usleep(100);
-			return (take_forks(philo));
-		}
+		// if (had)
+		// {
+		// 	if (put_fork(philo, had) == ERROR)
+		// 		return (ERROR);
+		// 	// usleep(100);
+		// 	return (take_forks(philo));
+		// }
 	}
 	gettimeofday(&t1, NULL);
 	sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;
-	if (check_am_i_dead(philo) == true)
-	{
-		put_fork(philo, fork);
-		return (ERROR);
-	}
+
+	// if (check_am_i_dead(philo) == true)
+	// {
+	// 	put_fork(philo, fork);
+	// 	return (ERROR);
+	// }
+
 	// ft_pthread_mutex_lock(&philo->dead_info->mutex);
-	ret = print_time(philo->philo_id, sec_milli, FORK, fork->fork_id);
+	ret = print_time(philo->philo_id, sec_milli, LET_TAKE_A_FORK, fork->fork_id);
 	// ft_pthread_mutex_unlock(&philo->dead_info->mutex);
 	return (ret);
 }
+
+// static int	take_fork(t_philo *philo, t_fork *fork, t_fork *had)
+// {
+// 	struct timeval t1;
+// 	long sec_milli;
+// 	int				ret;
+
+// 	while (1)
+// 	{
+// 		if (ft_pthread_mutex_trylock(&fork->fork) == SUCCESS)
+// 			break;
+// 		if (had)
+// 		{
+// 			if (put_fork(philo, had) == ERROR)
+// 				return (ERROR);
+// 			// usleep(100);
+// 			return (take_forks(philo));
+// 		}
+// 	}
+// 	gettimeofday(&t1, NULL);
+// 	sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;
+// 	update_wish_status(philo->wish, LET_TAKE_A_FORK, sec_milli, NONE);
+// 	int	answer;
+// 	while (1)
+// 	{
+// 		answer = is_wish_come(philo->wish);
+// 		if (answer == LET_OK)
+// 			break;
+// 		else if (answer == LET_YOU_ARE_ALREADY_DEAD)
+// 			return (ERROR);
+// 		// ulseep(10);
+// 	}
+// 	ret = print_time(philo->philo_id, sec_milli, LET_TAKE_A_FORK, fork->fork_id);
+// 	return (ret);
+// }
 
 int	put_forks(t_philo *philo)
 {
@@ -102,13 +145,15 @@ int	put_fork(t_philo *philo, t_fork *fork)
 
 	gettimeofday(&t1, NULL);//
 	sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;//
-	if (check_am_i_dead(philo) == true)
-	{
-		pthread_mutex_unlock(&fork->fork.stuff);
-		fork->fork.is_available = false;
-		return (ERROR);
-	}
-	ret = print_time(philo->philo_id, sec_milli, PUTOFF, fork->fork_id);//
+
+	// if (check_am_i_dead(philo) == true)
+	// {
+	// 	pthread_mutex_unlock(&fork->fork.stuff);
+	// 	fork->fork.is_available = false;
+	// 	return (ERROR);
+	// }
+
+	ret = print_time(philo->philo_id, sec_milli, LET_PUT_OFF_A_FORK, fork->fork_id);//
 	fork->fork.is_available = true;
 	if (pthread_mutex_unlock(&fork->fork.stuff))
 		return (ERROR);
