@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:33:21 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/20 14:20:52 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 14:34:21 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ int	update_wish_status(t_wish *wish, int request, long sec_milli, int fork_id, i
 {
 
 	ft_pthread_mutex_lock(&wish->mutex);
+	if (wish->let_me_eat == LET_YOU_ARE_ALREADY_DEAD)
+	{
+		ft_pthread_mutex_unlock(&wish->mutex);
+		return (ERROR);
+	}
 	wish->let_me_eat = request;
 	wish->sec_milli = sec_milli;
 	wish->fork_id = fork_id;

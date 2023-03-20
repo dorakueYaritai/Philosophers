@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 14:24:18 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/20 13:40:55 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 14:47:31 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,11 @@ int kill_everyone(t_shere *shere, int philo_num, int dead_id)
 	i = 0;
 	while (i < philo_num)
 	{
-		ft_pthread_mutex_unlock(&shere->dead_info[i].mutex);
-		ft_pthread_mutex_unlock(&shere->wishs[i].mutex);
+		// if (i != dead_id)
+		// {
+			ft_pthread_mutex_unlock(&shere->dead_info[i].mutex);
+			ft_pthread_mutex_unlock(&shere->wishs[i].mutex);
+		// }
 		i++;
 	}
 }
@@ -250,28 +253,18 @@ int	listen_to_old_guys_request(t_shere *shere, int id)
 	should_i_print = false;
 	wish = &shere->wishs[id];
 	ft_pthread_mutex_lock(&wish->mutex);
+	if (did_the_old_man_go_heaven(shere, id) == true)
+		return (LET_DEAD);
 	request = wish->let_me_eat;
-	// printf("wish: %d\n", wish->let_me_eat);
-	if (request != LET_OK && request != LET_THANK_YOU)
-	{
-		// write(1, "!!\n", 3);
-		sec_milli = wish->sec_milli;
-		fork_id = wish->fork_id;
-		if (did_the_old_man_go_heaven(shere, id))
-		{
-			// char	*join;
-			// join = ft_strjoin("", ft_ltoa(answer));
-			// join = ft_strjoin(join, "\n");
-			// write(1, join, ft_strlen(join));
-			write(1, "!!\n", 3);
-			wish->let_me_eat = LET_YOU_ARE_ALREADY_DEAD;
-			return (LET_DEAD);
-		}
+	sec_milli = wish->sec_milli;
+	fork_id = wish->fork_id;
+	if (request == LET_TRY_TO_TAKE_FORKS && !is_ok_the_guy_eat(shere, id, shere->philo_num))
+		;
+	else
 		wish->let_me_eat = LET_OK;
-		should_i_print = true;
-	}
 	ft_pthread_mutex_unlock(&wish->mutex);
-	if (should_i_print)
+	if (request == LET_EAT || request == LET_SLEEP || request == LET_THINK ||
+		request == LET_TAKE_A_FORK)
 		print_time(id, sec_milli, request, fork_id);
 	return (SUCCESS);
 }
