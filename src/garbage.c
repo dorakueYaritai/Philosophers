@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:29:52 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/20 12:20:32 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 15:39:40 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	print_time(int id, long sec_milli, int act, int fork_id)
 // 	bool	had_side;
 // 	bool	fork_side;
 
-// 	had_side = is_neighbor_hungry(philo, had);
+// 	had_side = is_neighbor_hungry(philo, had); 
 // 	fork_side = is_neighbor_hungry(philo, fork);
 // 	if (had_side == true)
 // 	{
