@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:36:34 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/20 13:09:45 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 14:50:23 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,10 @@ void* routine(void *philo){
 	birth_philo_baby(philo);
 	philo_think(philo);
 	
-		char	*join;
-		join = ft_strjoin("", ft_ltoa(_philo->philo_id));
-		join = ft_strjoin(join, ": I am dead!\n");
-		write(1, join, ft_strlen(join));
+		// char	*join;
+		// join = ft_strjoin("", ft_ltoa(_philo->philo_id));
+		// join = ft_strjoin(join, ": I am dead!\n");
+		// write(1, join, ft_strlen(join));
+
 	return (NULL);
 }

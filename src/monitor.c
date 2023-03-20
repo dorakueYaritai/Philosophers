@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 14:24:18 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/20 14:47:31 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 15:28:41 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ int kill_everyone(t_shere *shere, int philo_num, int dead_id)
 			ft_pthread_mutex_lock(&shere->dead_info[i].mutex);
 			ft_pthread_mutex_lock(&shere->wishs[i].mutex);
 		}
-			char	*join;
-			join = ft_strjoin(":", ft_ltoa(&shere->wishs[i].let_me_eat));
-			join = ft_strjoin(join, "\n");
-			write(1, join, ft_strlen(join));
+			// char	*join;
+			// join = ft_strjoin(":", ft_ltoa(&shere->wishs[i].let_me_eat));
+			// join = ft_strjoin(join, "\n");
+			// write(1, join, ft_strlen(join));
 		shere->dead_info[i].is_death = true;
 		shere->wishs[i].let_me_eat = LET_YOU_ARE_ALREADY_DEAD;
 		i++;
@@ -75,10 +75,10 @@ bool	did_the_old_man_go_heaven(t_shere *shere, int id)
 	sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;
 	if (*shere->dead_info[id].time_to_die < sec_milli && *shere->dead_info[id].time_to_die != -1)
 	{
-		write(1, "die found!\n", 11);
+		// write(1, "die found!\n", 11);
 		kill_everyone(shere, shere->philo_num, id);
 		print_time(id, sec_milli, LET_DEAD, NONE);
-		write(1, "die done!\n", 10);
+		// write(1, "die done!\n", 10);
 		return (true);
 	}
 	ft_pthread_mutex_unlock(&shere->dead_info[id].mutex);
@@ -135,7 +135,7 @@ bool	guys_forks_avilable(t_shere *shere, int id, int num)
 	// write(1, "tryed!\n", 7);
 	if (b1 && b2)
 	{
-		write(1, "omedetou!\n", 10);
+		// write(1, "omedetou!\n", 10);
 		return (true);
 		// ret = true;
 	}
@@ -258,7 +258,7 @@ int	listen_to_old_guys_request(t_shere *shere, int id)
 	request = wish->let_me_eat;
 	sec_milli = wish->sec_milli;
 	fork_id = wish->fork_id;
-	if (request == LET_TRY_TO_TAKE_FORKS && !is_ok_the_guy_eat(shere, id, shere->philo_num))
+	if (request == LET_TRY_TO_TAKE_FORKS && is_ok_the_guy_eat(shere, id, shere->philo_num) == false)
 		;
 	else
 		wish->let_me_eat = LET_OK;

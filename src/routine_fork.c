@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:36:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/20 14:33:17 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 15:21:21 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,21 @@ int	take_forks(t_philo *philo)
 	first = philo->forks[FIRST];
 	second = philo->forks[SECOND];
 	update_wish_status(philo->wish, LET_TRY_TO_TAKE_FORKS, NONE, NONE, philo->philo_id);
-	// update_wish_status(philo->wish, LET_TRY_TO_TAKE_FORKS, NONE, NONE);
 	// 手付けていいですか と じっさいfork とる時二回。
-	while (1)
-	{
-		// if (check_am_i_dead(philo) == true)
-		// 	return (ERROR);
-		ans = is_wish_come(philo->wish, philo->philo_id);
-		// ans = is_wish_come(philo->wish);
-		if (ans == LET_OK)
-			break;
-		else if (ans == LET_YOU_ARE_ALREADY_DEAD)
-			return (ERROR);
-		usleep(10000);
-	}
 	if (take_fork(philo, first, NULL) == ERROR)
 		return (ERROR);
 	if (take_fork(philo, second, first) == ERROR)
 	{
 		put_fork(philo, first);
 		return (ERROR);
+	}
+	while (1)
+	{
+		ans = is_wish_come(philo->wish, philo->philo_id);
+		if (ans == LET_OK)
+			break;
+		else if (ans == LET_YOU_ARE_ALREADY_DEAD)
+			return (ERROR);
 	}
 	return (0);
 }
@@ -54,34 +49,26 @@ static int	take_fork(t_philo *philo, t_fork *fork, t_fork *had)
 	struct timeval t1;
 	long sec_milli;
 	int				ret;
+	int				answer;
 
-	while (1)
+	while (ft_pthread_mutex_trylock(&fork->fork) == ERROR)
 	{
-		// if (check_am_i_dead(philo) == true)
-		// 	return (ERROR);
-		if (ft_pthread_mutex_trylock(&fork->fork) == SUCCESS)
-			break;
-		// if (had)
-		// {
-		// 	if (put_fork(philo, had) == ERROR)
-		// 		return (ERROR);
-		// 	// usleep(100);
-		// 	return (take_forks(philo));
-		// }
+		;
 	}
 	gettimeofday(&t1, NULL);
 	sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;
-
-	// if (check_am_i_dead(philo) == true)
-	// {
-	// 	put_fork(philo, fork);
-	// 	return (ERROR);
-	// }
-
-	// ft_pthread_mutex_lock(&philo->dead_info->mutex);
-	ret = print_time(philo->philo_id, sec_milli, LET_TAKE_A_FORK, fork->fork_id);
-	// ft_pthread_mutex_unlock(&philo->dead_info->mutex);
-	return (ret);
+	update_wish_status(philo->wish, LET_TAKE_A_FORK, sec_milli, fork->fork_id, philo->philo_id);
+	while (1)
+	{
+		answer = is_wish_come(philo->wish, philo->philo_id);
+		if (answer == LET_YOU_ARE_ALREADY_DEAD)
+		{
+			put_fork(philo, fork);
+			return (ERROR);
+		}
+		if (answer == LET_OK)
+			return (SUCCESS);
+	}
 }
 
 // static int	take_fork(t_philo *philo, t_fork *fork, t_fork *had)
@@ -139,12 +126,12 @@ int	put_forks(t_philo *philo)
 
 int	put_fork(t_philo *philo, t_fork *fork)
 {
-	struct timeval t1;//
-	long sec_milli;//
-	int	ret;
+	// struct timeval t1;//
+	// long sec_milli;//
+	// int	ret;
 
-	gettimeofday(&t1, NULL);//
-	sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;//
+	// gettimeofday(&t1, NULL);//
+	// sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;//
 
 	// if (check_am_i_dead(philo) == true)
 	// {
@@ -153,12 +140,8 @@ int	put_fork(t_philo *philo, t_fork *fork)
 	// 	return (ERROR);
 	// }
 
-	ret = print_time(philo->philo_id, sec_milli, LET_PUT_OFF_A_FORK, fork->fork_id);//
-	fork->fork.is_available = true;
-	if (pthread_mutex_unlock(&fork->fork.stuff))
-		return (ERROR);
-	return (ret);//
-	// return (SUCCESS);
+	// ret = print_time(philo->philo_id, sec_milli, LET_PUT_OFF_A_FORK, fork->fork_id);//
+	return (ft_pthread_mutex_unlock(&fork->fork));
 }
 
 // static int	put_fork(t_philo *philo, t_fork *fork)
