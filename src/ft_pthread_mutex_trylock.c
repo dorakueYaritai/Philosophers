@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:27:09 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/20 17:44:06 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/20 23:25:29 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,17 @@ int	ft_pthread_mutex_lock(t_shered_resourse *sourse)
 		sourse->is_available = false;
 	return (ret);
 }
+
+// int	ft_pthread_mutex_lock(t_shered_resourse *sourse)
+// {
+// 	int	ret;
+// 	while (ft_pthread_mutex_trylock(sourse) == ERROR)
+// 		;
+// 	if (ret == 0)
+// 		sourse->is_available = false;
+// 	return (ret);
+// }
+
 
 int	ft_pthread_mutex_unlock(t_shered_resourse *sourse)
 {
