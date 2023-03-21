@@ -3,25 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   routine_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
+/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:37:21 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/20 12:20:32 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/21 18:34:31 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <philosophers.h>
-
-bool	check_am_i_dead(t_philo *philo)
-{
-	bool	data;
-
-	ft_pthread_mutex_lock(&philo->dead_info->mutex);
-	data = philo->dead_info->is_death;
-	ft_pthread_mutex_unlock(&philo->dead_info->mutex);
-	return (data);
-}
 
 int	print_time(int id, long sec_milli, int act, int fork_id)
 {

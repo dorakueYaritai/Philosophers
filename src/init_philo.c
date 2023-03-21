@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_philo.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
+/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 23:05:11 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/20 18:05:14 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/21 19:37:51 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	init_philo_sub(t_philo *philo,
 	shere->dead_info[i].time_to_die = &philo->status.time_to_die;
 	shere->dead_info[i].must_eat_times = &philo->status.must_eat_times;
 
-	philo->dead_info->is_death = false;
+	// philo->dead_info->is_death = false;
 	if (i % 2 == 0)
 	{
 		philo->forks[FIRST] = &shere->forks[i];

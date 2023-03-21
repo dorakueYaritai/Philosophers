@@ -13,8 +13,9 @@ DFLAGS		:= -MMD -MP
 #=============================
 # VPATH = srcs:srcs/UTIL
 SRCDIR    = src
-SRCS	:= 	philo.c\
+SRCS	:= 	main.c\
 		 	monitor.c\
+		 	monitor_fork.c\
 			init_philo.c\
 			init_other.c\
 			init_other2.c\
@@ -142,4 +143,4 @@ BLUE		=	"\033[34m"
 PURPLE		=	"\033[35m"
 SKYBLUE		=	"\033[36m"
 RESET		=	"\033[0m"
-	
+

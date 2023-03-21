@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
+/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 09:53:14 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/20 18:33:46 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/21 21:06:59 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ struct s_shered_resourse{
 typedef struct s_fork t_fork;
 struct s_fork{
 	t_shered_resourse	fork;
-	pthread_mutex_t		check_request_status;
 	time_t				*time_to_die[2];
 	int					fork_id;
 };
@@ -51,8 +50,7 @@ struct s_dead{
 	t_shered_resourse	mutex;
 	time_t				*time_to_die;
 	int					*must_eat_times;
-	bool				is_death;
-	// pthread_mutex_t	is_death_mutex;
+	// bool				is_death;
 };
 
 typedef struct s_wish t_wish;
@@ -61,6 +59,17 @@ struct s_wish{
 	int					let_me_eat;
 	long				sec_milli;
 	int					fork_id;
+};
+
+typedef struct s_shere t_shere;
+struct s_shere{
+	t_wish				*wishs;
+	t_dead				*dead_info;
+	t_fork				*forks;
+	time_t				time_to_starve;
+	// time_t				time_to_assume_starve;
+	long				philo_num;
+	bool				must_eat_times_exists;
 };
 
 typedef struct s_status t_status;
@@ -72,38 +81,15 @@ struct s_status{
 	int				must_eat_times;
 };
 
-// typedef struct s_philo t_philo;
-// struct s_philo{
-// 	int				philo_id;
-// 	t_status		status;
-// 	t_fork			*forks[2];
-// 	t_dead			*dead_info;
-// 	t_wish			*wish;
-// };
-
 typedef struct s_philo t_philo;
 struct s_philo{
 	int				philo_id;
-	int				requtest_id;
 	t_status		status;
-	// int				must_eat_times;
-	// time_t			time_to_starve;
-	// time_t			time_to_eat;
-	// time_t			time_to_sleep;
-	// time_t			time_to_die;
 	t_fork			*forks[2];
 	t_dead			*dead_info;
 	t_wish			*wish;
 };
 
-typedef struct s_shere t_shere;
-struct s_shere{
-	t_wish				*wishs;
-	t_dead				*dead_info;
-	t_fork				*forks;
-	long				philo_num;
-	bool				must_eat_times_exists;
-};
 
 enum {
 	LET_TRY_TO_TAKE_FORKS,
@@ -140,6 +126,11 @@ int			parse_argment(int argc, char *argv[]);
 int monitor_philos_death(t_shere *shere);
 // bool	guys_forks_avilable(t_fork *forks, int id, int num);
 bool	guys_forks_avilable(t_shere *shere, int id, int num);
+
+// monitor_fork.c
+int	is_ok_the_guy_eat(t_shere *shere,int id, int num);
+bool	guys_forks_avilable(t_shere *shere, int id, int num);
+void	ultra_debug(int id, int left_id, int right_id, t_dead *dead_info);
 
 // init.c
 t_philo	*init_philos(t_status *status, t_shere *shere);

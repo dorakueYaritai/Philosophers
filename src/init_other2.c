@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_other2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
+/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 18:03:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/21 16:43:45 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/21 21:08:09 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,7 @@ int	init_shere(t_shere *shere, t_status *status, char *philo_num_arg)
 		shere->must_eat_times_exists = false;
 	else
 		shere->must_eat_times_exists = true;
+	shere->time_to_starve = status->time_to_starve;
+	return (0);
 }
+

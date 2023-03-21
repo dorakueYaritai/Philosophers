@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_other.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
+/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:50:14 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/20 12:15:53 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/21 19:28:21 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_dead	*init_t_dead(int philo_num)
 	{
 		if (init_shered_resourse(&dead_check[i].mutex) == ERROR)
 			return (NULL);
-		dead_check[i].is_death = false;
+		// dead_check[i].is_death = false;
 		i++;
 	}
 	return (dead_check);

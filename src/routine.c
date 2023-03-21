@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
+/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:36:38 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/20 23:01:56 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/21 20:48:19 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ int	update_time_to_die(t_philo *philo, long new_time_to_die)
 {
 	ft_pthread_mutex_lock(&philo->dead_info->mutex);
 	*philo->dead_info->time_to_die = new_time_to_die;
-
-	// *(philo->dead_info->must_eat_times) -= 1;
 	philo->status.must_eat_times -= 1;
 
 	// *(philo->dead_info->must_eat_times) -= 1;
@@ -34,40 +32,11 @@ int	update_time_to_die(t_philo *philo, long new_time_to_die)
 	return (SUCCESS);
 }
 
-// static int	exe_act(t_philo *philo, int act)
-// {
-// 	struct timeval t1;
-// 	long sec_milli;
-// 	long time;
-
-// 	gettimeofday(&t1, NULL);
-// 	sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;
-// 	if (check_am_i_dead(philo))
-// 		return (ERROR);
-// 	if (print_time(philo->philo_id, sec_milli, act, NONE) == ERROR)
-// 		return (ERROR);
-// 	if (act == LET_EAT)
-// 	{
-// 		update_time_to_die(philo, sec_milli + philo->status.time_to_starve);
-// 		usleep((unsigned int)(philo->status.time_to_eat) * 1000);
-// 		// update_time_to_die(philo, sec_milli + philo->time_to_starve);
-// 		// usleep((unsigned int)(philo->time_to_eat) * 1000);
-// 	}
-// 	else if (act == LET_SLEEP)
-// 	{
-// 		usleep((unsigned int)(philo->status.time_to_sleep) * 1000);
-// 		// usleep((unsigned int)(philo->time_to_sleep) * 1000);
-// 	}
-// 	return (SUCCESS);
-// }
-
 static int	exe_act(t_philo *philo, int act)
 {
-	struct timeval t1;
-	long sec_milli;
-	long time;
-	int	answer;
-	char	*join;
+	struct timeval	t1;
+	long			sec_milli;
+	int				answer;
 
 	gettimeofday(&t1, NULL);
 	sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;
@@ -95,39 +64,6 @@ static int	exe_act(t_philo *philo, int act)
 	}
 	return (SUCCESS);
 }
-
-// static int	exe_act(t_philo *philo, int act)
-// {
-// 	struct timeval t1;
-// 	long sec_milli;
-// 	long time;
-// 	int	answer;
-// 	char	*join;
-
-// 	gettimeofday(&t1, NULL);
-// 	sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;
-// 	update_wish_status(philo->wish, act, sec_milli, NONE, philo->philo_id);
-// 	while (1)
-// 	{
-// 		answer = is_wish_come(philo->wish, philo->philo_id);
-// 		if (answer == LET_OK)
-// 			break;
-// 		else if (answer == LET_YOU_ARE_ALREADY_DEAD)
-// 		{
-// 			return (ERROR);
-// 		}
-// 		// usleep(10);
-// 	}
-// 	if (act == LET_EAT)
-// 	{
-// 		if (update_time_to_die(philo, sec_milli + philo->status.time_to_starve) == FINISH)
-// 			return (ERROR);
-// 		usleep((unsigned int)(philo->status.time_to_eat) * 1000);
-// 	}
-// 	else if (act == LET_SLEEP)
-// 		usleep((unsigned int)(philo->status.time_to_sleep) * 1000);
-// 	return (SUCCESS);
-// }
 
 static int	philo_eat(t_philo *philo)
 {
