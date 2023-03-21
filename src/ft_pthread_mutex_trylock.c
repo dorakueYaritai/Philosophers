@@ -6,41 +6,54 @@
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:27:09 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/21 21:12:58 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/22 08:37:41 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <philosophers.h>
 
-int	ft_pthread_mutex_lock(t_shared_resourse *sourse)
-{
-	int	ret;
-	ret = pthread_mutex_lock(&sourse->stuff);
-	if (ret == 0)
-		sourse->is_available = false;
-	return (ret);
-}
-
 // int	ft_pthread_mutex_lock(t_shared_resourse *sourse)
 // {
 // 	int	ret;
-// 	while (ft_pthread_mutex_trylock(sourse) == ERROR)
-// 		;
-// 	if (ret == 0)
-// 		sourse->is_available = false;
-// 	return (ret);
+
+// 	ret = pthread_mutex_lock(&sourse->stuff);
+// 	if (ret != 0)
+// 		return (ERROR);
+// 	ret = pthread_mutex_lock(&sourse->is_available_mutex);
+// 	if (ret != 0)
+// 	{
+// 		pthread_mutex_unlock(&sourse->stuff);
+// 		return (ERROR);
+// 	}
+// 	sourse->is_available = false;
+// 	ret = pthread_mutex_unlock(&sourse->is_available_mutex);
+// 	if (ret != 0)
+// 		return (ERROR);
+// 	return (SUCCESS);
 // }
+
+int	ft_pthread_mutex_lock(t_shared_resourse *sourse)
+{
+	int	ret = 0;
+	while (ft_pthread_mutex_trylock(sourse) == ERROR)
+		;
+	// if (ret == 0)
+	// 	sourse->is_available = false;
+	return (ret);
+}
 
 
 int	ft_pthread_mutex_unlock(t_shared_resourse *sourse)
 {
 	int	ret;
+
+	if (pthread_mutex_lock(&sourse->is_available_mutex))
+		return (ERROR);
+	sourse->is_available = true;
+	if (pthread_mutex_unlock(&sourse->is_available_mutex))
+		return (ERROR);
 	ret = pthread_mutex_unlock(&sourse->stuff);
-	if (ret == 0)
-	{
-		sourse->is_available = true;
-	}
 	return (ret);
 }
 

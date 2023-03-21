@@ -6,7 +6,7 @@
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 09:53:14 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/22 06:42:08 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/22 08:12:27 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,12 @@ struct s_share{
 	t_fork				*forks;
 	time_t				time_to_starve;
 	time_t				*philos_time_to_dead;
-	time_t				*philos_eat_times;
+	int					*philos_eat_times;
 	int					must_eat_times;
 	// time_t				time_to_assume_starve;
 	long				philo_num;
 	bool				must_eat_times_exists;
+	pthread_t			*th_id;
 };
 
 typedef struct s_status t_status;
@@ -156,12 +157,11 @@ int			init_shared_resourse(t_shared_resourse	*resourse);
 int	init_status(t_status *status, char **argv, int argc);
 
 // routine.c
-int			update_time_to_die(t_philo *philo, long new_time_to_die);
 int			philo_think(t_philo *philo);
 int			exe_act(t_philo *philo, int act);
 
 // routine_init.c
-void*		routine_init(void *philo);
+void* routine_init(void *_philo);
 
 // routine_utils.c
 int			print_time(int id, long sec_milli, int act, int fork_id);
@@ -177,7 +177,7 @@ int	is_ok_the_guy_eat2(t_share *share,int id, int num);
 // int	update_wish_status(t_wish *wish, int request, long sec_milli, int fork_id);
 int	update_wish_status(t_wish *wish, int request, long sec_milli, int fork_id, int id);
 // int	is_wish_come(t_wish *wish);
-int	is_wish_come(t_wish *wish, int id);
+int		is_wish_come(t_wish *wish, int id);
 int		thanks_a_host(t_wish *wish);
 
 int			ft_pthread_mutex_trylock(t_shared_resourse *sourse);

@@ -6,7 +6,7 @@
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:16:41 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/22 05:44:29 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/22 07:46:52 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
 	th_id = init_th_id(share.philo_num);
 	if (threads_create(philos, th_id, share.philo_num) == 1)
 	{
-		exit(1);
+		
 		return (1);
 	}
 	monitor_philos_death(&share);

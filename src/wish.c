@@ -6,7 +6,7 @@
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:33:21 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/21 19:06:04 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/22 08:07:16 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	update_wish_status(t_wish *wish, int request, long sec_milli, int fork_id, i
 	wish->sec_milli = sec_milli;
 	wish->fork_id = fork_id;
 	ft_pthread_mutex_unlock(&wish->mutex);
+	return (SUCCESS);
 }
 
 int	is_wish_come(t_wish *wish, int id)
@@ -44,5 +45,8 @@ int	is_wish_come(t_wish *wish, int id)
 	ret = wish->let_me_eat;
 	if (ft_pthread_mutex_unlock(&wish->mutex))
 		return (LET_REJECT);
+	// if (ret == LET_OK)
+	// 	return (true)
+	// return (false);
 	return (ret);
 }

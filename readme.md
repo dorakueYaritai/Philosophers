@@ -89,3 +89,9 @@ t_wish t_dead の中にあるmutex は校舎のためのmutex である。
 
 ↑本当か？笑　mutex はぐぐると排他制御のための機構と出る。
 ちょっと微妙。
+
+max eat times も遣い手の都合であり
+共有メモリを減らす一環としてMonitor の情報とした
+
+update time to die を外したのは結構大きい決断
+"monitor の都合"

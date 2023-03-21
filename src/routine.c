@@ -6,7 +6,7 @@
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:36:38 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/22 05:30:26 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/22 08:00:09 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,9 @@
 #include <philosophers.h>
 
 int	philo_think(t_philo *philo);
-int	update_time_to_die(t_philo *philo, long new_time_to_die);
 static int	philo_sleep(t_philo *philo);
 static int	philo_eat(t_philo *philo);
 
-int	update_time_to_die(t_philo *philo, long new_time_to_die)
-{
-	ft_pthread_mutex_lock(&philo->dead_info->mutex);
-	*philo->dead_info->time_to_die = new_time_to_die;
-	philo->status.must_eat_times -= 1;
-
-	// *(philo->dead_info->must_eat_times) -= 1;
-	// if (--philo->status.must_eat_times == 0)
-	// 	return (FINISH);
-	ft_pthread_mutex_unlock(&philo->dead_info->mutex);
-	return (SUCCESS);
-}
 
 int	exe_act(t_philo *philo, int act)
 {
@@ -42,8 +29,6 @@ int	exe_act(t_philo *philo, int act)
 	update_wish_status(philo->wish, act, sec_milli, NONE, philo->philo_id);
 	if (act == LET_EAT)
 	{
-		if (update_time_to_die(philo, sec_milli + philo->status.time_to_starve) == FINISH)
-			return (ERROR);
 		usleep((unsigned int)(philo->status.time_to_eat) * 1000);
 	}
 	else if (act == LET_SLEEP)
