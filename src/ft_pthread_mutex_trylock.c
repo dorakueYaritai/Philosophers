@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pthread_mutex_trylock.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
+/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:27:09 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/20 23:25:29 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/21 21:12:58 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <philosophers.h>
 
-int	ft_pthread_mutex_lock(t_shered_resourse *sourse)
+int	ft_pthread_mutex_lock(t_shared_resourse *sourse)
 {
 	int	ret;
 	ret = pthread_mutex_lock(&sourse->stuff);
@@ -22,7 +22,7 @@ int	ft_pthread_mutex_lock(t_shered_resourse *sourse)
 	return (ret);
 }
 
-// int	ft_pthread_mutex_lock(t_shered_resourse *sourse)
+// int	ft_pthread_mutex_lock(t_shared_resourse *sourse)
 // {
 // 	int	ret;
 // 	while (ft_pthread_mutex_trylock(sourse) == ERROR)
@@ -33,7 +33,7 @@ int	ft_pthread_mutex_lock(t_shered_resourse *sourse)
 // }
 
 
-int	ft_pthread_mutex_unlock(t_shered_resourse *sourse)
+int	ft_pthread_mutex_unlock(t_shared_resourse *sourse)
 {
 	int	ret;
 	ret = pthread_mutex_unlock(&sourse->stuff);
@@ -50,7 +50,7 @@ static int	ret_unlock(pthread_mutex_t	*mutex, int status)
 	return (status);
 }
 
-int	ft_pthread_mutex_trylock(t_shered_resourse *sourse)
+int	ft_pthread_mutex_trylock(t_shared_resourse *sourse)
 {
 	if (pthread_mutex_lock(&sourse->is_available_mutex))
 		return (ERROR);
@@ -66,7 +66,7 @@ int	ft_pthread_mutex_trylock(t_shered_resourse *sourse)
 }
 
 
-// int	ft_pthread_mutex_trylock(t_shered_resourse sourse)
+// int	ft_pthread_mutex_trylock(t_shared_resourse sourse)
 // {
 // 	if (pthread_mutex_lock(&sourse.is_available_mutex))
 // 		return (ERROR);

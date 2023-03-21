@@ -6,7 +6,7 @@
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 18:03:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/21 21:08:09 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/21 22:56:53 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,25 @@ int	init_status(t_status *status, char **argv, int argc)
 	return (SUCCESS);
 }
 
-int	init_shere(t_shere *shere, t_status *status, char *philo_num_arg)
+int	init_share(t_share *share, t_status *status, char *philo_num_arg)
 {
 	int	i;
 
-	shere->philo_num = ft_strtol(philo_num_arg, NULL, 10);
-	shere->dead_info = init_t_dead(shere->philo_num);
-	shere->wishs = init_wishs(shere->philo_num);
-	shere->forks = init_fork(shere->philo_num);
+	share->philo_num = ft_strtol(philo_num_arg, NULL, 10);
+	share->dead_info = init_t_dead(share->philo_num);
+	share->wishs = init_wishs(share->philo_num);
+	share->forks = init_fork(share->philo_num);
+	share->philos_time_to_dead = malloc(sizeof(time_t) * share->philo_num);
 	i = 0;
+	while (i < share->philo_num)
+	{
+		share->philos_time_to_dead[i] = -1;
+		i++;
+	}
 	if (status->must_eat_times < 0)
-		shere->must_eat_times_exists = false;
+		share->must_eat_times_exists = false;
 	else
-		shere->must_eat_times_exists = true;
-	shere->time_to_starve = status->time_to_starve;
+		share->must_eat_times_exists = true;
+	share->time_to_starve = status->time_to_starve;
 	return (0);
 }
-

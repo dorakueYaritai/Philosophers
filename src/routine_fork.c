@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine_fork.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
+/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:36:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/20 15:21:21 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/21 23:28:13 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,6 @@ int	take_forks(t_philo *philo)
 	second = philo->forks[SECOND];
 	update_wish_status(philo->wish, LET_TRY_TO_TAKE_FORKS, NONE, NONE, philo->philo_id);
 	// 手付けていいですか と じっさいfork とる時二回。
-	if (take_fork(philo, first, NULL) == ERROR)
-		return (ERROR);
-	if (take_fork(philo, second, first) == ERROR)
-	{
-		put_fork(philo, first);
-		return (ERROR);
-	}
 	while (1)
 	{
 		ans = is_wish_come(philo->wish, philo->philo_id);
@@ -40,6 +33,13 @@ int	take_forks(t_philo *philo)
 			break;
 		else if (ans == LET_YOU_ARE_ALREADY_DEAD)
 			return (ERROR);
+	}
+	if (take_fork(philo, first, NULL) == ERROR)
+		return (ERROR);
+	if (take_fork(philo, second, first) == ERROR)
+	{
+		put_fork(philo, first);
+		return (ERROR);
 	}
 	return (0);
 }

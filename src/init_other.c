@@ -6,14 +6,14 @@
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:50:14 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/21 19:28:21 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/21 21:12:58 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <philosophers.h>
 
-int	init_shered_resourse(t_shered_resourse	*resourse)
+int	init_shared_resourse(t_shared_resourse	*resourse)
 {
 	if (pthread_mutex_init(&resourse->stuff, NULL) == -1)
 		return (ERROR);
@@ -34,7 +34,7 @@ t_fork	*init_fork(int philo_num)
 	i = 0;
 	while (i < philo_num)
 	{
-		if (init_shered_resourse(&forks[i].fork) == ERROR)
+		if (init_shared_resourse(&forks[i].fork) == ERROR)
 			return (NULL);
 		forks[i].fork_id = i;
 		i++;
@@ -53,7 +53,7 @@ t_dead	*init_t_dead(int philo_num)
 		return (NULL);
 	while (i < philo_num)
 	{
-		if (init_shered_resourse(&dead_check[i].mutex) == ERROR)
+		if (init_shared_resourse(&dead_check[i].mutex) == ERROR)
 			return (NULL);
 		// dead_check[i].is_death = false;
 		i++;
@@ -75,7 +75,7 @@ t_wish	*init_wishs(int philo_num)
 	i = 0;
 	while (i < philo_num)
 	{
-		if (init_shered_resourse(&wishs[i].mutex) == ERROR)
+		if (init_shared_resourse(&wishs[i].mutex) == ERROR)
 		{
 			exit(1);
 			return (NULL);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:16:41 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/21 23:56:10 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/21 21:12:58 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	threads_create(t_philo *philos, pthread_t *th_id, int philo_num)
 	i = 0;
 	while (i < philo_num)
 	{
-		if (pthread_create(&th_id[i], NULL, &routine_init, &philos[i]) != 0)
+		if (pthread_create(&th_id[i], NULL, &routine, &philos[i]) != 0)
 		{
 			// printf("[FOOOOOOOOOOOO!!!]\n");
 			return (1);

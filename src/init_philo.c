@@ -6,7 +6,7 @@
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 23:05:11 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/21 19:37:51 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/21 21:12:58 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 #include <philosophers.h>
 
 // static int	init_philo_sub(t_philo *philo,
-// 	char *argv[], t_fork *m_forks, t_shere *shere)
+// 	char *argv[], t_fork *m_forks, t_share *share)
 
 // static int	init_philo_sub(t_philo *philo,
-// 	t_status *status, t_fork *m_forks, t_shere *shere){
+// 	t_status *status, t_fork *m_forks, t_share *share){
 
 static int	init_philo_sub(t_philo *philo,
-	t_status *status, t_shere *shere){
+	t_status *status, t_share *share){
 	int	i;
 	int	philo_num;
 
-	philo_num = shere->philo_num;
+	philo_num = share->philo_num;
 	i = philo->philo_id;
 	// philo->status = *status;
 
@@ -34,41 +34,41 @@ static int	init_philo_sub(t_philo *philo,
 	philo->status.time_to_die = status->time_to_die;
 	philo->status.must_eat_times = status->must_eat_times;
 
-	philo->dead_info = &shere->dead_info[i];
-	philo->wish = &shere->wishs[i];
+	philo->dead_info = &share->dead_info[i];
+	philo->wish = &share->wishs[i];
 
-	shere->dead_info[i].time_to_die = &philo->status.time_to_die;
-	shere->dead_info[i].must_eat_times = &philo->status.must_eat_times;
+	share->dead_info[i].time_to_die = &philo->status.time_to_die;
+	share->dead_info[i].must_eat_times = &philo->status.must_eat_times;
 
 	// philo->dead_info->is_death = false;
 	if (i % 2 == 0)
 	{
-		philo->forks[FIRST] = &shere->forks[i];
-		philo->forks[SECOND] = &shere->forks[(i + 1) % philo_num];
+		philo->forks[FIRST] = &share->forks[i];
+		philo->forks[SECOND] = &share->forks[(i + 1) % philo_num];
 	}
 	else
 	{
-		philo->forks[FIRST] = &shere->forks[(i + 1) % philo_num];
-		philo->forks[SECOND] = &shere->forks[i];
+		philo->forks[FIRST] = &share->forks[(i + 1) % philo_num];
+		philo->forks[SECOND] = &share->forks[i];
 	}
 }
 
-// t_philo	*init_philos(t_status *status, t_fork *m_forks, t_shere *shere)
-t_philo	*init_philos(t_status *status, t_shere *shere)
+// t_philo	*init_philos(t_status *status, t_fork *m_forks, t_share *share)
+t_philo	*init_philos(t_status *status, t_share *share)
 {
 	int	i;
 	int	philo_num;
 
 	t_philo	*philos;
-	philo_num = shere->philo_num;
+	philo_num = share->philo_num;
 	philos = malloc(sizeof(t_philo) * philo_num);
 	i = 0;
-	if (shere == NULL || shere->forks == NULL || shere->dead_info == NULL)
+	if (share == NULL || share->forks == NULL || share->dead_info == NULL)
 		return (NULL);
 	while (i < philo_num)
 	{
 		philos[i].philo_id = i;
-		init_philo_sub(&philos[i], status, shere);
+		init_philo_sub(&philos[i], status, share);
 		i++;
 	}
 	return (philos);
