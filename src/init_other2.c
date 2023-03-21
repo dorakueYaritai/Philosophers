@@ -6,7 +6,7 @@
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 18:03:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/21 22:56:53 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/22 06:54:39 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,13 @@ int	init_share(t_share *share, t_status *status, char *philo_num_arg)
 	share->wishs = init_wishs(share->philo_num);
 	share->forks = init_fork(share->philo_num);
 	share->philos_time_to_dead = malloc(sizeof(time_t) * share->philo_num);
+	share->philos_eat_times = malloc(10000);
+	// share->philos_eat_times = malloc(sizeof(int) * share->philo_num);
 	i = 0;
 	while (i < share->philo_num)
 	{
 		share->philos_time_to_dead[i] = -1;
+		share->philos_eat_times[i] = 0;
 		i++;
 	}
 	if (status->must_eat_times < 0)
@@ -50,5 +53,6 @@ int	init_share(t_share *share, t_status *status, char *philo_num_arg)
 	else
 		share->must_eat_times_exists = true;
 	share->time_to_starve = status->time_to_starve;
+	share->must_eat_times = status->must_eat_times;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:36:34 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/22 00:01:24 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/22 05:44:03 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,17 @@ void* routine_init(void *philo){
 	gettimeofday(&t1, NULL);
 	sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;
 	update_wish_status(_philo->wish, LET_INIT, sec_milli, NONE, _philo->philo_id);
+
+	// exe_act(_philo, LET_INIT);
+
 	// birth_philo_baby(_philo);
-	philo_think(_philo);
-	
+
+	if (philo_think(_philo))
+		return (NULL);
+	return (NULL);
 		// char	*join;
 		// join = ft_strjoin("", ft_ltoa(_philo->philo_id));
 		// join = ft_strjoin(join, ": I am dead!\n");
 		// write(1, join, ft_strlen(join));
 
-	return (NULL);
 }

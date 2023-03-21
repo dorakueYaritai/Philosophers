@@ -6,7 +6,7 @@
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 09:53:14 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/22 00:01:40 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/22 06:42:08 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ struct s_share{
 	t_fork				*forks;
 	time_t				time_to_starve;
 	time_t				*philos_time_to_dead;
+	time_t				*philos_eat_times;
+	int					must_eat_times;
 	// time_t				time_to_assume_starve;
 	long				philo_num;
 	bool				must_eat_times_exists;
@@ -107,6 +109,12 @@ enum {
 	LET_INIT,
 };
 
+#define MSG_FORK " has taken a fork\n"
+#define MSG_EAT " is eating\n"
+#define MSG_THINK " is thinking\n"
+#define MSG_SLEEP " is sleeping\n"
+#define MSG_DEAD " died\n"
+
 #define FINISH 2
 #define NONE 0
 #define SUCCESS 0
@@ -126,13 +134,12 @@ int			parse_argment(int argc, char *argv[]);
 
 // monitor.c
 int monitor_philos_death(t_share *share);
-// bool	guys_forks_avilable(t_fork *forks, int id, int num);
-bool	guys_forks_avilable(t_share *share, int id, int num);
 
 // monitor_fork.c
 int	is_ok_the_guy_eat(t_share *share,int id, int num);
-bool	guys_forks_avilable(t_share *share, int id, int num);
 void	ultra_debug(int id, int left_id, int right_id, t_dead *dead_info);
+bool	guys_forks_avilable(t_share *share, int left_id, int right_id, int num);
+// bool	guys_forks_avilable(t_share *share, int id, int num);
 
 // init.c
 t_philo	*init_philos(t_status *status, t_share *share);
@@ -151,6 +158,7 @@ int	init_status(t_status *status, char **argv, int argc);
 // routine.c
 int			update_time_to_die(t_philo *philo, long new_time_to_die);
 int			philo_think(t_philo *philo);
+int			exe_act(t_philo *philo, int act);
 
 // routine_init.c
 void*		routine_init(void *philo);

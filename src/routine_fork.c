@@ -6,7 +6,7 @@
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:36:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/21 23:28:13 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/22 05:41:55 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ int	take_forks(t_philo *philo)
 	first = philo->forks[FIRST];
 	second = philo->forks[SECOND];
 	update_wish_status(philo->wish, LET_TRY_TO_TAKE_FORKS, NONE, NONE, philo->philo_id);
-	// 手付けていいですか と じっさいfork とる時二回。
+	// 手付けていいですか と じっさいfork とる時二回リクエスト
+	// 前者はアルゴリズム的回答を求めてて、後者はdead のチェック(eat とかと一緒)
 	while (1)
 	{
 		ans = is_wish_come(philo->wish, philo->philo_id);
@@ -38,38 +39,72 @@ int	take_forks(t_philo *philo)
 		return (ERROR);
 	if (take_fork(philo, second, first) == ERROR)
 	{
-		put_fork(philo, first);
+		if (put_fork(philo, first) == ERROR)
+			return (ERROR);
 		return (ERROR);
 	}
 	return (0);
 }
 
+// bus error が出た。なんでだろ
 static int	take_fork(t_philo *philo, t_fork *fork, t_fork *had)
 {
-	struct timeval t1;
-	long sec_milli;
-	int				ret;
-	int				answer;
-
 	while (ft_pthread_mutex_trylock(&fork->fork) == ERROR)
 	{
-		;
+		// if (had != NULL)
+		// {
+		// 	put_fork(philo, had);
+		// 	return (take_forks(philo));
+		// }
 	}
-	gettimeofday(&t1, NULL);
-	sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;
-	update_wish_status(philo->wish, LET_TAKE_A_FORK, sec_milli, fork->fork_id, philo->philo_id);
-	while (1)
+	if (exe_act(philo, LET_TAKE_A_FORK) == ERROR)
 	{
-		answer = is_wish_come(philo->wish, philo->philo_id);
-		if (answer == LET_YOU_ARE_ALREADY_DEAD)
-		{
-			put_fork(philo, fork);
-			return (ERROR);
-		}
-		if (answer == LET_OK)
-			return (SUCCESS);
+		put_fork(philo, fork);
+		return (ERROR);
 	}
+	return (SUCCESS);
 }
+
+// static int	take_fork(t_philo *philo, t_fork *fork, t_fork *had)
+// {
+// 	ft_pthread_mutex_lock(&fork->fork);
+// 	if (exe_act(philo, LET_TAKE_A_FORK) == ERROR)
+// 	{
+// 		put_fork(philo, fork);
+// 		return (ERROR);
+// 	}
+// 	return (SUCCESS);
+// }
+
+// 上と同義だと思うけど、ちょっと怖いから残してる
+// static int	take_fork(t_philo *philo, t_fork *fork, t_fork *had)
+// {
+// 	struct timeval t1;
+// 	long sec_milli;
+// 	int				ret;
+// 	int				answer;
+
+// 	// while (ft_pthread_mutex_trylock(&fork->fork) == ERROR)
+// 	// {
+// 	// 	;
+// 	// }
+// 	ft_pthread_mutex_lock(&fork->fork);
+// 	gettimeofday(&t1, NULL);
+// 	sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;
+// 	update_wish_status(philo->wish, LET_TAKE_A_FORK, sec_milli, fork->fork_id, philo->philo_id);
+// 	while (1)
+// 	{
+// 		answer = is_wish_come(philo->wish, philo->philo_id);
+// 		if (answer == LET_YOU_ARE_ALREADY_DEAD)
+// 		{
+// 			put_fork(philo, fork);
+// 			return (ERROR);
+// 		}
+// 		if (answer == LET_OK)
+// 			return (SUCCESS);
+// 	}
+// }
+
 
 // static int	take_fork(t_philo *philo, t_fork *fork, t_fork *had)
 // {
@@ -126,36 +161,5 @@ int	put_forks(t_philo *philo)
 
 int	put_fork(t_philo *philo, t_fork *fork)
 {
-	// struct timeval t1;//
-	// long sec_milli;//
-	// int	ret;
-
-	// gettimeofday(&t1, NULL);//
-	// sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;//
-
-	// if (check_am_i_dead(philo) == true)
-	// {
-	// 	pthread_mutex_unlock(&fork->fork.stuff);
-	// 	fork->fork.is_available = false;
-	// 	return (ERROR);
-	// }
-
-	// ret = print_time(philo->philo_id, sec_milli, LET_PUT_OFF_A_FORK, fork->fork_id);//
 	return (ft_pthread_mutex_unlock(&fork->fork));
 }
-
-// static int	put_fork(t_philo *philo, t_fork *fork)
-// {
-// 	int	ret;
-
-// 	// if (check_am_i_dead(philo) == true)
-// 	// {
-// 	// 	pthread_mutex_unlock(&fork->fork.stuff);
-// 	// 	fork->fork.is_available = false;
-// 	// 	return (ERROR);
-// 	// }
-// 	fork->fork.is_available = true;
-// 	if (pthread_mutex_unlock(&fork->fork.stuff))
-// 		return (ERROR);
-// 	return (SUCCESS);
-// }

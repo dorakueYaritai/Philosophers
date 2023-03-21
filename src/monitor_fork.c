@@ -6,93 +6,56 @@
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:15:39 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/21 23:29:58 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/22 05:58:30 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philosophers.h>
 #include <libft.h>
 
-bool	guys_forks_avilable(t_share *share, int id, int num)
+bool	guys_forks_avilable(t_share *share, int left_id, int right_id, int num)
 {
 	bool	b1;
 	bool	b2;
-	bool	ret;
 
-	ret = false;
 	b1 = false;
 	b2 = false;
-	if (ft_pthread_mutex_trylock(&share->forks[id % num].fork) == SUCCESS)
+	if (ft_pthread_mutex_trylock(&share->forks[right_id].fork) == SUCCESS)
 	{
 		b1 = true;
-		ft_pthread_mutex_unlock(&share->forks[id % num].fork);
+		ft_pthread_mutex_unlock(&share->forks[right_id].fork);
 	}
-	if (ft_pthread_mutex_trylock(&share->forks[(id + 1) % num].fork) == SUCCESS)
+	if (ft_pthread_mutex_trylock(&share->forks[left_id].fork) == SUCCESS)
 	{
 		b2 = true;
-		ft_pthread_mutex_unlock(&share->forks[(id + 1) % num].fork);
+		ft_pthread_mutex_unlock(&share->forks[left_id].fork);
 	}
 	if (b1 && b2)
-	{
-		// write(1, "omedetou!\n", 10);
 		return (true);
-		// ret = true;
-	}
-	return (ret);
+	return (false);
 }
 
+bool	are_forks_not_avilable(t_share *share, int left_id, int right_id, int num)
+{
+	bool	can_use_right;
+	bool	can_use_left;
 
-// bool	guys_forks_avilable(t_share *share, int id, int num)
-// {
-// 	bool	b1;
-// 	bool	b2;
-// 	bool	ret;
-
-// 	ret = false;
-// 	write(1, ft_ltoa(id), 2);
-// 	write(1, "try!\n", 5);
-// 	b1 = ft_pthread_mutex_trylock(&forks[id].fork);
-// 	write(1, "tryed!\n", 7);
-// 	if (b1)
-// 		ft_pthread_mutex_unlock(&forks[id].fork);
-// 	write(1, "try!\n", 5);
-// 	b2 = ft_pthread_mutex_trylock(&forks[(id + 1) % num].fork);
-// 	write(1, "tryed!\n", 7);
-// 	if (b2)
-// 		ft_pthread_mutex_unlock(&forks[(id + 1) % num].fork);
-// 	if (b1 && b2)
-// 		ret = true;
-// 	return (ret);
-// }
-
-// bool	guys_forks_avilable(t_fork *forks, int id, int num)
-// {
-// 	bool	b1;
-// 	bool	b2;
-// 	bool	ret;
-
-// 	ret = false;
-// 	b1 = false;
-// 	b2 = false;
-// 	if (ft_pthread_mutex_trylock(&forks[id].fork) == SUCCESS)
-// 	{
-// 		b1 = true;
-// 		ft_pthread_mutex_unlock(&forks[id].fork);
-// 	}
-// 	if (ft_pthread_mutex_trylock(&forks[(id + 1) % num].fork) == SUCCESS)
-// 	{
-// 		b2 = true;
-// 		ft_pthread_mutex_unlock(&forks[(id + 1) % num].fork);
-// 	}
-// 	// write(1, "tryed!\n", 7);
-// 	if (b1 && b2)
-// 	{
-// 		write(1, "omedetou!\n", 10);
-// 		ret = true;
-// 	}
-// 	return (ret);
-// }
-
+	can_use_right = false;
+	can_use_left = false;
+	if (ft_pthread_mutex_trylock(&share->forks[right_id].fork) == SUCCESS)
+	{
+		can_use_right = true;
+		ft_pthread_mutex_unlock(&share->forks[right_id].fork);
+	}
+	if (ft_pthread_mutex_trylock(&share->forks[left_id].fork) == SUCCESS)
+	{
+		can_use_left = true;
+		ft_pthread_mutex_unlock(&share->forks[left_id].fork);
+	}
+	if (can_use_right == false && can_use_left == false)
+		return (true);
+	return (false);
+}
 
 void	ultra_debug(int id, int left_id, int right_id, t_dead *dead_info)
 {
@@ -162,6 +125,12 @@ int	is_ok_the_guy_eat2(t_share *share,int id, int num)
 
 	left_id = ft_positive_mod(id - 1, num);
 	right_id = ft_positive_mod(id + 1, num);
+
+	// if (guys_forks_avilable(share, left_id, right_id, num) == true)
+	// 	return (LET_OK);
+
+	// if (are_forks_not_avilable(share, left_id, right_id, num) == true)
+	// 	return (LET_TRY_TO_TAKE_FORKS);
 
 	if (share->philos_time_to_dead[id] <= share->philos_time_to_dead[left_id] && \
 		share->philos_time_to_dead[id] <= share->philos_time_to_dead[right_id])

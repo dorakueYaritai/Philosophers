@@ -6,7 +6,7 @@
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:36:38 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/21 20:48:19 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/22 05:30:26 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	philo_think(t_philo *philo);
 int	update_time_to_die(t_philo *philo, long new_time_to_die);
 static int	philo_sleep(t_philo *philo);
 static int	philo_eat(t_philo *philo);
-static int	exe_act(t_philo *philo, int act);
 
 int	update_time_to_die(t_philo *philo, long new_time_to_die)
 {
@@ -32,7 +31,7 @@ int	update_time_to_die(t_philo *philo, long new_time_to_die)
 	return (SUCCESS);
 }
 
-static int	exe_act(t_philo *philo, int act)
+int	exe_act(t_philo *philo, int act)
 {
 	struct timeval	t1;
 	long			sec_milli;
