@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
+/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:16:41 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/22 11:04:06 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/22 11:17:38 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int main(int argc, char* argv[]) {
 	if (threads_create(philos, share.th_id, share.philo_num) == ERROR)
 	{
 		return (ERROR);
-	}
+	}	
 	monitor_philos_death(&share);
 	if (threads_join(share.th_id, share.philo_num) == 2)
 		return (2);
