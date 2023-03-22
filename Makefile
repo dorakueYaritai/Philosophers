@@ -4,9 +4,9 @@
 NAME		:= philo
 CC			:= cc 
 RM			:= rm -f
-# CFLAGS		:= -O 
+CFLAGS		:= -O 
 # CFLAGS		:= -fsanitize=thread -Wall -Wextra -O 
-CFLAGS		:= -fsanitize=address -Wall -Wextra -O 
+# CFLAGS		:= -fsanitize=address -Wall -Wextra -O 
 # CFLAGS		:= -Wall -Wextra -Werror -O 
 DFLAGS		:= -MMD -MP
 #=============================

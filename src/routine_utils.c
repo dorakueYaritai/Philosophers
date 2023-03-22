@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
+/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:37:21 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/22 11:15:13 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/22 11:31:54 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,10 @@ int	print_time(int id, long sec_milli, int act, int fork_id)
 	if (out_put == NULL)
 		return (ERROR);
 	// if (remain_count == 0)
+	// {
 	// 	remain = out_put;
+	// 	remain_count++;
+	// }
 	// else if (remain_count < 10)
 	// {
 	// 	tmp = ft_strjoin(remain, out_put);

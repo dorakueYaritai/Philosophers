@@ -6,7 +6,7 @@
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:15:39 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/22 07:27:05 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/22 11:24:05 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ int	is_ok_the_guy_eat2(t_share *share,int id, int num)
 
 	left_id = ft_positive_mod(id - 1, num);
 	right_id = ft_positive_mod(id + 1, num);
+	if (left_id == right_id)
+		return (false);
 	// if (guys_forks_avilable(share, left_id, right_id, num) == true)
 	// 	return (LET_OK);
 	// if (are_forks_not_avilable(share, left_id, right_id, num) == true)

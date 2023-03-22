@@ -6,7 +6,7 @@
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 09:53:14 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/22 08:12:27 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/22 11:26:51 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ struct s_dead{
 	t_shared_resourse	mutex;
 	time_t				*time_to_die;
 	int					*must_eat_times;
-	// bool				is_death;
 };
 
 typedef struct s_wish t_wish;
