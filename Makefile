@@ -4,7 +4,7 @@
 NAME		:= philo
 CC			:= cc 
 RM			:= rm -f
-CFLAGS		:= -O 
+CFLAGS		:= -O -Weverything
 # CFLAGS		:= -fsanitize=thread -Wall -Wextra -O 
 # CFLAGS		:= -fsanitize=address -Wall -Wextra -O 
 # CFLAGS		:= -Wall -Wextra -Werror -O 
@@ -16,7 +16,9 @@ DFLAGS		:= -MMD -MP
 SRCDIR    = src
 SRCS	:= 	main.c\
 		 	monitor.c\
+			thread_create.c\
 		 	monitor_fork.c\
+			ft_control_queue.c\
 			init_philo.c\
 			init_other.c\
 			init_other2.c\
@@ -40,6 +42,8 @@ SRCS	:= 	main.c\
 			ft_pthread_mutex_trylock.c\
 			ft_strtol.c\
 			ft_is_utils.c\
+			ft_lstadd_back.c\
+			writer.c\
 
 #=============================
 #directory
@@ -118,7 +122,6 @@ $(NAME_DEBUG): $(OBJECTS)
 #=============================
 s:	CFLAGS +=  -g  -fsanitize=address -fsanitize=undefined 
 s:	re
-	bash test_parse.sh
 
 run: 
 	make re

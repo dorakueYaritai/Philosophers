@@ -6,7 +6,7 @@
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 09:53:14 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/22 11:26:51 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/22 15:43:33 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ struct s_list{
 	t_list	*next;
 };
 
+
 typedef struct s_shared_resourse t_shared_resourse;
 struct s_shared_resourse{
 	bool			is_available;
@@ -43,6 +44,12 @@ struct s_fork{
 	t_shared_resourse	fork;
 	time_t				*time_to_die[2];
 	int					fork_id;
+};
+
+typedef struct s_queue t_queue;
+struct s_queue{
+	t_shared_resourse	mutex;
+	t_list				*list;
 };
 
 typedef struct s_dead t_dead;
@@ -73,6 +80,8 @@ struct s_share{
 	long				philo_num;
 	bool				must_eat_times_exists;
 	pthread_t			*th_id;
+	t_queue				*queue;
+	// t_list				*msg_quere;
 };
 
 typedef struct s_status t_status;
@@ -165,6 +174,14 @@ void* routine_init(void *_philo);
 // routine_utils.c
 int			print_time(int id, long sec_milli, int act, int fork_id);
 bool		check_am_i_dead(t_philo *philo);
+char	*make_msg(int id, long sec_milli, int act, int fork_id);
+t_list	*ft_lstnew(void *content);
+
+// thread.c
+int	threads_create(t_philo *philos, pthread_t *th_id, int philo_num);
+int	threads_join(pthread_t *th_id, int philo_num);
+int	writer_create(t_queue *queue, pthread_t *th_id, int writer_id);
+
 
 // routine_fork.c
 int			take_forks(t_philo *philo);
@@ -182,5 +199,14 @@ int		thanks_a_host(t_wish *wish);
 int			ft_pthread_mutex_trylock(t_shared_resourse *sourse);
 int			ft_pthread_mutex_unlock(t_shared_resourse *sourse);
 int			ft_pthread_mutex_lock(t_shared_resourse *sourse);
+void	ft_enqueue(t_list **lst, t_list *new);
+t_list	*ft_dequeue(t_list **lst);
+int		print_que(t_queue *queue);
+void	*writer_init(void *arg);
+void	ft_lstadd_back(t_list **lst, t_list *new);
+void	ft_lstadd_front(t_list **lst, t_list *new);
+t_list	*ft_lstnew(void *content);
+void	ft_lstdelone(t_list *lst, void (*del)(void*));
+t_list	*ft_lstlast(t_list *lst);
 
 #endif

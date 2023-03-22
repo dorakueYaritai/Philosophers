@@ -6,7 +6,7 @@
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 18:03:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/22 07:51:53 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/22 13:52:57 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,19 @@ int	init_status(t_status *status, char **argv, int argc)
 	return (SUCCESS);
 }
 
+t_queue	*init_queue(void)
+{
+	t_queue	*queue;
+
+	queue = malloc(sizeof(t_queue));
+	if (queue == NULL)
+		return (NULL);
+	if (init_shared_resourse(&queue->mutex) == ERROR)
+		return (NULL);
+	queue->list = NULL;
+	return (queue);
+}
+
 int	init_share(t_share *share, t_status *status, char *philo_num_arg)
 {
 	int	i;
@@ -38,6 +51,7 @@ int	init_share(t_share *share, t_status *status, char *philo_num_arg)
 	share->dead_info = init_t_dead(share->philo_num);
 	share->wishs = init_wishs(share->philo_num);
 	share->forks = init_fork(share->philo_num);
+	share->queue = init_queue();
 	share->philos_time_to_dead = malloc(sizeof(time_t) * share->philo_num);
 	share->philos_eat_times = malloc(sizeof(int) * share->philo_num);
 	i = 0;

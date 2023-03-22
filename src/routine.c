@@ -6,7 +6,7 @@
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:36:38 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/22 08:00:09 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/22 16:09:42 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static int	philo_eat(t_philo *philo);
 
 int	exe_act(t_philo *philo, int act)
 {
+	int				answer;
 	struct timeval	t1;
 	long			sec_milli;
-	int				answer;
 
 	gettimeofday(&t1, NULL);
 	sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;

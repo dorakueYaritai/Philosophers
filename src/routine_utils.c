@@ -6,12 +6,13 @@
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:37:21 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/22 11:31:54 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/22 13:05:19 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <philosophers.h>
+
 
 char	*make_prefix_msg(int id, long sec_milli, int act)
 {

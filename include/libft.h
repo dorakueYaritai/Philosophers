@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
+/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 09:58:16 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/20 09:58:42 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/22 14:40:26 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 #include <errno.h>
 #include <limits.h>
 
+
 // libft
 char		*ft_strjoin(char const *s1, char const *s2);
 size_t		ft_strlcat(char *dst, const char *src, size_t dstsize);
@@ -42,5 +43,9 @@ int			ft_toupper(int c);
 int			ft_isalnum(int c);
 int			ft_isdigit(int c);
 int			ft_isalpha(int c);
+
+// void	ft_enqueue(t_list **lst, t_list *new);
+// t_list	*ft_dequeue(t_list **lst);
+// t_list	*ft_lstnew(void *content);
 
 #endif

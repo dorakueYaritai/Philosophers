@@ -6,7 +6,7 @@
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 14:24:18 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/22 08:11:30 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/22 14:13:20 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,10 @@ int	listen_to_old_guys_request(t_share *share, int id)
 	}
 	if (did_the_old_man_go_heaven2(share, id) == true)
 	{
-		print_time(id, share->philos_time_to_dead[id], LET_DEAD, NONE);
 		ft_pthread_mutex_unlock(&wish->mutex);
+		ft_pthread_mutex_lock(&share->queue->mutex);
+		ft_enqueue(&share->queue->list, ft_lstnew(make_msg(id, share->philos_time_to_dead[id], LET_DEAD, NONE)));
+		ft_pthread_mutex_unlock(&share->queue->mutex);
 		return (LET_DEAD);
 	}
 	if (request == LET_TRY_TO_TAKE_FORKS && is_ok_the_guy_eat2(share, id, share->philo_num))
@@ -93,7 +95,11 @@ int	listen_to_old_guys_request(t_share *share, int id)
 	fork_id = wish->fork_id;
 	wish->let_me_eat = LET_OK;
 	ft_pthread_mutex_unlock(&wish->mutex);
-	print_time(id, sec_milli, request, fork_id);
+	
+	ft_pthread_mutex_lock(&share->queue->mutex);
+	ft_enqueue(&share->queue->list, ft_lstnew(make_msg(id, sec_milli, request, fork_id)));
+	ft_pthread_mutex_unlock(&share->queue->mutex);
+	// print_time(id, sec_milli, request, fork_id);
 	if (request == LET_EAT)
 	{
 		share->philos_time_to_dead[id] = (sec_milli + share->time_to_starve);
@@ -117,11 +123,19 @@ int monitor_philos_death(t_share *share)
 		if (listen_to_old_guys_request(share, id) == LET_DEAD)
 		{
 			kill_everyone3(share);
+			ft_pthread_mutex_lock(&share->queue->mutex);
+			ft_enqueue(&share->queue->list, ft_lstnew(strdup("")));
+			ft_pthread_mutex_unlock(&share->queue->mutex);
+			// print_que(share->queue);
 			return (1);
 		}
 		if (check_max_loop2(share) == true)
 		{
 			kill_everyone3(share);
+			ft_pthread_mutex_lock(&share->queue->mutex);
+			ft_enqueue(&share->queue->list, ft_lstnew(strdup("")));
+			ft_pthread_mutex_unlock(&share->queue->mutex);
+			// print_que(share->queue);
 			return (LET_DEAD);
 		}
 		++id;
