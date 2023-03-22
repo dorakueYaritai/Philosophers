@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:37:21 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/22 06:31:52 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/22 11:15:13 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,45 +18,48 @@ char	*make_prefix_msg(int id, long sec_milli, int act)
 	char	*join;
 	char	*id_str;
 	char	*sec_milli_str;
+	char	*tmp;
 
-	id_str = ft_itoa(id);
-	if (id_str == NULL)
-		return (NULL);
 	sec_milli_str = ft_ltoa(sec_milli);
 	if (sec_milli_str == NULL)
 		return (NULL);
 	join = ft_strjoin(sec_milli_str, " ");
 	free (sec_milli_str);
 	if (join == NULL)
-	{
-		free (id_str);
 		return (NULL);
-	}
-	join = ft_strjoin(join, id_str);
+	id_str = ft_itoa(id);
+	if (id_str == NULL)
+		return (NULL);
+	tmp = ft_strjoin(join, id_str);
 	free (id_str);
-	if (join == NULL)
+	if (tmp == NULL)
 		return (NULL);
-	return (join);
+	free (join);
+	return (tmp);
 }
 
 char	*make_msg(int id, long sec_milli, int act, int fork_id)
 {
 	char	*join;
+	char	*tmp;
 
 	join = make_prefix_msg(id, sec_milli, act);
-	if (act == LET_TAKE_A_FORK)
-		join = ft_strjoin(join, MSG_FORK);
-	else if (act == LET_EAT)
-		join = ft_strjoin(join, MSG_EAT);
-	else if (act == LET_THINK)
-		join = ft_strjoin(join, MSG_THINK);
-	else if (act == LET_SLEEP)
-		join = ft_strjoin(join, MSG_SLEEP);
-	else if (act == LET_DEAD)
-		join = ft_strjoin(join, MSG_DEAD);
 	if (join == NULL)
 		return (NULL);
-	return (join);
+	if (act == LET_TAKE_A_FORK)
+		tmp = ft_strjoin(join, MSG_FORK);
+	else if (act == LET_EAT)
+		tmp = ft_strjoin(join, MSG_EAT);
+	else if (act == LET_THINK)
+		tmp = ft_strjoin(join, MSG_THINK);
+	else if (act == LET_SLEEP)
+		tmp = ft_strjoin(join, MSG_SLEEP);
+	else if (act == LET_DEAD)
+		tmp = ft_strjoin(join, MSG_DEAD);
+	free (join);
+	if (tmp == NULL)
+		return (NULL);
+	return (tmp);
 }
 
 int	print_time(int id, long sec_milli, int act, int fork_id)
@@ -67,8 +70,8 @@ int	print_time(int id, long sec_milli, int act, int fork_id)
 	char	*tmp;
 
 	out_put = make_msg(id, sec_milli, act, fork_id);
-	// if (out_put == NULL)
-	// 	return (ERROR);
+	if (out_put == NULL)
+		return (ERROR);
 	// if (remain_count == 0)
 	// 	remain = out_put;
 	// else if (remain_count < 10)
@@ -86,6 +89,7 @@ int	print_time(int id, long sec_milli, int act, int fork_id)
 	// 		return (ERROR);
 	// 	remain_count = 0;
 	// }
+
 	if (write(1, out_put, ft_strlen(out_put)) == -1)
 		return (ERROR);
 	free (out_put);
