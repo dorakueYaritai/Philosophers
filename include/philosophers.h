@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 09:53:14 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/23 18:10:50 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/23 19:16:48 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ enum {
 int			parse_argment(int argc, char *argv[]);
 
 // monitor.c
-int monitor_philos_death(t_share *share);
+int monitor_philos(t_share *share);
 
 // monitor_fork.c
 int	is_ok_the_guy_eat(t_share *share,int id, int num);

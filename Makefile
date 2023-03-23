@@ -5,7 +5,7 @@ NAME		:= philo
 CC			:= cc 
 RM			:= rm -f
 # CFLAGS		:= -O
-CFLAGS 			:= -g  -fsanitize=address -fsanitize=undefined 
+# CFLAGS 			:= -g  -fsanitize=address -fsanitize=undefined 
 # CFLAGS		:= -O -Weverything
 # CFLAGS		:= -fsanitize=thread -Wall -Wextra -O
 # CFLAGS		:= -fsanitize=address -Wall -Wextra -O 
@@ -16,6 +16,10 @@ DFLAGS		:= -MMD -MP
 #=============================
 # VPATH = srcs:srcs/UTIL
 SRCDIR    = src
+MONITORDIR    = $(SRCDIR)/monitor
+PHILOSOPHESRDIR    = $(SRCDIR)/philosophers
+WRITERRDIR    = $(SRCDIR)/writer
+
 SRCS	:= 	main.c\
 		 	th_monitor.c\
 		 	th_monitor_fork.c\
@@ -32,8 +36,8 @@ SRCS	:= 	main.c\
 			thread_create.c\
 			wish.c\
 			parse.c\
-			ft_control_queue.c\
 			ft_strjoin.c\
+			ft_control_queue.c\
 			ft_itoa.c\
 			ft_memmove.c\
 			ft_strlcat.c\
@@ -61,8 +65,9 @@ OBJDIR	= .
 endif
 OBJECTS		= $(addprefix $(OBJDIR)/, $(notdir $(SRCS:%.c=%.o)))
 DEPENDS		= $(OBJECTS:.o=.d)
-LIBDIR		= libft
-LIBFT		= $(LIBDIR)/libft.a
+LIBDIR		= $(SRCDIR)/libft
+# LIBFT		= $(LIBDIR)/libft.a
+
 #=============================
 #rule
 #=============================
@@ -73,12 +78,12 @@ $(NAME): $(OBJECTS)
 	@echo $(SKYBLUE) "make .o" $(RESET)
 #-----
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
-	 -mkdir -p $(OBJDIR) 
+	-mkdir -p $(OBJDIR) 
 	$(CC) $(CFLAGS) $(DFLAGS) $(INCLUDE) -c $< -o $@
 
-# $(OBJDIR)/%.o: $(PARSE_DIR)/%.c
-# 	 -mkdir -p $(OBJDIR) 
-# 	$(CC) $(CFLAGS) $(DFLAGS) $(INCLUDE) -c $< -o $@
+$(OBJDIR)/%.o: $(LIBDIR)/%.c
+	-mkdir -p $(OBJDIR) 
+	$(CC) $(CFLAGS) $(DFLAGS) $(INCLUDE) -c $< -o $@
 
 # $(OBJDIR)/%.o: $(EXE_DIR)/%.c
 # 	 -mkdir -p $(OBJDIR) 

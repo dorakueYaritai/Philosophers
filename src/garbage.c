@@ -3,29 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   garbage.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:29:52 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/22 11:24:42 by kakiba           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include <philosophers.h>
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/18 13:16:41 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/22 07:46:52 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/23 19:02:57 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
-#include <philosophers.h>
 #include <philosophers.h>
 
 static int	threads_create(t_philo *philos, pthread_t *th_id, int philo_num);

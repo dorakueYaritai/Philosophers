@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   monitor.c                                          :+:      :+:    :+:   */
+/*   th_monitor.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 14:24:18 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/23 17:29:39 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/23 19:18:00 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <philosophers.h>
 
+// wishs という配列に、それぞれのphiloからのrequest内容が入っている
 int	listen_to_old_guys_request(t_share *share, int id)
 {
 	t_wish	*wish;
@@ -56,7 +57,7 @@ int	listen_to_old_guys_request(t_share *share, int id)
 	return (SUCCESS);
 }
 
-int	monitor_philos_death(t_share *share)
+int	monitor_philos(t_share *share)
 {
 	int	id;
 	int	num;
