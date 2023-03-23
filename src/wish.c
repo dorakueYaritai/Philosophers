@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wish.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:33:21 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/22 08:07:16 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/23 17:40:26 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 int	update_wish_status(t_wish *wish, int request, long sec_milli, int fork_id, int id)
 {
 	ft_pthread_mutex_lock(&wish->mutex);
-	if (wish->let_me_eat == LET_YOU_ARE_ALREADY_DEAD)
+	if (wish->let_me_eat == LET_DEAD)
 	{
 		ft_pthread_mutex_unlock(&wish->mutex);
 		return (ERROR);
@@ -36,17 +36,30 @@ int	update_wish_status(t_wish *wish, int request, long sec_milli, int fork_id, i
 	return (SUCCESS);
 }
 
-int	is_wish_come(t_wish *wish, int id)
+// int	update_wish_status(t_wish *wish, int request, long sec_milli, int fork_id, int id)
+// {
+// 	if (ft_pthread_mutex_trylock(&wish->mutex) == ERROR)
+// 		retturn 
+// 	if (wish->let_me_eat == LET_DEAD)
+// 	{
+// 		ft_pthread_mutex_unlock(&wish->mutex);
+// 		return (ERROR);
+// 	}
+// 	wish->let_me_eat = request;
+// 	wish->sec_milli = sec_milli;
+// 	wish->fork_id = fork_id;
+// 	ft_pthread_mutex_unlock(&wish->mutex);
+// 	return (SUCCESS);
+// }
+
+int	is_wish_come(t_wish *wish, int id, int wish_act)
 {
 	int	ret;
 
 	if (ft_pthread_mutex_trylock(&wish->mutex) == ERROR)
-		return (LET_REJECT);
+		return (wish_act);
 	ret = wish->let_me_eat;
 	if (ft_pthread_mutex_unlock(&wish->mutex))
-		return (LET_REJECT);
-	// if (ret == LET_OK)
-	// 	return (true)
-	// return (false);
+		return (wish_act);
 	return (ret);
 }

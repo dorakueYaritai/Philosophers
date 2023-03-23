@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 09:58:16 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/22 14:40:26 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/23 17:46:45 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int			ft_toupper(int c);
 int			ft_isalnum(int c);
 int			ft_isdigit(int c);
 int			ft_isalpha(int c);
+long		ft_get_time_in_millisec(void);
 
 // void	ft_enqueue(t_list **lst, t_list *new);
 // t_list	*ft_dequeue(t_list **lst);

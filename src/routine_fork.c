@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine_fork.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:36:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/22 07:56:21 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/23 17:38:34 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ int	take_forks(t_philo *philo)
 	// 前者はアルゴリズム的回答を求めてて、後者はdead のチェック(eat とかと一緒)
 	while (1)
 	{
-		ans = is_wish_come(philo->wish, philo->philo_id);
+		ans = is_wish_come(philo->wish, philo->philo_id, LET_TRY_TO_TAKE_FORKS);
 		if (ans == LET_OK)
 			break;
-		else if (ans == LET_YOU_ARE_ALREADY_DEAD)
+		else if (ans == LET_DEAD)
 			return (ERROR);
 	}
 	if (take_fork(philo, first, NULL) == ERROR)

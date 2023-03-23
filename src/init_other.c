@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_other.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:50:14 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/21 21:12:58 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/23 18:16:10 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ t_wish	*init_wishs(int philo_num)
 			exit(1);
 			return (NULL);
 		}
-		wishs[i].let_me_eat = LET_THANK_YOU;
+		wishs[i].let_me_eat = LET_OK;
 		wishs[i].fork_id = 0;
 		wishs[i].sec_milli = 0;
 		i++;
@@ -88,11 +88,12 @@ t_wish	*init_wishs(int philo_num)
 	return (wishs);
 }
 
-pthread_t	*init_th_id(int philo_num)
+pthread_t	*init_th_id(int thread_num)
 {
 	pthread_t *th;
 
-	th =  malloc(sizeof(pthread_t) * philo_num);
+	th =  malloc(sizeof(pthread_t) * thread_num);
+	// th =  malloc(sizeof(pthread_t) * 1);
 	if (th == NULL)
 		return (NULL);
 	return (th);

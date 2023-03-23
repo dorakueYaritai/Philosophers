@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor_fork.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:15:39 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/22 11:24:05 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/23 18:03:04 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,22 +79,22 @@ void	ultra_debug(int id, int left_id, int right_id, t_dead *dead_info)
 	write(1, str, strlen(str));
 }
 
-int	is_ok_the_guy_eat2(t_share *share,int id, int num)
+int	is_ok_the_guy_eat2(t_share *share,int own_id, int num)
 {
 	int left_id;
 	int right_id;
 	char	*str;
 
-	left_id = ft_positive_mod(id - 1, num);
-	right_id = ft_positive_mod(id + 1, num);
-	if (left_id == right_id)
+	left_id = ft_positive_mod(own_id - 1, num);
+	right_id = ft_positive_mod(own_id + 1, num);
+	if (left_id == own_id || right_id == own_id)
 		return (false);
 	// if (guys_forks_avilable(share, left_id, right_id, num) == true)
 	// 	return (LET_OK);
 	// if (are_forks_not_avilable(share, left_id, right_id, num) == true)
 	// 	return (LET_TRY_TO_TAKE_FORKS);
-	if (share->philos_time_to_dead[id] <= share->philos_time_to_dead[left_id] && \
-		share->philos_time_to_dead[id] <= share->philos_time_to_dead[right_id])
+	if (share->philos_time_to_dead[own_id] <= share->philos_time_to_dead[left_id] && \
+		share->philos_time_to_dead[own_id] <= share->philos_time_to_dead[right_id])
 		return (true);
 	else if (share->philos_time_to_dead[left_id] == -1 \
 		|| share->philos_time_to_dead[right_id] == -1)

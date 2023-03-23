@@ -36,6 +36,7 @@
   "files.associations": {
     "main2": "c",
     "stdlib.h": "c",
-    "philosophers.h": "c"
+    "philosophers.h": "c",
+    "time.h": "c"
   }
 }

@@ -5,8 +5,9 @@ NAME		:= philo
 CC			:= cc 
 RM			:= rm -f
 # CFLAGS		:= -O
+CFLAGS 			:= -g  -fsanitize=address -fsanitize=undefined 
 # CFLAGS		:= -O -Weverything
-CFLAGS		:= -fsanitize=thread -Wall -Wextra -O 
+# CFLAGS		:= -fsanitize=thread -Wall -Wextra -O
 # CFLAGS		:= -fsanitize=address -Wall -Wextra -O 
 # CFLAGS		:= -Wall -Wextra -Werror -O 
 DFLAGS		:= -MMD -MP
@@ -19,6 +20,8 @@ SRCS	:= 	main.c\
 		 	monitor.c\
 			thread_create.c\
 		 	monitor_fork.c\
+			monitor_death.c\
+			monitor_utils.c\
 			ft_control_queue.c\
 			init_philo.c\
 			init_other.c\
@@ -37,6 +40,7 @@ SRCS	:= 	main.c\
 			ft_positive_mod.c\
 			ft_ltoa.c\
 			ft_isdigit_str.c\
+			ft_get_time_in_millisec.c\
 			routine.c\
 			routine_fork.c\
 			routine_utils.c\
@@ -50,7 +54,7 @@ SRCS	:= 	main.c\
 #directory
 #=============================
 INCDIR		= include/
-INCLUDE		= -I $(INCDIR)
+INCLUDE		= -I $(INCDIR) -lpthread
 OBJDIR		= obj
 ifeq "$(strip $(OBJDIR))" ""
 OBJDIR	= .

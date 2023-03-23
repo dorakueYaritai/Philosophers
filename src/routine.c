@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:36:38 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/22 16:09:42 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/23 17:53:40 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,30 +21,23 @@ static int	philo_eat(t_philo *philo);
 int	exe_act(t_philo *philo, int act)
 {
 	int				answer;
-	struct timeval	t1;
 	long			sec_milli;
 
-	gettimeofday(&t1, NULL);
-	sec_milli = (long)(t1.tv_sec) * 1000 + (long)(t1.tv_usec) / 1000;
+	sec_milli = ft_get_time_in_millisec();
+	if (sec_milli == -1)
+		return (ERROR);
 	update_wish_status(philo->wish, act, sec_milli, NONE, philo->philo_id);
 	if (act == LET_EAT)
-	{
 		usleep((unsigned int)(philo->status.time_to_eat) * 1000);
-	}
 	else if (act == LET_SLEEP)
-	{
 		usleep((unsigned int)(philo->status.time_to_sleep) * 1000);
-	}
 	while (1)
 	{
-		answer = is_wish_come(philo->wish, philo->philo_id);
+		answer = is_wish_come(philo->wish, philo->philo_id, act);
 		if (answer == LET_OK)
 			break;
-		else if (answer == LET_YOU_ARE_ALREADY_DEAD)
-		{
+		else if (answer == LET_DEAD)
 			return (ERROR);
-		}
-		// usleep(10);
 	}
 	return (SUCCESS);
 }

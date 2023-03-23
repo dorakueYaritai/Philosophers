@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:16:41 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/22 15:35:35 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/23 18:17:56 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@ void	free_all(t_share *share, t_philo *philo, int num)
 	ft_free(share->dead_info);
 	ft_free(share->forks);
 	ft_free(philo);
+	destroy_shared_resourses(&share->queue->mutex);
+	ft_free(share->queue->list);
+	ft_free(share->queue);
 }
 
 int main(int argc, char* argv[]) {
@@ -69,7 +72,7 @@ int main(int argc, char* argv[]) {
 	if (writer_create(share.queue, share.th_id, share.philo_num + 1) == ERROR)
 		return (ERROR);
 	monitor_philos_death(&share);
-	if (threads_join(share.th_id, share.philo_num) == 2)
+	if (threads_join(share.th_id, share.philo_num + 1) == 2)
 		return (2);
 	free_all(&share, philos, share.philo_num);
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   writer.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 12:32:20 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/22 14:15:40 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/23 16:57:49 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,17 @@ int	writer_exe(t_queue *queue)
 		node = ft_dequeue(&queue->list);
 		ft_pthread_mutex_unlock(&queue->mutex);
 		if (node == NULL)
+		{
+			usleep(10000);
 			continue;
+		}
 		len = ft_strlen(node->content);
-		// if (node->content == NULL)
-		// {
-		// 	write(1, "!1111111111\n", 12);
-		// 	return (0);
-		// }
-
 		if (len == 0)
 		{
-			write(1, "!1111111111\n", 12);
 			free (node->content);
 			free (node);
 			return (0);
 		}
-
-		// if (node == NULL)
-		// 	return (0);
-		// printf("%s", (char *)node->content);
 		write(1, node->content, len);
 		free (node->content);
 		free (node);
@@ -54,7 +46,7 @@ int	writer_exe(t_queue *queue)
 void	*writer_init(void *arg)
 {
 	writer_exe(arg);
-	write(1, "2222222222222\n", 12);
+	write(1, "writer exit\n", 12);
 	return (NULL);
 }
 

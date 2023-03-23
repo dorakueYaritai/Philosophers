@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 09:53:14 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/22 15:43:33 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/23 18:10:50 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,10 @@ enum {
 	LET_THINK,
 	LET_DEAD,
 	LET_SLEEP,
-	LET_THANK_YOU,
 	LET_OK,
-	LET_YOU_ARE_ALREADY_DEAD,
 	LET_REJECT,
 	LET_INIT,
+	WRITER_END,
 };
 
 #define MSG_FORK " has taken a fork\n"
@@ -124,16 +123,15 @@ enum {
 #define MSG_SLEEP " is sleeping\n"
 #define MSG_DEAD " died\n"
 
-#define FINISH 2
-#define NONE 0
 #define SUCCESS 0
 #define ERROR 1
+#define FOUND_DEAD 2
+
 #define FIRST 0
 #define SECOND 1
-#define FULL 0
-#define HUNGRY 1
-#define CALLING_FOR_AMBULANCE 2
-#define SITTING_ON_A_COFFIN 2
+
+#define FINISH 2
+#define NONE 0
 
 #define ERR_INVALID_ARG 1
 #define ERR_ARG_NUM 2
@@ -148,7 +146,16 @@ int monitor_philos_death(t_share *share);
 int	is_ok_the_guy_eat(t_share *share,int id, int num);
 void	ultra_debug(int id, int left_id, int right_id, t_dead *dead_info);
 bool	guys_forks_avilable(t_share *share, int left_id, int right_id, int num);
-// bool	guys_forks_avilable(t_share *share, int id, int num);
+
+// monitor_death
+int kill_everyone(t_share *share);
+bool	did_the_old_man_go_heaven(t_share *share, int id);
+
+// monitor_utils
+bool		is_must_eat_times_fulfilled(t_share *share);
+int			enqueue_log_msg_to_writer(t_share *share, \
+	int id, long sec_milli, int act);
+
 
 // init.c
 t_philo	*init_philos(t_status *status, t_share *share);
@@ -179,8 +186,8 @@ t_list	*ft_lstnew(void *content);
 
 // thread.c
 int	threads_create(t_philo *philos, pthread_t *th_id, int philo_num);
-int	threads_join(pthread_t *th_id, int philo_num);
 int	writer_create(t_queue *queue, pthread_t *th_id, int writer_id);
+int	threads_join(pthread_t *th_id, int thread_num);
 
 
 // routine_fork.c
@@ -193,7 +200,7 @@ int	is_ok_the_guy_eat2(t_share *share,int id, int num);
 // int	update_wish_status(t_wish *wish, int request, long sec_milli, int fork_id);
 int	update_wish_status(t_wish *wish, int request, long sec_milli, int fork_id, int id);
 // int	is_wish_come(t_wish *wish);
-int		is_wish_come(t_wish *wish, int id);
+int		is_wish_come(t_wish *wish, int id, int wish_act);
 int		thanks_a_host(t_wish *wish);
 
 int			ft_pthread_mutex_trylock(t_shared_resourse *sourse);
