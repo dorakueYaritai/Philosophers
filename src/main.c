@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:16:41 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/23 18:17:56 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/23 18:48:20 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,8 @@ int main(int argc, char* argv[]) {
 		return (1);
 	init_share(&share, &status, argv[1]);
 	philos = init_philos(&status, &share);
-	share.th_id = init_th_id(share.philo_num + 1);
 	if (threads_create(philos, share.th_id, share.philo_num) == ERROR)
-	{
 		return (ERROR);
-	}
 	if (writer_create(share.queue, share.th_id, share.philo_num + 1) == ERROR)
 		return (ERROR);
 	monitor_philos_death(&share);

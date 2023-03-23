@@ -1,26 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_other.c                                       :+:      :+:    :+:   */
+/*   init_struct_share1.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/19 16:50:14 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/23 18:16:10 by kakiba           ###   ########.fr       */
+/*   Created: 2023/03/19 18:03:13 by kakiba            #+#    #+#             */
+/*   Updated: 2023/03/23 18:48:03 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <philosophers.h>
 
-int	init_shared_resourse(t_shared_resourse	*resourse)
+t_queue	*init_queue(void);
+
+int	init_share(t_share *share, t_status *status, char *philo_num_arg)
 {
-	if (pthread_mutex_init(&resourse->stuff, NULL) == -1)
-		return (ERROR);
-	if (pthread_mutex_init(&resourse->is_available_mutex, NULL) == -1)
-		return (ERROR);
-	resourse->is_available = true;
-	return (SUCCESS);
+	int	i;
+
+	share->philo_num = ft_strtol(philo_num_arg, NULL, 10);
+	share->dead_info = init_t_dead(share->philo_num);
+	share->wishs = init_wishs(share->philo_num);
+	share->forks = init_fork(share->philo_num);
+	share->queue = init_queue();
+	share->th_id = init_th_id(share->philo_num + 1);
+	share->philos_time_to_dead = malloc(sizeof(time_t) * share->philo_num);
+	share->philos_eat_times = malloc(sizeof(int) * share->philo_num);
+	i = 0;
+	while (i < share->philo_num)
+	{
+		share->philos_time_to_dead[i] = -1;
+		share->philos_eat_times[i] = 0;
+		i++;
+	}
+	if (status->must_eat_times < 0)
+		share->must_eat_times_exists = false;
+	else
+		share->must_eat_times_exists = true;
+	share->time_to_starve = status->time_to_starve;
+	share->must_eat_times = status->must_eat_times;
+	return (0);
 }
 
 t_fork	*init_fork(int philo_num)
@@ -88,13 +108,3 @@ t_wish	*init_wishs(int philo_num)
 	return (wishs);
 }
 
-pthread_t	*init_th_id(int thread_num)
-{
-	pthread_t *th;
-
-	th =  malloc(sizeof(pthread_t) * thread_num);
-	// th =  malloc(sizeof(pthread_t) * 1);
-	if (th == NULL)
-		return (NULL);
-	return (th);
-}

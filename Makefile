@@ -17,18 +17,22 @@ DFLAGS		:= -MMD -MP
 # VPATH = srcs:srcs/UTIL
 SRCDIR    = src
 SRCS	:= 	main.c\
-		 	monitor.c\
+		 	th_monitor.c\
+		 	th_monitor_fork.c\
+			th_monitor_death.c\
+			th_monitor_utils.c\
+			th_philo.c\
+			th_philo_fork.c\
+			th_philo_utils.c\
+			th_philo_init.c\
+			th_writer.c\
+			init_struct_philo.c\
+			init_struct_share1.c\
+			init_struct_share2.c\
 			thread_create.c\
-		 	monitor_fork.c\
-			monitor_death.c\
-			monitor_utils.c\
-			ft_control_queue.c\
-			init_philo.c\
-			init_other.c\
-			init_other2.c\
-			parse.c\
 			wish.c\
-			routine_init.c\
+			parse.c\
+			ft_control_queue.c\
 			ft_strjoin.c\
 			ft_itoa.c\
 			ft_memmove.c\
@@ -41,14 +45,10 @@ SRCS	:= 	main.c\
 			ft_ltoa.c\
 			ft_isdigit_str.c\
 			ft_get_time_in_millisec.c\
-			routine.c\
-			routine_fork.c\
-			routine_utils.c\
 			ft_pthread_mutex_trylock.c\
 			ft_strtol.c\
 			ft_is_utils.c\
 			ft_lstadd_back.c\
-			writer.c\
 
 #=============================
 #directory
