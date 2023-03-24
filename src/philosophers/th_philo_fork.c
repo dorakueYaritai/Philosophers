@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   routine_fork.c                                     :+:      :+:    :+:   */
+/*   th_philo_fork.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:36:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/23 17:38:34 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/25 01:23:24 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ int	take_forks(t_philo *philo)
 	first = philo->forks[FIRST];
 	second = philo->forks[SECOND];
 	update_wish_status(philo->wish, LET_TRY_TO_TAKE_FORKS, NONE, NONE, philo->philo_id);
-	// 手付けていいですか と じっさいfork とる時二回リクエスト
+	// 手付けていいですか と じっさいfork とる時 別々リクエスト
 	// 前者はアルゴリズム的回答を求めてて、後者はdead のチェック(eat とかと一緒)
 	while (1)
 	{
-		ans = is_wish_come(philo->wish, philo->philo_id, LET_TRY_TO_TAKE_FORKS);
+		ans = get_monitor_answer(philo->wish, philo->philo_id, LET_TRY_TO_TAKE_FORKS);
 		if (ans == LET_OK)
 			break;
 		else if (ans == LET_DEAD)
@@ -64,18 +64,6 @@ static int	take_fork(t_philo *philo, t_fork *fork, t_fork *had)
 	}
 	return (SUCCESS);
 }
-
-// static int	take_fork(t_philo *philo, t_fork *fork, t_fork *had)
-// {
-// 	ft_pthread_mutex_lock(&fork->fork);
-// 	if (exe_act(philo, LET_TAKE_A_FORK) == ERROR)
-// 	{
-// 		put_fork(philo, fork);
-// 		return (ERROR);
-// 	}
-// 	return (SUCCESS);
-// }
-
 
 int	put_forks(t_philo *philo)
 {

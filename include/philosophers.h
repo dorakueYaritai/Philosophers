@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 09:53:14 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/24 23:27:12 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/25 01:24:25 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,11 +161,8 @@ bool		is_must_eat_times_fulfilled(t_share *share);
 int			enqueue_log_msg_to_writer(t_share *share, \
 	int id, long sec_milli, int act);
 
-
 // init.c
 t_philo	*init_philos(t_status *status, t_share *share);
-// t_philo	*init_philos(t_status *status, t_fork *m_forks, t_share *share);
-// t_philo	*init_philos(t_status *status, t_share *share);
 
 // init_other.c
 int			init_share(t_share *share, t_status *status, char *philo_num_arg);
@@ -177,7 +174,7 @@ int			init_shared_resourse(t_shared_resourse	*resourse);
 int	init_status(t_status *status, char **argv, int argc);
 
 // routine.c
-int			philo_think(t_philo *philo);
+// int			philo_think(t_philo *philo);
 int			exe_act(t_philo *philo, int act);
 
 // routine_init.c
@@ -204,8 +201,8 @@ int	is_ok_the_guy_eat2(t_share *share,int id, int num);
 // wish.c
 // int	update_wish_status(t_wish *wish, int request, long sec_milli, int fork_id);
 int	update_wish_status(t_wish *wish, int request, long sec_milli, int fork_id, int id);
-// int	is_wish_come(t_wish *wish);
-int		is_wish_come(t_wish *wish, int id, int wish_act);
+// int	get_monitor_answer(t_wish *wish);
+int		get_monitor_answer(t_wish *wish, int id, int wish_act);
 int		thanks_a_host(t_wish *wish);
 
 int			ft_pthread_mutex_trylock(t_shared_resourse *sourse);

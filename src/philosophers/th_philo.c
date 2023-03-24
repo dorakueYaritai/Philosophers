@@ -6,16 +6,16 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:36:38 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/24 22:39:54 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/25 01:23:24 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <philosophers.h>
 
-int	philo_sleep(t_philo *philo);
-int	philo_think(t_philo *philo);
-int	philo_eat(t_philo *philo);
+static int	philo_sleep(t_philo *philo);
+static int	philo_think(t_philo *philo);
+static int	philo_eat(t_philo *philo);
 int	exe_act(t_philo *philo, int act);
 void* routine_init(void *_philo);
 
@@ -29,7 +29,7 @@ void* routine_init(void *_philo){
 	return ((void *) philo_think(philo));
 }
 
-int	philo_think(t_philo *philo)
+static int	philo_think(t_philo *philo)
 {
 	if (exe_act(philo, LET_THINK) == ERROR)
 		return (ERROR);
@@ -40,7 +40,7 @@ int	philo_think(t_philo *philo)
 	return (philo_eat(philo));
 }
 
-int	philo_eat(t_philo *philo)
+static int	philo_eat(t_philo *philo)
 {
 	if (exe_act(philo, LET_EAT) == ERROR)
 	{
@@ -52,7 +52,7 @@ int	philo_eat(t_philo *philo)
 	return (philo_sleep(philo));
 }
 
-int	philo_sleep(t_philo *philo)
+static int	philo_sleep(t_philo *philo)
 {
 	if (exe_act(philo, LET_SLEEP) == ERROR)
 		return (ERROR);
@@ -74,7 +74,7 @@ int	exe_act(t_philo *philo, int act)
 		usleep((unsigned int)(philo->status.time_to_sleep) * 1000);
 	while (1)
 	{
-		answer = is_wish_come(philo->wish, philo->philo_id, act);
+		answer = get_monitor_answer(philo->wish, philo->philo_id, act);
 		if (answer == LET_OK)
 			break;
 		else if (answer == LET_DEAD)

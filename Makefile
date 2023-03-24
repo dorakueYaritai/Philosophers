@@ -28,7 +28,6 @@ SRCS	:= 	main.c\
 			th_monitor_make_log.c\
 			th_philo.c\
 			th_philo_fork.c\
-			th_philo_init.c\
 			th_philo_wish.c\
 			th_writer.c\
 			init_struct_philo.c\

@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:37:21 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/24 23:15:02 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/25 01:06:12 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,7 @@ int	enqueue_log_msg_to_writer(t_share *share, int id, long sec_milli, int act)
 	t_list	*new_node;
 	char	*philo_act_log_massage;
 
-	if (act == LET_OK || act == LET_INIT || act == LET_TRY_TO_TAKE_FORKS)
-	{
-		return (SUCCESS);
-	}
-	else if (act == WRITER_END)
+	if (act == WRITER_END)
 		philo_act_log_massage = strdup("");
 	else
 		philo_act_log_massage = make_msg(id, sec_milli, act, NONE);
@@ -93,7 +89,9 @@ char	*make_msg(int id, long sec_milli, int act, int fork_id)
 	else if (act == LET_SLEEP)
 		tmp = ft_strjoin(join, MSG_SLEEP);
 	else if (act == LET_DEAD)
+	{
 		tmp = ft_strjoin(join, MSG_DEAD);
+	}
 	free (join);
 	if (tmp == NULL)
 	{

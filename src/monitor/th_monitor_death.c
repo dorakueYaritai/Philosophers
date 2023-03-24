@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:27:05 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/24 23:56:09 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/25 01:19:40 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int answer_dead_to_all_request(t_share *share)
 	{
 		if (ft_pthread_mutex_lock(&share->wishs[i].mutex))
 			return (ERROR);
-		share->wishs[i].request = LET_DEAD;
 		share->wishs[i].request_info.request = LET_DEAD;
+		// share->wishs[i].request = LET_DEAD;
 		if (ft_pthread_mutex_unlock(&share->wishs[i].mutex))
 			return (ERROR);
 		i++;
