@@ -1,17 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   routine_utils.c                                    :+:      :+:    :+:   */
+/*   th_monitor_make_log.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:37:21 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/23 17:57:49 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/24 23:15:02 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <philosophers.h>
+
+int	enqueue_log_msg_to_writer(t_share *share, int id, long sec_milli, int act)
+{
+	t_list	*new_node;
+	char	*philo_act_log_massage;
+
+	if (act == LET_OK || act == LET_INIT || act == LET_TRY_TO_TAKE_FORKS)
+	{
+		return (SUCCESS);
+	}
+	else if (act == WRITER_END)
+		philo_act_log_massage = strdup("");
+	else
+		philo_act_log_massage = make_msg(id, sec_milli, act, NONE);
+	if (philo_act_log_massage == NULL)
+	{
+		return (ERROR);
+	}
+	new_node = ft_lstnew(philo_act_log_massage);
+	if (new_node == NULL)
+	{
+		return (ERROR);
+	}
+	ft_pthread_mutex_lock(&share->queue->mutex);
+	ft_enqueue(&share->queue->list, new_node);
+	ft_pthread_mutex_unlock(&share->queue->mutex);
+	return (SUCCESS);
+}
 
 char	*make_prefix_msg(int id, long sec_milli, int act)
 {
@@ -22,18 +50,26 @@ char	*make_prefix_msg(int id, long sec_milli, int act)
 
 	sec_milli_str = ft_ltoa(sec_milli);
 	if (sec_milli_str == NULL)
+	{
 		return (NULL);
+	}
 	join = ft_strjoin(sec_milli_str, " ");
 	free (sec_milli_str);
 	if (join == NULL)
+	{
 		return (NULL);
+	}
 	id_str = ft_itoa(id);
 	if (id_str == NULL)
+	{
 		return (NULL);
+	}
 	tmp = ft_strjoin(join, id_str);
 	free (id_str);
 	if (tmp == NULL)
+	{
 		return (NULL);
+	}
 	free (join);
 	return (tmp);
 }
@@ -45,7 +81,9 @@ char	*make_msg(int id, long sec_milli, int act, int fork_id)
 
 	join = make_prefix_msg(id, sec_milli, act);
 	if (join == NULL)
+	{
 		return (NULL);
+	}
 	if (act == LET_TAKE_A_FORK)
 		tmp = ft_strjoin(join, MSG_FORK);
 	else if (act == LET_EAT)
@@ -58,7 +96,9 @@ char	*make_msg(int id, long sec_milli, int act, int fork_id)
 		tmp = ft_strjoin(join, MSG_DEAD);
 	free (join);
 	if (tmp == NULL)
+	{
 		return (NULL);
+	}
 	return (tmp);
 }
 

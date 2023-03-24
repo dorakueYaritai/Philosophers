@@ -4,7 +4,7 @@
 NAME		:= philo
 CC			:= cc 
 RM			:= rm -f
-# CFLAGS		:= -O
+CFLAGS		:= -O
 # CFLAGS 			:= -g  -fsanitize=address -fsanitize=undefined 
 # CFLAGS		:= -O -Weverything
 # CFLAGS		:= -fsanitize=thread -Wall -Wextra -O
@@ -21,20 +21,20 @@ PHILOSOPHESRDIR    = $(SRCDIR)/philosophers
 WRITERRDIR    = $(SRCDIR)/writer
 
 SRCS	:= 	main.c\
-		 	th_monitor.c\
+		 	th_monitor_main.c\
 		 	th_monitor_fork.c\
 			th_monitor_death.c\
 			th_monitor_utils.c\
+			th_monitor_make_log.c\
 			th_philo.c\
 			th_philo_fork.c\
-			th_philo_utils.c\
 			th_philo_init.c\
+			th_philo_wish.c\
 			th_writer.c\
 			init_struct_philo.c\
 			init_struct_share1.c\
 			init_struct_share2.c\
 			thread_create.c\
-			wish.c\
 			parse.c\
 			ft_strjoin.c\
 			ft_control_queue.c\
@@ -58,7 +58,8 @@ SRCS	:= 	main.c\
 #directory
 #=============================
 INCDIR		= include/
-INCLUDE		= -I $(INCDIR) -lpthread
+# INCLUDE		= -I $(INCDIR) -lpthread
+INCLUDE		= -I $(INCDIR)
 OBJDIR		= obj
 ifeq "$(strip $(OBJDIR))" ""
 OBJDIR	= .
@@ -82,6 +83,18 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) $(DFLAGS) $(INCLUDE) -c $< -o $@
 
 $(OBJDIR)/%.o: $(LIBDIR)/%.c
+	-mkdir -p $(OBJDIR) 
+	$(CC) $(CFLAGS) $(DFLAGS) $(INCLUDE) -c $< -o $@
+
+$(OBJDIR)/%.o: $(MONITORDIR)/%.c
+	-mkdir -p $(OBJDIR) 
+	$(CC) $(CFLAGS) $(DFLAGS) $(INCLUDE) -c $< -o $@
+
+$(OBJDIR)/%.o: $(PHILOSOPHESRDIR)/%.c
+	-mkdir -p $(OBJDIR) 
+	$(CC) $(CFLAGS) $(DFLAGS) $(INCLUDE) -c $< -o $@
+
+$(OBJDIR)/%.o: $(WRITERRDIR)/%.c
 	-mkdir -p $(OBJDIR) 
 	$(CC) $(CFLAGS) $(DFLAGS) $(INCLUDE) -c $< -o $@
 

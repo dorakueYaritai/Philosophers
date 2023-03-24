@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 09:53:14 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/23 19:16:48 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/24 23:27:12 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,18 @@ struct s_dead{
 	int					*must_eat_times;
 };
 
+typedef struct s_wish_info t_wish_info;
+struct s_wish_info{
+	int					request;
+	long				act_time;
+	int					fork_id;
+};
+
 typedef struct s_wish t_wish;
 struct s_wish{
 	t_shared_resourse	mutex;
-	int					let_me_eat;
+	t_wish_info			request_info;
+	int					request;
 	long				sec_milli;
 	int					fork_id;
 };
@@ -102,17 +110,14 @@ struct s_philo{
 	t_wish			*wish;
 };
 
-
 enum {
-	LET_TRY_TO_TAKE_FORKS,
-	LET_TAKE_A_FORK,
-	LET_PUT_OFF_A_FORK,
 	LET_EAT,
 	LET_THINK,
-	LET_DEAD,
 	LET_SLEEP,
+	LET_TRY_TO_TAKE_FORKS,
+	LET_TAKE_A_FORK,
+	LET_DEAD,
 	LET_OK,
-	LET_REJECT,
 	LET_INIT,
 	WRITER_END,
 };
@@ -143,12 +148,12 @@ int			parse_argment(int argc, char *argv[]);
 int monitor_philos(t_share *share);
 
 // monitor_fork.c
-int	is_ok_the_guy_eat(t_share *share,int id, int num);
+int	is_ok_the_guy_take_forks(t_share *share,int own_id, int num);
 void	ultra_debug(int id, int left_id, int right_id, t_dead *dead_info);
 bool	guys_forks_avilable(t_share *share, int left_id, int right_id, int num);
 
 // monitor_death
-int kill_everyone(t_share *share);
+int		answer_dead_to_all_request(t_share *share);
 bool	did_the_old_man_go_heaven(t_share *share, int id);
 
 // monitor_utils

@@ -1,17 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   monitor_fork.c                                     :+:      :+:    :+:   */
+/*   th_monitor_fork.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:15:39 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/23 18:03:04 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/23 19:34:17 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philosophers.h>
 #include <libft.h>
+
+int	is_ok_the_guy_take_forks(t_share *share,int own_id, int num)
+{
+	int left_id;
+	int right_id;
+	char	*str;
+
+	left_id = ft_positive_mod(own_id - 1, num);
+	right_id = ft_positive_mod(own_id + 1, num);
+	if (left_id == own_id || right_id == own_id)
+		return (false);
+	// if (guys_forks_avilable(share, left_id, right_id, num) == true)
+	// 	return (LET_OK);
+	if (share->philos_time_to_dead[own_id] <= share->philos_time_to_dead[left_id] && \
+		share->philos_time_to_dead[own_id] <= share->philos_time_to_dead[right_id])
+		return (true);
+	else if (share->philos_time_to_dead[left_id] == -1 \
+		|| share->philos_time_to_dead[right_id] == -1)
+		return (true);
+	else
+		return (false);
+}
 
 bool	guys_forks_avilable(t_share *share, int left_id, int right_id, int num)
 {
@@ -77,28 +99,4 @@ void	ultra_debug(int id, int left_id, int right_id, t_dead *dead_info)
     str = ft_strjoin(str, ft_ltoa(*dead_info[right_id].time_to_die));
     str = ft_strjoin(str, ": \n");
 	write(1, str, strlen(str));
-}
-
-int	is_ok_the_guy_eat2(t_share *share,int own_id, int num)
-{
-	int left_id;
-	int right_id;
-	char	*str;
-
-	left_id = ft_positive_mod(own_id - 1, num);
-	right_id = ft_positive_mod(own_id + 1, num);
-	if (left_id == own_id || right_id == own_id)
-		return (false);
-	// if (guys_forks_avilable(share, left_id, right_id, num) == true)
-	// 	return (LET_OK);
-	// if (are_forks_not_avilable(share, left_id, right_id, num) == true)
-	// 	return (LET_TRY_TO_TAKE_FORKS);
-	if (share->philos_time_to_dead[own_id] <= share->philos_time_to_dead[left_id] && \
-		share->philos_time_to_dead[own_id] <= share->philos_time_to_dead[right_id])
-		return (true);
-	else if (share->philos_time_to_dead[left_id] == -1 \
-		|| share->philos_time_to_dead[right_id] == -1)
-		return (true);
-	else
-		return (false);
 }

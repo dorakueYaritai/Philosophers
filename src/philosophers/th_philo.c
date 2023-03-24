@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:36:38 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/23 19:07:35 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/24 22:39:54 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int	philo_sleep(t_philo *philo)
 		return (ERROR);
 	return (philo_think(philo));
 }
-
 
 int	exe_act(t_philo *philo, int act)
 {

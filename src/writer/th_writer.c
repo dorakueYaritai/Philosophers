@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 12:32:20 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/23 19:03:47 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/24 22:51:03 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	writer_exe(t_queue *queue)
 			usleep(10000);
 			continue;
 		}
+		if (node->content == NULL)
+			continue;
 		len = ft_strlen(node->content);
 		if (len == 0)
 		{
