@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 18:03:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/23 19:19:04 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 09:04:33 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	init_share(t_share *share, t_status *status, char *philo_num_arg)
 	int	i;
 
 	share->philo_num = ft_strtol(philo_num_arg, NULL, 10);
-	share->dead_info = init_t_dead(share->philo_num);
 	share->wishs = init_wishs(share->philo_num);
 	share->forks = init_fork(share->philo_num);
 	share->queue = init_queue();

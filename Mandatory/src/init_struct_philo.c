@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 23:05:11 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/23 18:47:16 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 09:05:35 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,12 @@ static int	init_philo_sub(t_philo *philo,
 	philo_num = share->philo_num;
 	i = philo->philo_id;
 	// philo->status = *status;
-
 	philo->status.time_to_starve = status->time_to_starve;
 	philo->status.time_to_eat = status->time_to_eat;
 	philo->status.time_to_sleep = status->time_to_sleep;
 	philo->status.time_to_die = status->time_to_die;
 	philo->status.must_eat_times = status->must_eat_times;
-
-	philo->dead_info = &share->dead_info[i];
 	philo->wish = &share->wishs[i];
-
-	share->dead_info[i].time_to_die = &philo->status.time_to_die;
-	share->dead_info[i].must_eat_times = &philo->status.must_eat_times;
-
-	// philo->dead_info->is_death = false;
 	if (i % 2 == 0)
 	{
 		philo->forks[FIRST] = &share->forks[i];
@@ -64,7 +56,7 @@ t_philo	*init_philos(t_status *status, t_share *share)
 	philo_num = share->philo_num;
 	philos = malloc(sizeof(t_philo) * philo_num);
 	i = 0;
-	if (share == NULL || share->forks == NULL || share->dead_info == NULL)
+	if (share == NULL || share->forks == NULL)
 		return (NULL);
 	while (i < philo_num)
 	{

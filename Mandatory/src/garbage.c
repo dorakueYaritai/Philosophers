@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:29:52 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/23 19:24:52 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 00:24:53 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,38 @@
 
 static int	threads_create(t_philo *philos, pthread_t *th_id, int philo_num);
 static int	threads_join(pthread_t *th_id, int philo_num);
+
+// bus error が出た。なんでだろ
+// static int	take_fork(t_philo *philo, t_fork *fork, t_fork *had)
+// {
+// 	if (ft_pthread_mutex_lock(&fork->fork) == ERROR)
+// 		ft_return (philo, ERROR);
+// 	if (exe_act(philo, LET_TAKE_A_FORK) == ERROR)
+// 	{
+// 		put_fork(philo, fork);
+// 		ft_return (philo, ERROR);
+// 	}
+// 	return (SUCCESS);
+// }
+
+// // bus error が出た。なんでだろ
+// static int	take_fork(t_philo *philo, t_fork *fork, t_fork *had)
+// {
+// 	while (ft_pthread_mutex_trylock(&fork->fork) == ERROR)
+// 	{
+// 		// if (had != NULL)
+// 		// {
+// 		// 	put_fork(philo, had);
+// 		// 	return (take_forks(philo));
+// 		// }
+// 	}
+// 	if (exe_act(philo, LET_TAKE_A_FORK) == ERROR)
+// 	{
+// 		put_fork(philo, fork);
+// 		ft_return (philo, ERROR);
+// 	}
+// 	return (SUCCESS);
+// }
 
 int main(int argc, char* argv[]) {
 	t_philo		*philos;

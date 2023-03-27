@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:27:05 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/25 01:19:40 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 00:04:51 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int answer_dead_to_all_request(t_share *share)
 
 bool	did_the_old_man_go_heaven(t_share *share, int id)
 {
-	struct timeval	t1;
 	long			sec_milli;
 
 	sec_milli = ft_get_time_in_millisec();

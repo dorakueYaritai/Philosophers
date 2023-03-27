@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 12:32:20 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/24 22:51:03 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 00:40:00 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ int	writer_exe(t_queue *queue)
 			free (node);
 			return (0);
 		}
-		write(1, node->content, len);
+		if (write(1, node->content, len) == ERROR)
+			return (ERROR);
 		free (node->content);
 		free (node);
 		usleep(10000);

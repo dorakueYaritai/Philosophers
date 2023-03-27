@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 09:53:14 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/25 01:24:25 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 09:07:10 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,7 @@ typedef struct s_queue t_queue;
 struct s_queue{
 	t_shared_resourse	mutex;
 	t_list				*list;
-};
-
-typedef struct s_dead t_dead;
-struct s_dead{
-	t_shared_resourse	mutex;
-	time_t				*time_to_die;
-	int					*must_eat_times;
+	bool				do_proceed;
 };
 
 typedef struct s_wish_info t_wish_info;
@@ -78,7 +72,6 @@ struct s_wish{
 typedef struct s_share t_share;
 struct s_share{
 	t_wish				*wishs;
-	t_dead				*dead_info;
 	t_fork				*forks;
 	time_t				time_to_starve;
 	time_t				*philos_time_to_dead;
@@ -90,6 +83,17 @@ struct s_share{
 	pthread_t			*th_id;
 	t_queue				*queue;
 	// t_list				*msg_quere;
+};
+
+typedef struct s_a_share t_a_share;
+struct s_a_share{
+	t_wish				*wish;
+	t_status			status;
+	t_queue				*queue;
+	bool				must_eat_times_exists;
+	long				philo_num;
+	int					philos_eat_times;
+	time_t				philos_time_to_dead;
 };
 
 typedef struct s_status t_status;
@@ -106,7 +110,6 @@ struct s_philo{
 	int				philo_id;
 	t_status		status;
 	t_fork			*forks[2];
-	t_dead			*dead_info;
 	t_wish			*wish;
 };
 
@@ -149,7 +152,7 @@ int monitor_philos(t_share *share);
 
 // monitor_fork.c
 int	is_ok_the_guy_take_forks(t_share *share,int own_id, int num);
-void	ultra_debug(int id, int left_id, int right_id, t_dead *dead_info);
+void	ultra_debug(int id, int left_id, int right_id);
 bool	guys_forks_avilable(t_share *share, int left_id, int right_id, int num);
 
 // monitor_death
@@ -163,6 +166,9 @@ int			enqueue_log_msg_to_writer(t_share *share, \
 
 // init.c
 t_philo	*init_philos(t_status *status, t_share *share);
+
+int	ft_return(t_philo *philo, int ret);
+void	init_wish_info(t_wish_info *info, long act_time, int fork_id, int request);
 
 // init_other.c
 int			init_share(t_share *share, t_status *status, char *philo_num_arg);
@@ -181,9 +187,9 @@ int			exe_act(t_philo *philo, int act);
 void* routine_init(void *_philo);
 
 // routine_utils.c
-int			print_time(int id, long sec_milli, int act, int fork_id);
+int	print_time(int id, long sec_milli, int act);
 bool		check_am_i_dead(t_philo *philo);
-char	*make_msg(int id, long sec_milli, int act, int fork_id);
+int	enqueue_log_msg_to_writer(t_share *share, int id, long sec_milli, int act);
 t_list	*ft_lstnew(void *content);
 
 // thread.c
@@ -200,9 +206,9 @@ int	is_ok_the_guy_eat2(t_share *share,int id, int num);
 
 // wish.c
 // int	update_wish_status(t_wish *wish, int request, long sec_milli, int fork_id);
-int	update_wish_status(t_wish *wish, int request, long sec_milli, int fork_id, int id);
+int	update_wish_status(t_wish *wish, t_wish_info *info);
 // int	get_monitor_answer(t_wish *wish);
-int		get_monitor_answer(t_wish *wish, int id, int wish_act);
+int		get_monitor_answer(t_wish *wish);
 int		thanks_a_host(t_wish *wish);
 
 int			ft_pthread_mutex_trylock(t_shared_resourse *sourse);

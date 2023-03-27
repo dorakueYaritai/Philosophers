@@ -6,19 +6,27 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:46:58 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/24 18:26:05 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 01:48:52 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philosophers.h>
 #include <libft.h>
 
+// int	init_shared_resourse(t_shared_resourse	*resourse)
+// {
+// 	if (pthread_mutex_init(&resourse->is_available_mutex, NULL) == -1)
+// 		return (ERROR);
+// 	if (pthread_mutex_init(&resourse->stuff, NULL) == -1)
+// 		return (ERROR);
+// 	resourse->is_available = true;
+// 	return (SUCCESS);
+// }
+
 int	init_shared_resourse(t_shared_resourse	*resourse)
 {
-	if (pthread_mutex_init(&resourse->stuff, NULL) == -1)
-		return (ERROR);
-	if (pthread_mutex_init(&resourse->is_available_mutex, NULL) == -1)
-		return (ERROR);
+	resourse->is_available_mutex = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
+	resourse->stuff = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
 	resourse->is_available = true;
 	return (SUCCESS);
 }

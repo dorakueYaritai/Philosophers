@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 14:24:18 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/25 01:20:24 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 00:22:14 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #include <philosophers.h>
 
 int	listen_to_old_guys_request(t_share *share, int id);
-int	answer_request(t_share *share, t_wish *wish, int id, int request);
+int	answer_request(t_share *share, t_wish *wish, int id, t_wish_info info);
+// int	answer_request(t_share *share, t_wish *wish, int id, int request);
 static int	save_request(t_wish_info *info, t_wish_info *philo_request);
 void	update_dead_time(t_share *share, int id, t_wish_info info);
 static int is_log_needed_action(int act);
@@ -58,19 +59,19 @@ int	listen_to_old_guys_request(t_share *share, int id)
 	wish = &share->wishs[id];
 	ft_pthread_mutex_lock(&wish->mutex);
 	save_request(&info, &wish->request_info);
-	if (answer_request(share, wish, id, info.request) == FOUND_DEAD)
+	if (answer_request(share, wish, id, info) == FOUND_DEAD)
 		return (FOUND_DEAD);
 	ft_pthread_mutex_unlock(&wish->mutex);
 	if (is_log_needed_action(info.request))
 	{
 		if (enqueue_log_msg_to_writer(share, id, info.act_time , info.request) == ERROR)
-		return (ERROR);
+			return (ERROR);
 	}
 	update_dead_time(share, id, info);
 	return (SUCCESS);
 }
 
-int	answer_request(t_share *share, t_wish *wish, int id, int request)
+int	answer_request(t_share *share, t_wish *wish, int id, t_wish_info info)
 {
 	if (did_the_old_man_go_heaven(share, id) == true)
 	{
@@ -80,7 +81,14 @@ int	answer_request(t_share *share, t_wish *wish, int id, int request)
 		answer_dead_to_all_request(share);
 		return (FOUND_DEAD);
 	}
-	if (request == LET_TRY_TO_TAKE_FORKS)
+	else if (info.request == LET_DEAD)
+	{
+		enqueue_log_msg_to_writer(share, id, info.act_time, LET_DEAD);
+		ft_pthread_mutex_unlock(&wish->mutex);
+		answer_dead_to_all_request(share);
+		return (FOUND_DEAD);
+	}
+	else if (info.request == LET_TRY_TO_TAKE_FORKS)
 	{
 		if (is_ok_the_guy_take_forks(share, id, share->philo_num))
 			wish->request_info.request = LET_OK;
@@ -111,7 +119,7 @@ void	update_dead_time(t_share *share, int id, t_wish_info info)
 static int is_log_needed_action(int act)
 {
 	return (act == LET_EAT || act == LET_TAKE_A_FORK \
-	|| act == LET_SLEEP || act == LET_DEAD);
+	|| act == LET_SLEEP || act == LET_DEAD || act == LET_THINK);
 }
 
 

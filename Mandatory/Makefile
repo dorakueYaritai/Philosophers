@@ -5,11 +5,10 @@ NAME		:= philo
 CC			:= cc 
 RM			:= rm -f
 CFLAGS		:= -O
-# CFLAGS 			:= -g  -fsanitize=address -fsanitize=undefined 
 # CFLAGS		:= -O -Weverything
 # CFLAGS		:= -fsanitize=thread -Wall -Wextra -O
 # CFLAGS		:= -fsanitize=address -Wall -Wextra -O 
-# CFLAGS		:= -Wall -Wextra -Werror -O 
+# CFLAGS		:= -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=undefined -O 
 DFLAGS		:= -MMD -MP
 #=============================
 #src

@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:16:41 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/24 22:37:34 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 00:02:45 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,23 @@ void	free_all(t_share *share, t_philo *philo, int num)
 	int	i;
 
 	i = 0;
-	// while (i < num)
-	// {
-	// 	destroy_shared_resourses(&share->wishs[i].mutex);
-	// 	destroy_shared_resourses(&share->dead_info[i].mutex);
-	// 	destroy_shared_resourses(&share->forks[i].fork);
-	// 	i++;
-	// }
-	// ft_free(share->philos_time_to_dead);
-	// ft_free(share->philos_eat_times);
-	// ft_free(share->th_id);
-	// ft_free(share->wishs);
-	// ft_free(share->dead_info);
-	// ft_free(share->forks);
-	// ft_free(philo);
-	// destroy_shared_resourses(&share->queue->mutex);
-	// ft_free(share->queue->list);
-	// ft_free(share->queue);
+	while (i < num)
+	{
+		destroy_shared_resourses(&share->wishs[i].mutex);
+		destroy_shared_resourses(&share->dead_info[i].mutex);
+		destroy_shared_resourses(&share->forks[i].fork);
+		i++;
+	}
+	ft_free(share->philos_time_to_dead);
+	ft_free(share->philos_eat_times);
+	ft_free(share->th_id);
+	ft_free(share->wishs);
+	ft_free(share->dead_info);
+	ft_free(share->forks);
+	ft_free(philo);
+	destroy_shared_resourses(&share->queue->mutex);
+	ft_free(share->queue->list);
+	ft_free(share->queue);
 }
 
 int main(int argc, char* argv[]) {
