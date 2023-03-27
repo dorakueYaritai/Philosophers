@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 14:24:18 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 11:22:54 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 09:18:55 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,23 +31,30 @@ void	*monitor_init(void *share)
 
 int	monitor_philos(t_share *share)
 {
+	int	id;
+	int	num;
 	int	ret;
 
+	num = share->philo_num;
+	id = 0;
 	while (1)
 	{
-		ret = listen_to_old_guys_request(share, share->philo_id);
+		ret = listen_to_old_guys_request(share, id);
 		if (ret)
 		{
 			answer_dead_to_all_request(share);
-			// enqueue_log_msg_to_writer(share, -1, -1, WRITER_END);
+			enqueue_log_msg_to_writer(share, -1, -1, WRITER_END);
 			return (ret);
 		}
 		if (is_must_eat_times_fulfilled(share) == true)
 		{
 			answer_dead_to_all_request(share);
-			// enqueue_log_msg_to_writer(share, -1, -1, WRITER_END);
+			enqueue_log_msg_to_writer(share, -1, -1, WRITER_END);
 			return (SUCCESS);
 		}
+		++id;
+		if (id == num)
+			id = 0;
 	}
 	return (0);
 }
@@ -77,10 +84,8 @@ int	answer_request(t_share *share, t_wish *wish, int id, t_wish_info info)
 {
 	if (did_the_old_man_go_heaven(share, id) == true)
 	{
-		ft_pthread_mutex_lock(&share->time_to_die_array[id].mutex);
-		enqueue_log_msg_to_writer(share, id, share->time_to_die_array[id].time_to_die, LET_DEAD);
-		ft_pthread_mutex_unlock(&share->time_to_die_array[id].mutex);
-		
+		enqueue_log_msg_to_writer(share, id, share->philos_time_to_dead[id], LET_DEAD);
+		// wish->request_info.request = LET_DEAD;
 		ft_pthread_mutex_unlock(&wish->mutex);
 		answer_dead_to_all_request(share);
 		return (FOUND_DEAD);
@@ -110,15 +115,11 @@ static int	save_request(t_wish_info *info, t_wish_info *philo_request)
 	return (0);
 }
 
-
 void	update_dead_time(t_share *share, int id, t_wish_info info)
 {
 	if (info.request == LET_EAT || info.request == LET_INIT)
 	{
-		ft_pthread_mutex_lock(&share->time_to_die_array[id].mutex);
-		share->time_to_die_array[id].time_to_die = info.act_time + share->time_to_starve;
-		ft_pthread_mutex_unlock(&share->time_to_die_array[id].mutex);
-		// share->philos_time_to_dead[id] = info.act_time + share->time_to_starve;
+		share->philos_time_to_dead[id] = info.act_time + share->time_to_starve;
 		if (info.request == LET_EAT)
 			++share->philos_eat_times[id];
 	}

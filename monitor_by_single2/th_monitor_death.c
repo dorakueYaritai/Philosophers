@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:27:05 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 11:10:15 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 00:04:51 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,10 @@ bool	did_the_old_man_go_heaven(t_share *share, int id)
 	sec_milli = ft_get_time_in_millisec();
 	if (sec_milli == -1)
 		return (true);
-	ft_pthread_mutex_lock(&share->time_to_die_array[id].mutex);
-	if ((share->time_to_die_array[id].time_to_die < sec_milli && \
-		share->time_to_die_array[id].time_to_die != -1))
+	if (share->philos_time_to_dead[id] < sec_milli && \
+		share->philos_time_to_dead[id] != -1)
 	{
-		ft_pthread_mutex_unlock(&share->time_to_die_array[id].mutex);
 		return (true);
 	}
-	ft_pthread_mutex_unlock(&share->time_to_die_array[id].mutex);
 	return (false);
 }
-
-// share->philos_time_to_dead[id]

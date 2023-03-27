@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 18:03:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 09:20:58 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 11:09:41 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <philosophers.h>
 
 t_queue	*init_queue(void);
+t_time_to_die	*init_time_to_die_array(int philo_num);
 
 int	init_share(t_share *share, t_status *status, char *philo_num_arg)
 {
@@ -23,9 +24,11 @@ int	init_share(t_share *share, t_status *status, char *philo_num_arg)
 	share->wishs = init_wishs(share->philo_num);
 	share->forks = init_fork(share->philo_num);
 	share->queue = init_queue();
-	share->th_id = init_th_id(share->philo_num + 2);
+	share->th_id = init_th_id((share->philo_num * 2) + 1);
 	share->philos_time_to_dead = malloc(sizeof(time_t) * share->philo_num);
+	share->time_to_die_array = init_time_to_die_array(share->philo_num);
 	share->philos_eat_times = malloc(sizeof(int) * share->philo_num);
+	share->philo_id = 0;
 	i = 0;
 	while (i < share->philo_num)
 	{
@@ -40,6 +43,25 @@ int	init_share(t_share *share, t_status *status, char *philo_num_arg)
 	share->time_to_starve = status->time_to_starve;
 	share->must_eat_times = status->must_eat_times;
 	return (0);
+}
+
+t_time_to_die	*init_time_to_die_array(int philo_num)
+{
+	t_time_to_die	*time_to_die_array;
+	int				i;
+
+	time_to_die_array = malloc(sizeof(t_time_to_die) *philo_num);
+	if (time_to_die_array == NULL)
+		return (NULL);
+	i = 0;
+	while (i < philo_num)
+	{
+		if (init_shared_resourse(&time_to_die_array[i].mutex) == ERROR)
+			return (NULL);
+		time_to_die_array[i].time_to_die = -1;
+		i++;
+	}
+	return (time_to_die_array);
 }
 
 t_fork	*init_fork(int philo_num)

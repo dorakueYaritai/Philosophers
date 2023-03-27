@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:16:41 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 09:16:18 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 11:24:43 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,42 @@ void	free_all(t_share *share, t_philo *philo, int num)
 	ft_free(share->queue);
 }
 
+t_share	*init_shares(t_share *share)
+{
+	t_share	*share_array;
+	long	i;
+
+	share_array = malloc(sizeof(t_share) * share->philo_num);
+	if (share_array == NULL)
+	{
+		printf("OH!!!!!!\n");
+		exit(1);
+	}
+	i = 0;
+	while (i < share->philo_num)
+	{
+		share_array[i] = *share;
+		share_array[i].philo_id = i;
+		// share_array[i].forks = share->forks;
+		// share_array[i].must_eat_times = share->must_eat_times;
+		// share_array[i].must_eat_times_exists = share->must_eat_times_exists;
+		// share_array[i].philo_id = i;
+		// share_array[i].philo_num = share->philo_num;
+		// share_array[i].philos_eat_times = share->philos_eat_times;
+		// share_array[i].philos_time_to_dead = share->philos_time_to_dead;
+		// share_array[i].queue = share->queue;
+		// share_array[i].th_id = share->th_id;
+		// share_array[i].time_to_starve = share->time_to_starve;
+		// share_array[i].wishs = share->wishs;
+		i++;
+	}
+	return (share_array);
+}
+
 int main(int argc, char* argv[]) {
 	t_philo		*philos;
 	t_share		share;
+	t_share		*shares;
 	t_status	status;
 
 	if (parse_argment(argc, argv) != SUCCESS)
@@ -61,15 +94,23 @@ int main(int argc, char* argv[]) {
 	if (init_status(&status, argv, argc) == ERROR)
 		return (1);
 	init_share(&share, &status, argv[1]);
+	shares = init_shares(&share);
 	philos = init_philos(&status, &share);
-	if (monitor_create(&share, share.philo_num + 1) == ERROR) 
+	if (monitor_create(shares, share.philo_num) == ERROR) 
 		return (ERROR);
 	if (threads_create(philos, share.th_id, share.philo_num) == ERROR)
 		return (ERROR);
 	if (writer_create(share.queue, share.th_id, share.philo_num) == ERROR)
 		return (ERROR);
+
+	// if (monitor_create(&share, share.philo_num) == ERROR) 
+	// 	return (ERROR);
+	// if (threads_create(philos, share.th_id, share.philo_num) == ERROR)
+	// 	return (ERROR);
+	// if (writer_create(share.queue, share.th_id, share.philo_num) == ERROR)
+	// 	return (ERROR);
 	// monitor_philos(&share);
-	if (threads_join(share.th_id, share.philo_num + 1) == 2)
+	if (threads_join(share.th_id, share.philo_num) == 2)
 		return (2);
 	free_all(&share, philos, share.philo_num);
 	return (0);

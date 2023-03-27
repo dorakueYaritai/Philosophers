@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 18:03:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 09:20:32 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 09:42:36 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,6 @@ t_queue	*init_queue(void)
 	if (init_shared_resourse(&queue->mutex) == ERROR)
 		return (NULL);
 	queue->list = NULL;
+	queue->do_proceed = true;
 	return (queue);
 }

@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:37:21 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 11:17:42 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 00:09:54 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,10 @@ int	enqueue_log_msg_to_writer(t_share *share, int id, long sec_milli, int act)
 	t_list	*new_node;
 	char	*philo_act_log_massage;
 
-	// if (act == WRITER_END)
-	// 	philo_act_log_massage = strdup("");
-	// else
-	// 	philo_act_log_massage = make_msg(id, sec_milli, act);
-	philo_act_log_massage = make_msg(id, sec_milli, act);
-
+	if (act == WRITER_END)
+		philo_act_log_massage = strdup("");
+	else
+		philo_act_log_massage = make_msg(id, sec_milli, act);
 	if (philo_act_log_massage == NULL)
 	{
 		return (ERROR);
@@ -37,20 +35,7 @@ int	enqueue_log_msg_to_writer(t_share *share, int id, long sec_milli, int act)
 		return (ERROR);
 	}
 	ft_pthread_mutex_lock(&share->queue->mutex);
-	if (share->queue->do_proceed)
-		ft_enqueue(&share->queue->list, new_node);
-	else //
-	{
-		free (philo_act_log_massage);
-		free (new_node);
-		ft_pthread_mutex_unlock(&share->queue->mutex);
-		return (ERROR);
-	}
-	if (act == LET_DEAD)
-	{
-		write(1, ft_strjoin(ft_ltoa(id), "\n"), 4);
-		share->queue->do_proceed = false;
-	}
+	ft_enqueue(&share->queue->list, new_node);
 	ft_pthread_mutex_unlock(&share->queue->mutex);
 	return (SUCCESS);
 }

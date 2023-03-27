@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:15:39 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 11:04:38 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 09:06:06 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ int	is_ok_the_guy_take_forks(t_share *share,int own_id, int num)
 {
 	int left_id;
 	int right_id;
-	long	left_time;
-	long	right_time;
 
 	left_id = ft_positive_mod(own_id - 1, num);
 	right_id = ft_positive_mod(own_id + 1, num);
@@ -26,16 +24,11 @@ int	is_ok_the_guy_take_forks(t_share *share,int own_id, int num)
 		return (false);
 	// if (guys_forks_avilable(share, left_id, right_id, num) == true)
 	// 	return (LET_OK);
-	ft_pthread_mutex_lock(&share->time_to_die_array[left_id].mutex);
-	ft_pthread_mutex_lock(&share->time_to_die_array[right_id].mutex);
-	left_time = share->time_to_die_array[left_id].time_to_die;
-	right_time = share->time_to_die_array[right_id].time_to_die;
-	ft_pthread_mutex_unlock(&share->time_to_die_array[left_id].mutex);
-	ft_pthread_mutex_unlock(&share->time_to_die_array[right_id].mutex);
-	if (share->philos_time_to_dead[own_id] <= left_time && \
-		share->philos_time_to_dead[own_id] <= right_time)
+	if (share->philos_time_to_dead[own_id] <= share->philos_time_to_dead[left_id] && \
+		share->philos_time_to_dead[own_id] <= share->philos_time_to_dead[right_id])
 		return (true);
-	else if (left_time == -1 || right_time == -1)
+	else if (share->philos_time_to_dead[left_id] == -1 \
+		|| share->philos_time_to_dead[right_id] == -1)
 		return (true);
 	else
 		return (false);

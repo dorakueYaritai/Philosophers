@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 09:53:14 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 09:19:50 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 11:24:22 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,12 @@ struct s_wish_info{
 	int					fork_id;
 };
 
+typedef struct s_time_to_die t_time_to_die;
+struct s_time_to_die{
+	t_shared_resourse	mutex;
+	long				time_to_die;
+};
+
 typedef struct s_wish t_wish;
 struct s_wish{
 	t_shared_resourse	mutex;
@@ -86,12 +92,12 @@ struct s_share{
 	time_t				*philos_time_to_dead;
 	int					*philos_eat_times;
 	int					must_eat_times;
-	// time_t				time_to_assume_starve;
 	long				philo_num;
+	int					philo_id;
 	bool				must_eat_times_exists;
 	pthread_t			*th_id;
 	t_queue				*queue;
-	// t_list				*msg_quere;
+	t_time_to_die		*time_to_die_array;
 };
 
 typedef struct s_a_share t_a_share;
@@ -145,8 +151,9 @@ enum {
 #define ERR_INVALID_ARG 1
 #define ERR_ARG_NUM 2
 
-int		monitor_create(t_share *share, int monitor_id);
 void	*monitor_init(void *share);
+int	monitor_create(t_share *share, int philo_num);
+int	writer_create(t_queue *queue, pthread_t *th_id, int philo_num);
 
 // parse.c
 int			parse_argment(int argc, char *argv[]);
@@ -197,8 +204,7 @@ t_list	*ft_lstnew(void *content);
 
 // thread.c
 int	threads_create(t_philo *philos, pthread_t *th_id, int philo_num);
-int	writer_create(t_queue *queue, pthread_t *th_id, int writer_id);
-int	threads_join(pthread_t *th_id, int thread_num);
+int	threads_join(pthread_t *th_id, int philo_num);
 
 
 // routine_fork.c
