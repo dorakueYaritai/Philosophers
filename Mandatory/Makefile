@@ -51,6 +51,7 @@ SRCS	:= 	main.c\
 			ft_strtol.c\
 			ft_is_utils.c\
 			ft_lstadd_back.c\
+			ft_msleep.c\
 
 #=============================
 #directory

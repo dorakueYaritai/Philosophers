@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 09:53:14 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 22:51:10 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 23:13:06 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,5 +235,6 @@ void	ft_lstadd_front(t_list **lst, t_list *new);
 t_list	*ft_lstnew(void *content);
 void	ft_lstdelone(t_list *lst, void (*del)(void*));
 t_list	*ft_lstlast(t_list *lst);
+int	ft_msleep(long sleep_time);
 
 #endif

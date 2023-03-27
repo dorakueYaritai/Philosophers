@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:36:38 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 23:07:00 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 23:15:44 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 static int	philo_sleep(t_philo *philo);
 static int	philo_think(t_philo *philo);
 static int	philo_eat(t_philo *philo);
-int	exe_act(t_philo *philo, int act);
-void* routine_init(void *_philo);
+int			exe_act(t_philo *philo, int act);
+void		*routine_init(void *_philo);
 
-void* routine_init(void *_philo)
+void	*routine_init(void *_philo)
 {
 	t_philo			*philo;
 
@@ -68,18 +68,6 @@ static int	philo_sleep(t_philo *philo)
 // 	return (0);
 // }
 
-static int	ft_msleep(long sleep_time)
-{
-	const long	now_time = ft_get_time_in_millisec();
-	const long	goal_time = now_time + sleep_time;
-
-	if (now_time == -1)
-		return (-1);
-	while (goal_time > ft_get_time_in_millisec())
-		;
-	return (0);
-}
-
 int	exe_act(t_philo *philo, int act)
 {
 	int				answer;
@@ -96,16 +84,44 @@ int	exe_act(t_philo *philo, int act)
 		ft_msleep(philo->status.time_to_eat);
 	else if (act == LET_SLEEP)
 		ft_msleep(philo->status.time_to_sleep);
-	else if (act == LET_DEAD)
-		return (ERROR);
 	while (1)
 	{
 		usleep(10);
 		answer = get_monitor_answer(philo->wish);
 		if (answer == LET_OK)
-			break;
+			break ;
 		else if (answer == LET_DEAD)
 			return (ERROR);
 	}
 	return (SUCCESS);
 }
+
+// int	exe_act(t_philo *philo, int act)
+// {
+// 	int				answer;
+// 	t_wish_info		info;
+
+// 	info.act_time = ft_get_time_in_millisec();
+// 	if (info.act_time == -1)
+// 		return (ERROR);
+// 	info.request = act;
+// 	info.fork_id = NONE;
+// 	if (update_wish_status(philo->wish, &info) == ERROR)
+// 		return (ERROR);
+// 	if (act == LET_EAT)
+// 		ft_msleep(philo->status.time_to_eat);
+// 	else if (act == LET_SLEEP)
+// 		ft_msleep(philo->status.time_to_sleep);
+// 	else if (act == LET_DEAD)
+// 		return (ERROR);
+// 	while (1)
+// 	{
+// 		usleep(10);
+// 		answer = get_monitor_answer(philo->wish);
+// 		if (answer == LET_OK)
+// 			break ;
+// 		else if (answer == LET_DEAD)
+// 			return (ERROR);
+// 	}
+// 	return (SUCCESS);
+// }
