@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:16:41 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 22:24:09 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 22:53:11 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,7 @@ t_share	*init_shares(t_share *share)
 
 	share_array = malloc(sizeof(t_share) * share->philo_num);
 	if (share_array == NULL)
-	{
-		printf("OH!!!!!!\n");
-		exit(1);
-	}
+		return (NULL);
 	i = 0;
 	while (i < share->philo_num)
 	{
@@ -104,8 +101,6 @@ int main(int argc, char* argv[]) {
 		free_all(shares, philos, share.philo_num);
 		return (ERROR);
 	}
-	// threads_join
-	// threads_join_and_deteach
 	if (threads_join(share.th_id, share.philo_num) == 2)
 	{
 		free_all(shares, philos, share.philo_num);

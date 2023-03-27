@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:46:58 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 21:33:43 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 22:41:03 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ int	init_shared_resourse(t_shared_resourse	*resourse)
 
 pthread_t	*init_th_id(int thread_num)
 {
-	pthread_t *th;
+	pthread_t	*th;
 
-	th =  malloc(sizeof(pthread_t) * thread_num);
+	th = malloc(sizeof(pthread_t) * thread_num);
 	if (th == NULL)
 		return (NULL);
 	return (th);

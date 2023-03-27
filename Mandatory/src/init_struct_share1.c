@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 18:03:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 22:33:55 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 22:40:49 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <philosophers.h>
 
 //1
-int	init_share(t_share *share, t_status *status, char *philo_num_arg);
 int				init_alloc_member(t_share *share);
 t_time_to_die	*init_time_to_die_array(int philo_num);
 t_fork			*init_fork(int philo_num);
@@ -55,16 +54,14 @@ int	init_share(t_share *share, t_status *status, char *philo_num_arg)
 int	init_alloc_member(t_share *share)
 {
 	share->wishs = init_wishs(share->philo_num);
-	share->forks = init_fork(sha
-			share->th_id == NULL || share->philos_time_to_dead == NULL || ;re->philo_num);
+	share->forks = init_fork(share->philo_num);
 	share->queue = init_queue();
 	share->th_id = init_th_id((share->philo_num * 2) + 1);
 	share->time_to_die_array = init_time_to_die_array(share->philo_num);
-	if (share->wishs == NULL || share->forks == NULL || share->queue == NULL ||
-	// share->philos_eat_times = malloc(sizeof(int) * share->philo_num);
-	// share->philos_time_to_dead = malloc(sizeof(time_t) * s
-	hare->philo_num);
-		share->th_id == NULL || share->philos_time_to_dead == NULL || 
+	share->philos_eat_times = malloc(sizeof(int) * share->philo_num);
+	share->philos_time_to_dead = malloc(sizeof(time_t) * share->philo_num);
+	if (share->wishs == NULL || share->forks == NULL || share->queue == NULL || \
+		share->th_id == NULL || share->philos_time_to_dead == NULL || \
 		share->time_to_die_array == NULL || share->philos_eat_times == NULL)
 		return (ERROR);
 	return (SUCCESS);
@@ -75,7 +72,7 @@ t_time_to_die	*init_time_to_die_array(int philo_num)
 	t_time_to_die	*time_to_die_array;
 	int				i;
 
-	time_to_die_array = malloc(sizeof(t_time_to_die) *philo_num);
+	time_to_die_array = malloc(sizeof(t_time_to_die) * philo_num);
 	if (time_to_die_array == NULL)
 		return (NULL);
 	i = 0;
@@ -128,10 +125,6 @@ t_wish	*init_wishs(int philo_num)
 			exit(1);
 			return (NULL);
 		}
-		wishs[i].request = LET_OK;
-		wishs[i].fork_id = 0;
-		wishs[i].sec_milli = 0;
-
 		wishs[i].request_info.request = LET_OK;
 		wishs[i].request_info.fork_id = 0;
 		wishs[i].request_info.act_time = 0;

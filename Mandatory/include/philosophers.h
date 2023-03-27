@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 09:53:14 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 21:45:03 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 22:51:10 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,7 @@ typedef struct s_wish t_wish;
 struct s_wish{
 	t_shared_resourse	mutex;
 	t_wish_info			request_info;
-	int					request;
-	long				sec_milli;
-	int					fork_id;
+
 };
 
 typedef struct s_status t_status;
@@ -152,16 +150,16 @@ enum {
 #define ERR_INVALID_ARG 1
 #define ERR_ARG_NUM 2
 
+int	all_threads_create(t_philo *philos, t_share *shares);
 void	*monitor_init(void *share);
-int	monitor_create(t_share *share, int philo_num);
-int	writer_create(t_queue *queue, pthread_t *th_id, int philo_num);
+// int	monitor_create(t_share *share, int philo_num);
+// int	writer_create(t_queue *queue, pthread_t *th_id, int philo_num);
 
 // parse.c
 int			parse_argment(int argc, char *argv[]);
 
 // monitor.c
 int monitor_philos(t_share *share);
-int	all_threads_create(t_philo *philos, t_share *shares);
 
 // monitor_fork.c
 int	is_ok_the_guy_take_forks(t_share *share,int own_id, int num);
