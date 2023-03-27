@@ -7,8 +7,8 @@ RM			:= rm -f
 # CFLAGS		:= -O
 # CFLAGS		:= -O -Weverything
 # CFLAGS		:= -fsanitize=thread -Wall -Wextra -O
-CFLAGS		:= -Wall -Wextra -O 
-# CFLAGS		:= -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=undefined -O 
+# CFLAGS		:= -Wall -Wextra -O 
+CFLAGS		:= -Wall -Wextra -g -fsanitize=address -fsanitize=undefined -O 
 DFLAGS		:= -MMD -MP
 #=============================
 #src

@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 14:24:18 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 11:22:54 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 17:12:44 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	monitor_philos(t_share *share)
 			// enqueue_log_msg_to_writer(share, -1, -1, WRITER_END);
 			return (SUCCESS);
 		}
+		usleep(100);
 	}
 	return (0);
 }
@@ -59,17 +60,27 @@ int	listen_to_old_guys_request(t_share *share, int id)
 	t_wish_info		info;
 
 	wish = &share->wishs[id];
+	if (lock_right_own_left(share, id, share->philo_num) == ERROR)
+	{
+		return (ERROR);
+	}
 	ft_pthread_mutex_lock(&wish->mutex);
 	save_request(&info, &wish->request_info);
 	if (answer_request(share, wish, id, info) == FOUND_DEAD)
+	{
+		// ft_pthread_mutex_unlock(&wish->mutex);//
+		unlock_right_own_left(share, id, share->philo_num);
+		// ft_pthread_mutex_unlock(&share->time_to_die_array[id].mutex);//
 		return (FOUND_DEAD);
+	}
+	update_dead_time(share, id, info);
 	ft_pthread_mutex_unlock(&wish->mutex);
+	unlock_right_own_left(share, id, share->philo_num);
 	if (is_log_needed_action(info.request))
 	{
 		if (enqueue_log_msg_to_writer(share, id, info.act_time , info.request) == ERROR)
 			return (ERROR);
 	}
-	update_dead_time(share, id, info);
 	return (SUCCESS);
 }
 
@@ -77,11 +88,11 @@ int	answer_request(t_share *share, t_wish *wish, int id, t_wish_info info)
 {
 	if (did_the_old_man_go_heaven(share, id) == true)
 	{
-		ft_pthread_mutex_lock(&share->time_to_die_array[id].mutex);
+		// ft_pthread_mutex_lock(&share->time_to_die_array[id].mutex);
 		enqueue_log_msg_to_writer(share, id, share->time_to_die_array[id].time_to_die, LET_DEAD);
-		ft_pthread_mutex_unlock(&share->time_to_die_array[id].mutex);
-		
-		ft_pthread_mutex_unlock(&wish->mutex);
+		// ft_pthread_mutex_unlock(&share->time_to_die_array[id].mutex);
+
+		ft_pthread_mutex_unlock(&wish->mutex);//
 		answer_dead_to_all_request(share);
 		return (FOUND_DEAD);
 	}
@@ -115,12 +126,19 @@ void	update_dead_time(t_share *share, int id, t_wish_info info)
 {
 	if (info.request == LET_EAT || info.request == LET_INIT)
 	{
-		ft_pthread_mutex_lock(&share->time_to_die_array[id].mutex);
+		// ft_pthread_mutex_lock(&share->time_to_die_array[id].mutex);
 		share->time_to_die_array[id].time_to_die = info.act_time + share->time_to_starve;
-		ft_pthread_mutex_unlock(&share->time_to_die_array[id].mutex);
+		// ft_pthread_mutex_unlock(&share->time_to_die_array[id].mutex);
 		// share->philos_time_to_dead[id] = info.act_time + share->time_to_starve;
 		if (info.request == LET_EAT)
+		{
 			++share->philos_eat_times[id];
+			share->time_to_die_array[id].is_eating = true;
+		}
+	}
+	else if (info.request == LET_SLEEP)
+	{
+		share->time_to_die_array[id].is_eating = false;
 	}
 }
 

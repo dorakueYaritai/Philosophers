@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 09:53:14 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 11:24:22 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 21:45:03 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_time_to_die t_time_to_die;
 struct s_time_to_die{
 	t_shared_resourse	mutex;
 	long				time_to_die;
+	bool				is_eating;
 };
 
 typedef struct s_wish t_wish;
@@ -160,11 +161,15 @@ int			parse_argment(int argc, char *argv[]);
 
 // monitor.c
 int monitor_philos(t_share *share);
+int	all_threads_create(t_philo *philos, t_share *shares);
 
 // monitor_fork.c
 int	is_ok_the_guy_take_forks(t_share *share,int own_id, int num);
-void	ultra_debug(int id, int left_id, int right_id);
+// void	ultra_debug(int id, int left_id, int right_id);
+void	ultra_debug(t_share *share, int id, int left_id, int right_id);
 bool	guys_forks_avilable(t_share *share, int left_id, int right_id, int num);
+int	lock_right_own_left(t_share *share,int own_id, int num);
+int	unlock_right_own_left(t_share *share,int own_id, int num);
 
 // monitor_death
 int		answer_dead_to_all_request(t_share *share);

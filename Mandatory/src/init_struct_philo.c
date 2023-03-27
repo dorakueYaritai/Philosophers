@@ -6,21 +6,37 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 23:05:11 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 09:20:44 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 22:35:27 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <philosophers.h>
 
-// static int	init_philo_sub(t_philo *philo,
-// 	char *argv[], t_fork *m_forks, t_share *share)
+static int	init_philo_sub(t_philo *philo, t_status *status, t_share *share);
 
-// static int	init_philo_sub(t_philo *philo,
-// 	t_status *status, t_fork *m_forks, t_share *share){
+t_philo	*init_philos(t_status *status, t_share *share)
+{
+	int	i;
+	int	philo_num;
 
-static int	init_philo_sub(t_philo *philo,
-	t_status *status, t_share *share){
+	t_philo	*philos;
+	philo_num = share->philo_num;
+	philos = malloc(sizeof(t_philo) * philo_num);
+	i = 0;
+	if (share == NULL || share->forks == NULL)
+		return (NULL);
+	while (i < philo_num)
+	{
+		philos[i].philo_id = i;
+		init_philo_sub(&philos[i], status, share);
+		i++;
+	}
+	return (philos);
+}
+
+static int	init_philo_sub(t_philo *philo, t_status *status, t_share *share)
+{
 	int	i;
 	int	philo_num;
 
@@ -45,25 +61,3 @@ static int	init_philo_sub(t_philo *philo,
 	}
 	return (SUCCESS);
 }
-
-// t_philo	*init_philos(t_status *status, t_fork *m_forks, t_share *share)
-t_philo	*init_philos(t_status *status, t_share *share)
-{
-	int	i;
-	int	philo_num;
-
-	t_philo	*philos;
-	philo_num = share->philo_num;
-	philos = malloc(sizeof(t_philo) * philo_num);
-	i = 0;
-	if (share == NULL || share->forks == NULL)
-		return (NULL);
-	while (i < philo_num)
-	{
-		philos[i].philo_id = i;
-		init_philo_sub(&philos[i], status, share);
-		i++;
-	}
-	return (philos);
-}
-

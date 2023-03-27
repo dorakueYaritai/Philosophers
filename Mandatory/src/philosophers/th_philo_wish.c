@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:33:21 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 00:41:38 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 14:21:23 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	get_monitor_answer(t_wish *wish)
 	if (ft_pthread_mutex_lock(&wish->mutex) == ERROR)
 		return (LET_DEAD);
 	ret = wish->request_info.request;
+	// write(1, "I want die!\n", 12);
+	// usleep(10000);
 	if (ft_pthread_mutex_unlock(&wish->mutex))
 		return (LET_DEAD);
 	return (ret);

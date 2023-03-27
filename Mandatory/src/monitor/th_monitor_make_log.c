@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:37:21 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 11:17:42 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 11:54:38 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	enqueue_log_msg_to_writer(t_share *share, int id, long sec_milli, int act)
 	}
 	if (act == LET_DEAD)
 	{
-		write(1, ft_strjoin(ft_ltoa(id), "\n"), 4);
+		// write(1, ft_strjoin(ft_ltoa(id), "\n"), 4);
 		share->queue->do_proceed = false;
 	}
 	ft_pthread_mutex_unlock(&share->queue->mutex);

@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:36:38 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 00:57:47 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 14:21:10 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void* routine_init(void *_philo){
 	philo = (t_philo *)_philo;
 	exe_act(philo, LET_INIT);
 	philo_think(philo);
+	// printf("HEY!:%d\n", philo->philo_id);
 	return (NULL);
 }
 
@@ -109,6 +110,7 @@ int	exe_act(t_philo *philo, int act)
 		return (ERROR);
 	while (1)
 	{
+		usleep(10);
 		answer = get_monitor_answer(philo->wish);
 		if (answer == LET_OK)
 			break;
