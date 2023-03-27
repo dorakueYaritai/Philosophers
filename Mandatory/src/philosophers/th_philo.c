@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:36:38 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 14:21:10 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 23:00:12 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void* routine_init(void *_philo){
 	philo = (t_philo *)_philo;
 	exe_act(philo, LET_INIT);
 	philo_think(philo);
-	// printf("HEY!:%d\n", philo->philo_id);
 	return (NULL);
 }
 
@@ -79,16 +78,6 @@ static int	ft_msleep(long sleep_time)
 		;
 	return (0);
 }
-
-// static int	ft_msleep(long now_time, long sleep_time)
-// {
-// 	const long	goal_time = now_time + sleep_time;
-
-// 	while (goal_time > ft_get_time_in_millisec());
-// 		;
-// 	return (0);
-// }
-
 
 int	exe_act(t_philo *philo, int act)
 {
