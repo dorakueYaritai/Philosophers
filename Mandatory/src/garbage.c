@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:29:52 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 22:00:33 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 22:58:02 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,59 @@
 static int	threads_create(t_philo *philos, pthread_t *th_id, int philo_num);
 static int	threads_join(pthread_t *th_id, int philo_num);
 
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init_share.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/19 18:03:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 22:00:17 by kakiba           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+static int	init_philo_sub(t_philo *philo, t_status *status, t_share *share)
+{
+	int	i;
+	int	philo_num;
+
+	philo_num = share->philo_num;
+	i = philo->philo_id;
+	// philo->status = *status;
+	philo->status.time_to_starve = status->time_to_starve;
+	philo->status.time_to_eat = status->time_to_eat;
+	philo->status.time_to_sleep = status->time_to_sleep;
+	philo->status.time_to_die = status->time_to_die;
+	philo->status.must_eat_times = status->must_eat_times;
+	philo->wish = &share->wishs[i];
+	if (i % 2 == 0)
+	{
+		philo->forks[FIRST] = &share->forks[i];
+		philo->forks[SECOND] = &share->forks[(i + 1) % philo_num];
+	}
+	else
+	{
+		philo->forks[FIRST] = &share->forks[(i + 1) % philo_num];
+		philo->forks[SECOND] = &share->forks[i];
+	}
+	return (SUCCESS);
+}
+
+t_share	*init_shares(t_share *share)
+{
+	t_share	*share_array;
+	long	i;
+
+	share_array = malloc(sizeof(t_share) * share->philo_num);
+	if (share_array == NULL)
+		return (NULL);
+	i = 0;
+	while (i < share->philo_num)
+	{
+		share_array[i].forks = share->forks;
+		share_array[i].must_eat_times = share->must_eat_times;
+		share_array[i].must_eat_times_exists = share->must_eat_times_exists;
+		share_array[i].philo_id = i;
+		share_array[i].philo_num = share->philo_num;
+		share_array[i].philos_eat_times = share->philos_eat_times;
+		share_array[i].philos_time_to_dead = share->philos_time_to_dead;
+		share_array[i].queue = share->queue;
+		share_array[i].th_id = share->th_id;
+		share_array[i].time_to_starve = share->time_to_starve;
+		share_array[i].wishs = share->wishs;
+		i++;
+	}
+	return (share_array);
+}
 
 #include <libft.h>
 #include <philosophers.h>

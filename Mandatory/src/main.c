@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:16:41 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 22:53:11 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 22:57:18 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,23 +30,12 @@ void	ft_free(void *memory)
 
 void	free_all(t_share *shares, t_philo *philo, int num)
 {
-	// (void)philo;
-	// int	i;
-
-	// i = 0;
-	// while (i < num)
-	// {
-	// 	destroy_shared_resourses(&shares->wishs[i].mutex);
-	// 	destroy_shared_resourses(&shares->forks[i].fork);
-	// 	i++;
-	// }
 	ft_free(shares->philos_time_to_dead);
 	ft_free(shares->philos_eat_times);
 	ft_free(shares->th_id);
 	ft_free(shares->wishs);
 	ft_free(shares->forks);
 	ft_free(philo);
-	// destroy_sharesd_resourses(&shares->queue->mutex);
 	ft_free(shares->queue->list);
 	ft_free(shares->queue);
 	ft_free(shares->time_to_die_array);
@@ -66,23 +55,13 @@ t_share	*init_shares(t_share *share)
 	{
 		share_array[i] = *share;
 		share_array[i].philo_id = i;
-		// share_array[i].forks = share->forks;
-		// share_array[i].must_eat_times = share->must_eat_times;
-		// share_array[i].must_eat_times_exists = share->must_eat_times_exists;
-		// share_array[i].philo_id = i;
-		// share_array[i].philo_num = share->philo_num;
-		// share_array[i].philos_eat_times = share->philos_eat_times;
-		// share_array[i].philos_time_to_dead = share->philos_time_to_dead;
-		// share_array[i].queue = share->queue;
-		// share_array[i].th_id = share->th_id;
-		// share_array[i].time_to_starve = share->time_to_starve;
-		// share_array[i].wishs = share->wishs;
 		i++;
 	}
 	return (share_array);
 }
 
-int main(int argc, char* argv[]) {
+int	main(int argc, char *argv[])
+{
 	t_philo		*philos;
 	t_share		share;
 	t_share		*shares;
@@ -116,12 +95,3 @@ int main(int argc, char* argv[]) {
 	// 	return (ERROR);
 	// if (writer_create(share.queue, share.th_id, share.philo_num) == ERROR)
 	// 	return (ERROR);
-
-	// int i = 0;
-	// while (i < share.philo_num)
-	// {
-	// 	printf("%p\n", &(philos[i].status.must_eat_times));
-	// 	printf("--  --\n");
-	// 	i++;
-	// }
-
