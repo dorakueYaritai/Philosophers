@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 14:50:23 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 01:17:48 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 09:12:39 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ int	threads_create(t_philo *philos, pthread_t *th_id, int philo_num)
 		i++;
 	}
 	return (0);
+}
+
+int	monitor_create(t_share *share, int monitor_id)
+{
+	if (pthread_create(&share->th_id[monitor_id], NULL, &monitor_init, share) != 0)
+		return (ERROR);
+	return (SUCCESS);
 }
 
 int	writer_create(t_queue *queue, pthread_t *th_id, int writer_id)

@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 14:24:18 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 00:22:14 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 09:18:55 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,15 @@ int	answer_request(t_share *share, t_wish *wish, int id, t_wish_info info);
 static int	save_request(t_wish_info *info, t_wish_info *philo_request);
 void	update_dead_time(t_share *share, int id, t_wish_info info);
 static int is_log_needed_action(int act);
+
+void	*monitor_init(void *share)
+{
+	t_share	*share_;
+
+	share_ = (t_share *)share;
+	monitor_philos(share_);
+	return (NULL);
+}
 
 int	monitor_philos(t_share *share)
 {

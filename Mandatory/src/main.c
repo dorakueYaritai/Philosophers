@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:16:41 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 00:02:45 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 09:16:18 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	free_all(t_share *share, t_philo *philo, int num)
 	while (i < num)
 	{
 		destroy_shared_resourses(&share->wishs[i].mutex);
-		destroy_shared_resourses(&share->dead_info[i].mutex);
 		destroy_shared_resourses(&share->forks[i].fork);
 		i++;
 	}
@@ -45,7 +44,6 @@ void	free_all(t_share *share, t_philo *philo, int num)
 	ft_free(share->philos_eat_times);
 	ft_free(share->th_id);
 	ft_free(share->wishs);
-	ft_free(share->dead_info);
 	ft_free(share->forks);
 	ft_free(philo);
 	destroy_shared_resourses(&share->queue->mutex);
@@ -64,11 +62,13 @@ int main(int argc, char* argv[]) {
 		return (1);
 	init_share(&share, &status, argv[1]);
 	philos = init_philos(&status, &share);
+	if (monitor_create(&share, share.philo_num + 1) == ERROR) 
+		return (ERROR);
 	if (threads_create(philos, share.th_id, share.philo_num) == ERROR)
 		return (ERROR);
 	if (writer_create(share.queue, share.th_id, share.philo_num) == ERROR)
 		return (ERROR);
-	monitor_philos(&share);
+	// monitor_philos(&share);
 	if (threads_join(share.th_id, share.philo_num + 1) == 2)
 		return (2);
 	free_all(&share, philos, share.philo_num);
@@ -79,7 +79,6 @@ int main(int argc, char* argv[]) {
 	// while (i < share.philo_num)
 	// {
 	// 	printf("%p\n", &(philos[i].status.must_eat_times));
-	// 	printf("%p\n", (share.dead_info[i].must_eat_times));
 	// 	printf("--  --\n");
 	// 	i++;
 	// }

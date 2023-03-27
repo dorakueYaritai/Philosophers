@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 18:03:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 09:04:33 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 09:20:32 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,25 +56,6 @@ t_fork	*init_fork(int philo_num)
 		i++;
 	}
 	return (forks);
-}
-
-t_dead	*init_t_dead(int philo_num)
-{
-	t_dead	*dead_check;
-	int	i;
-
-	i = 0;
-	dead_check = malloc(sizeof(t_dead) * philo_num);
-	if (dead_check == NULL)
-		return (NULL);
-	while (i < philo_num)
-	{
-		if (init_shared_resourse(&dead_check[i].mutex) == ERROR)
-			return (NULL);
-		// dead_check[i].is_death = false;
-		i++;
-	}
-	return (dead_check);
 }
 
 t_wish	*init_wishs(int philo_num)

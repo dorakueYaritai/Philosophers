@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 09:53:14 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 09:07:10 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 09:19:50 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,15 @@ struct s_wish{
 	int					fork_id;
 };
 
+typedef struct s_status t_status;
+struct s_status{
+	time_t			time_to_starve;
+	time_t			time_to_eat;
+	time_t			time_to_sleep;
+	time_t			time_to_die;
+	int				must_eat_times;
+};
+
 typedef struct s_share t_share;
 struct s_share{
 	t_wish				*wishs;
@@ -92,17 +101,9 @@ struct s_a_share{
 	t_queue				*queue;
 	bool				must_eat_times_exists;
 	long				philo_num;
+	int					philo_id;
 	int					philos_eat_times;
 	time_t				philos_time_to_dead;
-};
-
-typedef struct s_status t_status;
-struct s_status{
-	time_t			time_to_starve;
-	time_t			time_to_eat;
-	time_t			time_to_sleep;
-	time_t			time_to_die;
-	int				must_eat_times;
 };
 
 typedef struct s_philo t_philo;
@@ -144,6 +145,9 @@ enum {
 #define ERR_INVALID_ARG 1
 #define ERR_ARG_NUM 2
 
+int		monitor_create(t_share *share, int monitor_id);
+void	*monitor_init(void *share);
+
 // parse.c
 int			parse_argment(int argc, char *argv[]);
 
@@ -174,7 +178,6 @@ void	init_wish_info(t_wish_info *info, long act_time, int fork_id, int request);
 int			init_share(t_share *share, t_status *status, char *philo_num_arg);
 pthread_t	*init_th_id(int philo_num);
 t_wish		*init_wishs(int philo_num);
-t_dead		*init_t_dead(int philo_num);
 t_fork		*init_fork(int philo_num);
 int			init_shared_resourse(t_shared_resourse	*resourse);
 int	init_status(t_status *status, char **argv, int argc);

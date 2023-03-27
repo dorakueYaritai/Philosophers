@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 18:03:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 09:05:44 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/27 09:20:58 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	init_share(t_share *share, t_status *status, char *philo_num_arg)
 	share->wishs = init_wishs(share->philo_num);
 	share->forks = init_fork(share->philo_num);
 	share->queue = init_queue();
-	share->th_id = init_th_id(share->philo_num + 1);
+	share->th_id = init_th_id(share->philo_num + 2);
 	share->philos_time_to_dead = malloc(sizeof(time_t) * share->philo_num);
 	share->philos_eat_times = malloc(sizeof(int) * share->philo_num);
 	i = 0;
@@ -59,25 +59,6 @@ t_fork	*init_fork(int philo_num)
 		i++;
 	}
 	return (forks);
-}
-
-t_dead	*init_t_dead(int philo_num)
-{
-	t_dead	*dead_check;
-	int	i;
-
-	i = 0;
-	dead_check = malloc(sizeof(t_dead) * philo_num);
-	if (dead_check == NULL)
-		return (NULL);
-	while (i < philo_num)
-	{
-		if (init_shared_resourse(&dead_check[i].mutex) == ERROR)
-			return (NULL);
-		// dead_check[i].is_death = false;
-		i++;
-	}
-	return (dead_check);
 }
 
 t_wish	*init_wishs(int philo_num)
