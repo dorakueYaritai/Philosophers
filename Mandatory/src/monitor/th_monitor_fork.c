@@ -6,7 +6,7 @@
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:15:39 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/28 15:09:26 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/28 15:48:15 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,24 @@ int	unlock_right_own_left(t_share *share,int own_id, int num)
 	return (SUCCESS);
 }
 
+
+int	is_ok_the_guy_take_forks(t_share *share,int own_id, int num)
+{
+	int left_id;
+	int right_id;
+	long	left_time;
+	long	right_time;
+
+	left_id = ft_positive_mod(own_id - 1, num);
+	right_id = ft_positive_mod(own_id + 1, num);
+	if (left_id == own_id || right_id == own_id)
+		return (false);
+	if (share->time_to_die_array[left_id].is_eating == false || \
+		share->time_to_die_array[right_id].is_eating == false)
+		return (true);
+	return (false);
+}
+
 int	is_ok_the_guy_take_forks(t_share *share,int own_id, int num)
 {
 	int left_id;
@@ -182,17 +200,17 @@ int	is_ok_the_guy_take_forks(t_share *share,int own_id, int num)
 	if (share->time_to_die_array[own_id].time_to_die <= left_time && \
 		share->time_to_die_array[own_id].time_to_die <= right_time)
 	{
-		ultra_debug2(share, own_id, left_id, right_id);
+		// ultra_debug2(share, own_id, left_id, right_id);
 		return (true);
 	}
 	else if (left_time == -1 && right_time == -1)
 	{
-		ultra_debug2(share, own_id, left_id, right_id);
+		// ultra_debug2(share, own_id, left_id, right_id);
 		return (true);
 	}
 	else
 	{
-		ultra_debug(share, own_id, left_id, right_id);
+		// ultra_debug(share, own_id, left_id, right_id);
 		return (false);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:36:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/28 15:10:37 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/28 15:38:16 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	take_forks(t_philo *philo)
 			return (ERROR);
 		return (ERROR);
 	}
-	printf("TROUGH");
 	return (SUCCESS);
 }
 

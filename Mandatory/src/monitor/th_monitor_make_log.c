@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   th_monitor_make_log.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
+/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:37:21 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/28 10:13:52 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/28 15:34:23 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static char	*make_prefix_msg(int id, long sec_milli)
 	free (sec_milli_str);
 	if (join == NULL)
 		return (NULL);
+	// printf("%d \n", id);
 	id_str = ft_itoa(id);
 	if (id_str == NULL)
 		return (NULL);

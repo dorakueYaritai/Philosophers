@@ -6,7 +6,7 @@
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 14:24:18 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/28 15:03:25 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/28 15:29:44 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,22 @@ int	monitor_philos(t_share *share)
 {
 	int	ret;
 
-	printf("E\n");
+	// printf("E\n");
 	while (1)
 	{
 		ret = listen_to_old_guys_request(share, share->philo_id);
-		printf("F\n");
+		// printf("F\n");
 		if (ret)
 		{
-			printf("G\n");
+			// printf("G\n");
 			answer_dead_to_all_request(share);
 			// enqueue_log_msg_to_writer(share, -1, -1, WRITER_END);
 			return (ret);
 		}
-		printf("H\n");
+		// printf("H\n");
 		if (is_must_eat_times_fulfilled(share) == true)
 		{
-			printf("I\n");
+			// printf("I\n");
 			answer_dead_to_all_request(share);
 			// enqueue_log_msg_to_writer(share, -1, -1, WRITER_END);
 			return (SUCCESS);
@@ -67,14 +67,14 @@ int	listen_to_old_guys_request(t_share *share, int id)
 	wish = &share->wishs[id];
 	if (lock_right_own_left(share, id, share->philo_num) == ERROR)
 	{
-		printf("a\n");
+		// printf("a\n");
 		return (ERROR);
 	}
 	ft_pthread_mutex_lock(&wish->mutex);
 	save_request(&info, &wish->request_info);
 	if (answer_request(share, wish, id, info) == FOUND_DEAD)
 	{
-		printf("b\n");
+		// printf("b\n");
 		unlock_right_own_left(share, id, share->philo_num);
 		return (FOUND_DEAD);
 	}
@@ -85,7 +85,7 @@ int	listen_to_old_guys_request(t_share *share, int id)
 	{
 		if (enqueue_log_msg_to_writer(share, id, info.act_time , info.request) == ERROR)
 		{
-			printf("c\n");
+			// printf("c\n");
 			return (ERROR);
 		}
 	}
@@ -94,7 +94,7 @@ int	listen_to_old_guys_request(t_share *share, int id)
 
 int	answer_request(t_share *share, t_wish *wish, int id, t_wish_info info)
 {
-	printf("D\n");
+	// printf("D\n");
 	if (did_the_old_man_go_heaven(share, id) == true)
 	{
 		enqueue_log_msg_to_writer(share, id, share->time_to_die_array[id].time_to_die, LET_DEAD);
