@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   th_monitor_death.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
+/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:27:05 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/28 10:08:28 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/28 14:58:14 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,16 @@ bool	did_the_old_man_go_heaven(t_share *share, int id)
 
 	sec_milli = ft_get_time_in_millisec();
 	if (sec_milli == -1)
+	{
+		printf("A\n");
 		return (true);
+	}
 	if ((share->time_to_die_array[id].time_to_die < sec_milli && \
 		share->time_to_die_array[id].time_to_die != -1))
+	{
+		printf("B\n");
 		return (true);
+	}
+	printf("C\n");
 	return (false);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   th_philo.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
+/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:36:38 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 23:15:44 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/28 14:28:30 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,26 +73,32 @@ int	exe_act(t_philo *philo, int act)
 	int				answer;
 	t_wish_info		info;
 
+	// printf("DONE!\n");
 	info.act_time = ft_get_time_in_millisec();
 	if (info.act_time == -1)
 		return (ERROR);
 	info.request = act;
 	info.fork_id = NONE;
+	printf("3\n");
 	if (update_wish_status(philo->wish, &info) == ERROR)
 		return (ERROR);
+	printf("1\n");
 	if (act == LET_EAT)
 		ft_msleep(philo->status.time_to_eat);
 	else if (act == LET_SLEEP)
 		ft_msleep(philo->status.time_to_sleep);
+	printf("2\n");
 	while (1)
 	{
 		usleep(10);
+		printf("22!\n");
 		answer = get_monitor_answer(philo->wish);
 		if (answer == LET_OK)
 			break ;
 		else if (answer == LET_DEAD)
 			return (ERROR);
 	}
+	printf("DONE!\n");
 	return (SUCCESS);
 }
 

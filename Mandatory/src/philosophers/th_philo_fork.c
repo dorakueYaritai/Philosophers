@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   th_philo_fork.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
+/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:36:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 23:03:20 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/28 15:10:37 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ static int	take_fork(t_philo *philo, t_fork *fork);
 
 int	take_forks(t_philo *philo)
 {
-	t_fork		*first;
-	t_fork		*second;
 	int			ans;
 	t_wish_info	info;
 
@@ -45,6 +43,7 @@ int	take_forks(t_philo *philo)
 			return (ERROR);
 		return (ERROR);
 	}
+	printf("TROUGH");
 	return (SUCCESS);
 }
 
@@ -71,5 +70,6 @@ int	put_forks(t_philo *philo)
 
 int	put_fork(t_philo *philo, t_fork *fork)
 {
+	(void)philo;
 	return (ft_pthread_mutex_unlock(&fork->fork));
 }

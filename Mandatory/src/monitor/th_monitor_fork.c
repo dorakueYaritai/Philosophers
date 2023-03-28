@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   th_monitor_fork.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
+/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:15:39 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/28 10:35:50 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/28 15:09:26 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	lock_mini_first(t_share *share,int first_id, int id_1, int id_2)
 		if (ft_pthread_mutex_lock(&share->time_to_die_array[id_1].mutex))
 			return (ERROR);
 	}
+	return (SUCCESS);
 }
 
 int	unlock_mini_first(t_share *share,int first_id, int id_1, int id_2)
@@ -100,6 +101,7 @@ int	unlock_mini_first(t_share *share,int first_id, int id_1, int id_2)
 		if (ft_pthread_mutex_unlock(&share->time_to_die_array[id_1].mutex))
 			return (ERROR);
 	}
+	return (SUCCESS);
 }
 
 int	lock_right_own_left(t_share *share,int own_id, int num)
@@ -128,7 +130,7 @@ int	lock_right_own_left(t_share *share,int own_id, int num)
 		if (lock_mini_first(share, right_id, own_id, left_id))
 			return (ERROR);
 	}
-	return (0);
+	return (SUCCESS);
 }
 
 int	unlock_right_own_left(t_share *share,int own_id, int num)
@@ -157,7 +159,7 @@ int	unlock_right_own_left(t_share *share,int own_id, int num)
 		if (unlock_mini_first(share, right_id, own_id, left_id))
 			return (ERROR);
 	}
-	return (0);
+	return (SUCCESS);
 }
 
 int	is_ok_the_guy_take_forks(t_share *share,int own_id, int num)
@@ -224,9 +226,9 @@ void	ultra_debug(t_share *share, int id, int left_id, int right_id)
 
 void	ultra_debug2(t_share *share, int id, int left_id, int right_id)
 {
-    char *red = "\x1b[31m"; // 赤色
-    char *green = "\x1b[32m"; // 緑色
-    char *reset = "\x1b[0m"; // リセット（色を元に戻す）
+    // char *red = "\x1b[31m"; // 赤色
+    // char *green = "\x1b[32m"; // 緑色
+    // char *reset = "\x1b[0m"; // リセット（色を元に戻す）
    char    *str;
 
     // str = ft_strjoin(green, "A");

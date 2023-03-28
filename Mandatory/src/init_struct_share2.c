@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_struct_share2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
+/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:46:58 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 22:41:03 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/28 15:10:05 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	init_shared_resourse(t_shared_resourse	*resourse)
 {
 	resourse->is_available_mutex = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
 	resourse->stuff = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
+	// pthread_mutex_init(&resourse->is_available_mutex, NULL);
+	// resourse->stuff = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
 	resourse->is_available = true;
 	return (SUCCESS);
 }

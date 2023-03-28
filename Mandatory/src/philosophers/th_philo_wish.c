@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   th_philo_wish.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
+/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:33:21 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 23:04:17 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/28 14:55:33 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,27 @@
 
 int	update_wish_status(t_wish *wish, t_wish_info *info)
 {
-	ft_pthread_mutex_lock(&wish->mutex);
+	printf("7\n");
+	if (ft_pthread_mutex_lock(&wish->mutex))
+	{
+		printf("5\n");
+		return (ERROR);
+	}
+	printf("9\n");
 	if (wish->request_info.request == LET_DEAD)
 	{
+		printf("11\n");
 		ft_pthread_mutex_unlock(&wish->mutex);
 		return (ERROR);
 	}
 	wish->request_info = *info;
-	ft_pthread_mutex_unlock(&wish->mutex);
+	printf("10\n");
+	if (ft_pthread_mutex_unlock(&wish->mutex))
+	{
+		printf("6\n");
+		return (ERROR);
+	}
+	printf("8\n");
 	return (SUCCESS);
 }
 

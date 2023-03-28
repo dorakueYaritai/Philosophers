@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_struct_philo.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
+/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 23:05:11 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 22:58:20 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/28 14:11:40 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,12 @@ static int	init_philo_sub(t_philo *philo, t_status *status, t_share *share)
 
 	philo_num = share->philo_num;
 	i = philo->philo_id;
-	philo->status = *status;
+	// philo->status = *status;
+	philo->status.time_to_starve = status->time_to_starve;
+	philo->status.time_to_eat = status->time_to_eat;
+	philo->status.time_to_sleep = status->time_to_sleep;
+	philo->status.time_to_die = status->time_to_die;
+	philo->status.must_eat_times = status->must_eat_times;
 	philo->wish = &share->wishs[i];
 	if (i % 2 == 0)
 	{
@@ -56,3 +61,25 @@ static int	init_philo_sub(t_philo *philo, t_status *status, t_share *share)
 	}
 	return (SUCCESS);
 }
+
+// static int	init_philo_sub(t_philo *philo, t_status *status, t_share *share)
+// {
+// 	int	i;
+// 	int	philo_num;
+
+// 	philo_num = share->philo_num;
+// 	i = philo->philo_id;
+// 	philo->status = *status;
+// 	philo->wish = &share->wishs[i];
+// 	if (i % 2 == 0)
+// 	{
+// 		philo->forks[FIRST] = &share->forks[i];
+// 		philo->forks[SECOND] = &share->forks[(i + 1) % philo_num];
+// 	}
+// 	else
+// 	{
+// 		philo->forks[FIRST] = &share->forks[(i + 1) % philo_num];
+// 		philo->forks[SECOND] = &share->forks[i];
+// 	}
+// 	return (SUCCESS);
+// }

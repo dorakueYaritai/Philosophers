@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
+/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:16:41 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 22:57:18 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/28 15:12:02 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_free(void *memory)
 		free (memory);
 }
 
-void	free_all(t_share *shares, t_philo *philo, int num)
+void	free_all(t_share *shares, t_philo *philo)
 {
 	ft_free(shares->philos_time_to_dead);
 	ft_free(shares->philos_eat_times);
@@ -54,7 +54,22 @@ t_share	*init_shares(t_share *share)
 	while (i < share->philo_num)
 	{
 		share_array[i] = *share;
-		share_array[i].philo_id = i;
+		// share_array[i].philo_id = i;
+
+		// share_array[i].forks = share->forks;
+		// share_array[i].must_eat_times = share->must_eat_times;
+		// share_array[i].must_eat_times_exists = share->must_eat_times_exists;
+		// share_array[i].philo_id = i;
+		// share_array[i].philo_num = share->philo_num;
+		// share_array[i].philos_eat_times = share->philos_eat_times;
+
+		// share_array[i].philos_time_to_dead = share->philos_time_to_dead;
+		// share_array[i].queue = share->queue;
+		// share_array[i].th_id = share->th_id;
+		// share_array[i].time_to_starve = share->time_to_starve;
+		// share_array[i].wishs = share->wishs;
+		// share_array[i].time_to_die_array = share->time_to_die_array;
+
 		i++;
 	}
 	return (share_array);
@@ -77,15 +92,15 @@ int	main(int argc, char *argv[])
 	philos = init_philos(&status, &share);
 	if (all_threads_create(philos, shares))
 	{
-		free_all(shares, philos, share.philo_num);
+		free_all(shares, philos);
 		return (ERROR);
 	}
 	if (threads_join(share.th_id, share.philo_num) == 2)
 	{
-		free_all(shares, philos, share.philo_num);
+		free_all(shares, philos);
 		return (2);
 	}
-	free_all(shares, philos, share.philo_num);
+	free_all(shares, philos);
 	return (0);
 }
 

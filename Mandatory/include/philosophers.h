@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
+/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 09:53:14 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 23:13:06 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/28 14:47:39 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ enum {
 #define ERR_INVALID_ARG 1
 #define ERR_ARG_NUM 2
 
-int	all_threads_create(t_philo *philos, t_share *shares);
+int		all_threads_create(t_philo *philos, t_share *shares);
 void	*monitor_init(void *share);
 // int	monitor_create(t_share *share, int philo_num);
 // int	writer_create(t_queue *queue, pthread_t *th_id, int philo_num);
