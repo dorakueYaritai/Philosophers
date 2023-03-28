@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:29:52 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 23:01:05 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/28 10:04:00 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,65 @@
 
 static int	threads_create(t_philo *philos, pthread_t *th_id, int philo_num);
 static int	threads_join(pthread_t *th_id, int philo_num);
+
+int	unlock_right_own_left(t_share *share,int own_id, int num)
+{
+	int left_id;
+	int right_id;
+
+	left_id = ft_positive_mod(own_id - 1, num);
+	right_id = ft_positive_mod(own_id + 1, num);
+	if (share->philo_num == 1)
+		return (unlock_for_one(share, own_id));
+	else if (share->philo_num == 2)
+		return (unlock_for_two_people(share, own_id, left_id));
+	if (own_id < left_id && own_id < right_id)
+	{
+		unlock_mini_first(share, own_id, left_id, right_id);
+		// ft_pthread_mutex_unlock(&share->time_to_die_array[own_id].mutex);
+		// if (left_id < right_id)
+		// {
+		// 	ft_pthread_mutex_unlock(&share->time_to_die_array[left_id].mutex);
+		// 	ft_pthread_mutex_unlock(&share->time_to_die_array[right_id].mutex);
+		// }
+		// else
+		// {
+		// 	ft_pthread_mutex_unlock(&share->time_to_die_array[right_id].mutex);
+		// 	ft_pthread_mutex_unlock(&share->time_to_die_array[left_id].mutex);
+		// }
+	}
+	else if (left_id < own_id && left_id < right_id)
+	{
+		unlock_mini_first(share, left_id, own_id, right_id);
+		// ft_pthread_mutex_unlock(&share->time_to_die_array[left_id].mutex);
+		// if (own_id < right_id)
+		// {
+		// 	ft_pthread_mutex_unlock(&share->time_to_die_array[own_id].mutex);
+		// 	ft_pthread_mutex_unlock(&share->time_to_die_array[right_id].mutex);
+		// }
+		// else
+		// {
+		// 	ft_pthread_mutex_unlock(&share->time_to_die_array[right_id].mutex);
+		// 	ft_pthread_mutex_unlock(&share->time_to_die_array[own_id].mutex);
+		// }
+	}
+	else
+	{
+		unlock_mini_first(share, right_id, own_id, left_id);
+		// ft_pthread_mutex_unlock(&share->time_to_die_array[right_id].mutex);
+		// if (own_id < left_id)
+		// {
+		// 	ft_pthread_mutex_unlock(&share->time_to_die_array[own_id].mutex);
+		// 	ft_pthread_mutex_unlock(&share->time_to_die_array[left_id].mutex);
+		// }
+		// else
+		// {
+		// 	ft_pthread_mutex_unlock(&share->time_to_die_array[left_id].mutex);
+		// 	ft_pthread_mutex_unlock(&share->time_to_die_array[own_id].mutex);
+		// }
+	}
+	return (0);
+}
 
 
 // bus error が出た。なんでだろ

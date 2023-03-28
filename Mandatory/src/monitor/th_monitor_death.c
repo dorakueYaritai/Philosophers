@@ -6,14 +6,13 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:27:05 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 11:43:47 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/28 10:08:28 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <philosophers.h>
 
-// int answer_dead_to_all_request(t_share *share)
 int answer_dead_to_all_request(t_share *share)
 {
 	int	i;
@@ -24,7 +23,6 @@ int answer_dead_to_all_request(t_share *share)
 		if (ft_pthread_mutex_lock(&share->wishs[i].mutex))
 			return (ERROR);
 		share->wishs[i].request_info.request = LET_DEAD;
-		// share->wishs[i].request = LET_DEAD;
 		if (ft_pthread_mutex_unlock(&share->wishs[i].mutex))
 			return (ERROR);
 		i++;
@@ -44,5 +42,3 @@ bool	did_the_old_man_go_heaven(t_share *share, int id)
 		return (true);
 	return (false);
 }
-
-// share->philos_time_to_dead[id]
