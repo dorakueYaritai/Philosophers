@@ -6,7 +6,7 @@
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 23:05:11 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/28 15:46:54 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/29 08:35:12 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,16 @@ static int	init_philo_sub(t_philo *philo, t_status *status, t_share *share)
 	philo->status = *status;
 	philo->wish = &share->wishs[i];
 	
+	if (i == 0)
+	{
 		philo->forks[FIRST] = &share->forks[i];
 		philo->forks[SECOND] = &share->forks[(i + 1) % philo_num];
+	}
+	else
+	{
+		philo->forks[FIRST] = &share->forks[(i + 1) % philo_num];
+		philo->forks[SECOND] = &share->forks[i];
+	}
 	// if (i % 2 == 0)
 	// {
 	// 	philo->forks[FIRST] = &share->forks[i];

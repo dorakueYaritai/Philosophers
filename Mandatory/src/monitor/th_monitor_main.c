@@ -6,7 +6,7 @@
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 14:24:18 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/28 15:29:44 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/29 09:03:34 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,12 @@ int	monitor_philos(t_share *share)
 	return (0);
 }
 
+int	take_a_nap(long acttime)
+{
+	ft_msleep(acttime / 2);
+	return (0);
+}
+
 // wishs という配列に、それぞれのphiloからのrequest内容が入っている
 int	listen_to_old_guys_request(t_share *share, int id)
 {
@@ -88,6 +94,8 @@ int	listen_to_old_guys_request(t_share *share, int id)
 			// printf("c\n");
 			return (ERROR);
 		}
+		// if (info.request == LET_EAT && info.request == LET_SLEEP)
+		// 	take_a_nap(info.act_time);
 	}
 	return (SUCCESS);
 }
@@ -112,7 +120,10 @@ int	answer_request(t_share *share, t_wish *wish, int id, t_wish_info info)
 	else if (info.request == LET_TRY_TO_TAKE_FORKS)
 	{
 		if (is_ok_the_guy_take_forks(share, id, share->philo_num))
+		{
 			wish->request_info.request = LET_OK;
+			share->time_to_die_array[id].is_eating = true;
+		}
 	}
 	else
 		wish->request_info.request = LET_OK;
@@ -135,9 +146,10 @@ void	update_dead_time(t_share *share, int id, t_wish_info info)
 		if (info.request == LET_EAT)
 		{
 			++share->philos_eat_times[id];
-			share->time_to_die_array[id].is_eating = true;
 		}
 	}
+	// else if (info.request == LET_TRY_TO_TAKE_FORKS)
+	// 	share->time_to_die_array[id].is_eating = true;
 	else if (info.request == LET_SLEEP)
 	{
 		share->time_to_die_array[id].is_eating = false;

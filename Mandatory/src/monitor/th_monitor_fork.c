@@ -6,7 +6,7 @@
 /*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:15:39 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/28 15:48:15 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/29 09:14:03 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,53 +167,73 @@ int	is_ok_the_guy_take_forks(t_share *share,int own_id, int num)
 {
 	int left_id;
 	int right_id;
-	long	left_time;
-	long	right_time;
+	// char	*str;
 
 	left_id = ft_positive_mod(own_id - 1, num);
 	right_id = ft_positive_mod(own_id + 1, num);
 	if (left_id == own_id || right_id == own_id)
+	{
+		// str = ft_strjoin(ft_itoa(own_id), ":");
+		// str = ft_strjoin(str, ft_itoa(left_id));
+		// str = ft_strjoin(str, ":");
+		// str = ft_strjoin(str, ft_itoa(right_id));
+		// str = ft_strjoin(str, "  same id false \n");
+		// write(1, str, ft_strlen(str));
 		return (false);
+	}
 	if (share->time_to_die_array[left_id].is_eating == false || \
 		share->time_to_die_array[right_id].is_eating == false)
+	{
+		// str = ft_strjoin(ft_itoa(own_id), ":");
+		// str = ft_strjoin(str, ft_itoa(left_id));
+		// str = ft_strjoin(str, ":");
+		// str = ft_strjoin(str, ft_itoa(right_id));
+		// str = ft_strjoin(str, "  true \n");
+		// write(1, str, ft_strlen(str));
 		return (true);
+	}
+		// str = ft_strjoin(ft_itoa(own_id), ":");
+		// str = ft_strjoin(str, ft_itoa(left_id));
+		// str = ft_strjoin(str, ":");
+		// str = ft_strjoin(str, ft_itoa(right_id));
+		// str = ft_strjoin(str, "  false \n");
+		// write(1, str, ft_strlen(str));
 	return (false);
 }
 
-int	is_ok_the_guy_take_forks(t_share *share,int own_id, int num)
-{
-	int left_id;
-	int right_id;
-	long	left_time;
-	long	right_time;
+// int	is_ok_the_guy_take_forks(t_share *share,int own_id, int num)
+// {
+// 	int left_id;
+// 	int right_id;
+// 	long	left_time;
+// 	long	right_time;
 
-	left_id = ft_positive_mod(own_id - 1, num);
-	right_id = ft_positive_mod(own_id + 1, num);
-	if (left_id == own_id || right_id == own_id)
-		return (false);
-	if (share->time_to_die_array[left_id].is_eating == true || \
-		share->time_to_die_array[right_id].is_eating == true)
-		return (false);
-
-	left_time = share->time_to_die_array[left_id].time_to_die;
-	right_time = share->time_to_die_array[right_id].time_to_die;
-	if (share->time_to_die_array[own_id].time_to_die <= left_time && \
-		share->time_to_die_array[own_id].time_to_die <= right_time)
-	{
-		// ultra_debug2(share, own_id, left_id, right_id);
-		return (true);
-	}
-	else if (left_time == -1 && right_time == -1)
-	{
-		// ultra_debug2(share, own_id, left_id, right_id);
-		return (true);
-	}
-	else
-	{
-		// ultra_debug(share, own_id, left_id, right_id);
-		return (false);
-	}
-}
+// 	left_id = ft_positive_mod(own_id - 1, num);
+// 	right_id = ft_positive_mod(own_id + 1, num);
+// 	if (left_id == own_id || right_id == own_id)
+// 		return (false);
+// 	if (share->time_to_die_array[left_id].is_eating == false || \
+// 		share->time_to_die_array[right_id].is_eating == false)
+// 		return (true);
+// 	left_time = share->time_to_die_array[left_id].time_to_die;
+// 	right_time = share->time_to_die_array[right_id].time_to_die;
+// 	if (share->time_to_die_array[own_id].time_to_die <= left_time && \
+// 		share->time_to_die_array[own_id].time_to_die <= right_time)
+// 	{
+// 		// ultra_debug2(share, own_id, left_id, right_id);
+// 		return (true);
+// 	}
+// 	else if (left_time == -1 && right_time == -1)
+// 	{
+// 		// ultra_debug2(share, own_id, left_id, right_id);
+// 		return (true);
+// 	}
+// 	else
+// 	{
+// 		// ultra_debug(share, own_id, left_id, right_id);
+// 		return (false);
+// 	}
+// }
 
 void	ultra_debug(t_share *share, int id, int left_id, int right_id)
 {
