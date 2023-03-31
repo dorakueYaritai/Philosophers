@@ -4,10 +4,10 @@
 NAME		:= philo
 CC			:= cc 
 RM			:= rm -f
-# CFLAGS		:= -O
+CFLAGS		:= -O
 # CFLAGS		:= -O -Weverything
 # CFLAGS		:= -fsanitize=thread -Wall -Wextra -O
-CFLAGS		:= -Wall -Wextra -Werror -O 
+# CFLAGS		:= -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=undefined -O
 # CFLAGS		:= -Wall -Wextra -g -fsanitize=address -fsanitize=undefined -O 
 DFLAGS		:= -MMD -MP
 #=============================
@@ -22,7 +22,7 @@ WRITERRDIR    = $(SRCDIR)/writer
 SRCS	:= 	main.c\
 		 	th_monitor_main.c\
 		 	th_monitor_fork.c\
-			th_monitor_death.c\
+			th_monitor_fork2.c\
 			th_monitor_utils.c\
 			th_monitor_make_log.c\
 			th_philo.c\
@@ -33,7 +33,6 @@ SRCS	:= 	main.c\
 			init_struct_share1.c\
 			init_struct_share2.c\
 			thread_create.c\
-			parse.c\
 			ft_strjoin.c\
 			ft_control_queue.c\
 			ft_itoa.c\

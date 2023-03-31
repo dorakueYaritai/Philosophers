@@ -6,12 +6,11 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 23:27:46 by hioikawa          #+#    #+#             */
-/*   Updated: 2023/03/20 10:00:06 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/30 20:55:12 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
-
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {

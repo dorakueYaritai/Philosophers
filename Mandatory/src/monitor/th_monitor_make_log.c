@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   th_monitor_make_log.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:37:21 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/28 15:34:23 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/30 21:29:57 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,15 @@
 
 static char	*make_prefix_msg(int id, long sec_milli);
 static char	*make_msg(int id, long sec_milli, int act);
+static int	is_log_needed_action(int act);
 
 int	enqueue_log_msg_to_writer(t_share *share, int id, long sec_milli, int act)
 {
 	t_list	*new_node;
 	char	*philo_act_log_massage;
 
+	if (is_log_needed_action(act) == false)
+		return (SUCCESS);
 	philo_act_log_massage = make_msg(id, sec_milli, act);
 	if (philo_act_log_massage == NULL)
 		return (ERROR);
@@ -30,7 +33,7 @@ int	enqueue_log_msg_to_writer(t_share *share, int id, long sec_milli, int act)
 	ft_pthread_mutex_lock(&share->queue->mutex);
 	if (share->queue->do_proceed)
 		ft_enqueue(&share->queue->list, new_node);
-	else //
+	else
 	{
 		free (philo_act_log_massage);
 		free (new_node);
@@ -57,7 +60,6 @@ static char	*make_prefix_msg(int id, long sec_milli)
 	free (sec_milli_str);
 	if (join == NULL)
 		return (NULL);
-	// printf("%d \n", id);
 	id_str = ft_itoa(id);
 	if (id_str == NULL)
 		return (NULL);
@@ -94,90 +96,8 @@ static char	*make_msg(int id, long sec_milli, int act)
 	return (tmp);
 }
 
-int	print_time(int id, long sec_milli, int act)
+static int	is_log_needed_action(int act)
 {
-	char	*out_put;
-
-	out_put = make_msg(id, sec_milli, act);
-	if (out_put == NULL)
-		return (ERROR);
-	if (write(1, out_put, ft_strlen(out_put)) == -1)
-		return (ERROR);
-	free (out_put);
-	if (act == LET_DEAD)
-		return (ERROR);
-	return (SUCCESS);
+	return (act == LET_EAT || act == LET_TAKE_A_FORK \
+	|| act == LET_SLEEP || act == LET_DEAD || act == LET_THINK);
 }
-
-// int	print_time(int id, long sec_milli, int act, int fork_id)
-// {
-// 	static char	*remain;
-// 	static int	remain_count;
-// 	char	*out_put;
-// 	char	*tmp;
-
-// 	out_put = make_msg(id, sec_milli, act);
-// 	if (out_put == NULL)
-// 		return (ERROR);
-// 	if (write(1, out_put, ft_strlen(out_put)) == -1)
-// 		return (ERROR);
-// 	free (out_put);
-// 	if (act == LET_DEAD)
-// 		return (ERROR);
-// 	return (SUCCESS);
-// }
-
-
-// void	print_time_printf(int id, long sec_milli, int act, int fork_id)
-// {
-// 	if (act == LET_TAKE_A_FORK)
-// 		printf("%ld %d has taken a fork\n", sec_milli, id);
-// 	else if (act == LET_EAT)
-// 		printf("%ld %d is eating\n",  sec_milli, id);
-// 	else if (act == LET_THINK)
-// 		printf("%ld %d is thinking\n",  sec_milli, id);
-// 	else if (act == LET_SLEEP)
-// 		printf("%ld %d is sleeping\n",  sec_milli, id);
-// 	else if (act == LET_DEAD)
-// 		printf("%ld %d died\n", sec_milli, id);
-// }
-
-// int	print_time(int id, long sec_milli, int act, int fork_id)
-// {
-// 	static char	*remain;
-// 	static int	remain_count;
-// 	char	*out_put;
-// 	char	*tmp;
-
-// 	out_put = make_msg(id, sec_milli, act, fork_id);
-// 	if (out_put == NULL)
-// 		return (ERROR);
-// 	if (remain_count == 0)
-// 	{
-// 		remain = out_put;
-// 		remain_count++;
-// 	}
-// 	else if (remain_count < 10)
-// 	{
-// 		tmp = ft_strjoin(remain, out_put);
-// 		if (tmp == NULL)
-// 			return (ERROR);
-// 		free (remain);
-// 		remain = tmp;
-// 		remain_count++;
-// 	}
-// 	if (remain_count == 10)
-// 	{
-// 		if (write(1, remain, ft_strlen(remain)) == -1)
-// 			return (ERROR);
-// 		remain_count = 0;
-// 	}
-
-// 	if (write(1, out_put, ft_strlen(out_put)) == -1)
-// 		return (ERROR);
-// 	free (out_put);
-// 	if (act == LET_DEAD)
-// 		return (ERROR);
-// 	return (SUCCESS);
-// }
-

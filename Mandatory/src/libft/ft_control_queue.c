@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_control_queue.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 14:42:33 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/22 14:42:36 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/30 20:53:56 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ t_list	*ft_dequeue(t_list **lst)
 
 void	ft_enqueue(t_list **lst, t_list *new)
 {
-	// if (new == NULL || lst == NULL)
-	// 	return ;
 	if (lst == NULL)
 		return ;
 	if (*lst == NULL)
@@ -50,6 +48,4 @@ int	print_que(t_queue *queue)
 		free (node);
 	}
 	return (0);
-
 }
-

@@ -6,12 +6,197 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:29:52 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/28 10:04:00 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/30 21:04:58 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <philosophers.h>
+
+// int	exe_act(t_philo *philo, int act)
+// {
+// 	int				answer;
+// 	t_wish_info		info;
+
+// 	info.act_time = ft_get_time_in_millisec();
+// 	if (info.act_time == -1)
+// 		return (ERROR);
+// 	info.request = act;
+// 	info.fork_id = NONE;
+// 	if (update_wish_status(philo->wish, &info) == ERROR)
+// 		return (ERROR);
+// 	if (act == LET_EAT)
+// 		ft_msleep(philo->status.time_to_eat);
+// 	else if (act == LET_SLEEP)
+// 		ft_msleep(philo->status.time_to_sleep);
+// 	else if (act == LET_DEAD)
+// 		return (ERROR);
+// 	while (1)
+// 	{
+// 		usleep(10);
+// 		answer = get_monitor_answer(philo->wish);
+// 		if (answer == LET_OK)
+// 			break ;
+// 		else if (answer == LET_DEAD)
+// 			return (ERROR);
+// 	}
+// 	return (SUCCESS);
+// }
+
+int	print_time(int id, long sec_milli, int act)
+{
+	char	*out_put;
+
+	out_put = make_msg(id, sec_milli, act);
+	if (out_put == NULL)
+		return (ERROR);
+	if (write(1, out_put, ft_strlen(out_put)) == -1)
+		return (ERROR);
+	free (out_put);
+	if (act == LET_DEAD)
+		return (ERROR);
+	return (SUCCESS);
+}
+
+
+// static int	ft_usleep(long now_time, long sleep_time)
+// {
+// 	const long	goal_time = now_time + sleep_time / 1000;
+
+// 	while (goal_time < ft_get_time_in_millisec());
+// 		;
+// 	return (0);
+// }
+
+// int	writer_exe(t_queue *queue)
+// {
+// 	t_list	*node;
+// 	size_t	len;
+// 	bool	do_proceed;
+
+// 	do_proceed = true;
+// 	while (do_proceed || node)
+// 	{
+// 		ft_pthread_mutex_lock(&queue->mutex);
+// 		node = ft_dequeue(&queue->list);
+// 		do_proceed = queue->do_proceed;
+// 		ft_pthread_mutex_unlock(&queue->mutex);
+// 		if (node == NULL)
+// 		{
+// 			usleep(10000);
+// 			continue ;
+// 		}
+// 		// if (node->content == NULL)
+// 		// 	continue ;
+// 		len = ft_strlen(node->content);
+// 		if (write(1, node->content, len) == -1)
+// 		{
+// 			return (ERROR);
+// 		}
+// 		free (node->content);
+// 		free (node);
+// 		usleep(10000);
+// 	}
+// 	return (0);
+// }
+
+static int	init_philo_sub(t_philo *philo, t_status *status, t_share *share)
+{
+	int	i;
+	int	philo_num;
+
+	philo_num = share->philo_num;
+	i = philo->philo_id;
+	philo->status = *status;
+	philo->wish = &share->wishs[i];
+
+	// philo->forks[FIRST] = &share->forks[i];
+	// philo->forks[SECOND] = &share->forks[(i + 1) % philo_num];
+
+	// if (i == 0)
+	// {
+	// 	philo->forks[FIRST] = &share->forks[(i + 1) % philo_num];
+	// 	philo->forks[SECOND] = &share->forks[i];
+	// }
+	// else
+	// {
+	// 	philo->forks[FIRST] = &share->forks[i];
+	// 	philo->forks[SECOND] = &share->forks[(i + 1) % philo_num];
+	// }
+
+	// if (i % 2 == 0)
+	// {
+	// 	philo->forks[FIRST] = &share->forks[i];
+	// 	philo->forks[SECOND] = &share->forks[(i + 1) % philo_num];
+	// }
+	// else
+	// {
+	// 	philo->forks[FIRST] = &share->forks[(i + 1) % philo_num];
+	// 	philo->forks[SECOND] = &share->forks[i];
+	// }
+
+	return (SUCCESS);
+}
+
+
+// ================
+// isok は悩んでいる
+// int	is_ok_the_guy_take_forks(t_share *share, int own_id, int num)
+// {
+// 	int		left_id;
+// 	int		right_id;
+
+// 	left_id = ft_positive_mod(own_id - 1, num);
+// 	right_id = ft_positive_mod(own_id + 1, num);
+// 	share->time_to_die_array[own_id].eating_status = E_HUNGRY;
+// 	if (left_id == own_id || right_id == own_id)
+// 	{
+// 		return (false);
+// 	}
+// 	if (share->time_to_die_array[left_id].eating_status != E_HUNGRY)
+// 	{
+// 		return (true);
+// 	}
+// 	return (false);
+// }
+
+// int	is_ok_the_guy_take_forks(t_share *share, int own_id, int num)
+// {
+// 	int left_id;
+// 	int right_id;
+// 	// char	*str;
+
+// 	left_id = ft_positive_mod(own_id - 1, num);
+// 	right_id = ft_positive_mod(own_id + 1, num);
+// 	if (left_id == own_id || right_id == own_id)
+// 	{
+// 		// str = ft_strjoin(ft_itoa(own_id), ":");
+// 		// str = ft_strjoin(str, ft_itoa(left_id));
+// 		// str = ft_strjoin(str, ":");
+// 		// str = ft_strjoin(str, ft_itoa(right_id));
+// 		// str = ft_strjoin(str, "  same id false \n");
+// 		// write(1, str, ft_strlen(str));
+// 		return (false);
+// 	}
+// 	if (share->time_to_die_array[left_id].eating_status == false || 
+// 		share->time_to_die_array[right_id].eating_status == false)
+// 	{
+// 		// str = ft_strjoin(ft_itoa(own_id), ":");
+// 		// str = ft_strjoin(str, ft_itoa(left_id));
+// 		// str = ft_strjoin(str, ":");
+// 		// str = ft_strjoin(str, ft_itoa(right_id));
+// 		// str = ft_strjoin(str, "  true \n");
+// 		// write(1, str, ft_strlen(str));
+// 		return (true);
+// 	}
+// 		// str = ft_strjoin(ft_itoa(own_id), ":");
+// 		// str = ft_strjoin(str, ft_itoa(left_id));
+// 		// str = ft_strjoin(str, ":");
+// 		// str = ft_strjoin(str, ft_itoa(right_id));
+// 		// str = ft_strjoin(str, "  false \n");
+// 		// write(1, str, ft_strlen(str));
+// 	return (false);
+// }
 
 static int	threads_create(t_philo *philos, pthread_t *th_id, int philo_num);
 static int	threads_join(pthread_t *th_id, int philo_num);
@@ -75,6 +260,96 @@ int	unlock_right_own_left(t_share *share,int own_id, int num)
 	return (0);
 }
 
+static int	save_request(t_wish_info *info, t_wish_info *philo_request)
+{
+	info->act_time = philo_request->act_time;
+	info->fork_id = philo_request->fork_id;
+	info->request = philo_request->request;
+	return (0);
+}
+
+// wishs という配列に、それぞれのphiloからのrequest内容が入っている
+int	answer_to_philo_request(t_share *share, int id)
+{
+	t_wish			*wish;
+	t_wish_info		save_request_info;
+
+	wish = &share->wishs[id];
+	if (lock_data_avoiding_race(share, id, share->philo_num) == ERROR)
+		return (ERROR);
+	ft_pthread_mutex_lock(&wish->mutex);
+	save_request(&save_request_info, &wish->request_info);
+	if (answer_request(share, wish, id, save_request_info) == FOUND_DEAD)
+	{
+		ft_pthread_mutex_unlock(&wish->mutex);
+		unlock_data_avoiding_race(share, id, share->philo_num);
+		return (FOUND_DEAD);
+	}
+	update_dead_time(share, id, save_request_info);
+	ft_pthread_mutex_unlock(&wish->mutex);
+	unlock_data_avoiding_race(share, id, share->philo_num);
+	return (SUCCESS);
+}
+// int	answer_to_philo_request(t_share *share, int id)
+// {
+// 	t_wish			*wish;
+// 	t_wish_info		info;
+
+// 	wish = &share->wishs[id];
+// 	ft_pthread_mutex_lock(&wish->mutex);
+// 	save_request(&info, &wish->request_info);
+// 	if (did_the_old_man_go_heaven(share, id) == true)
+// 	{
+// 		ft_pthread_mutex_unlock(&wish->mutex);
+// 		enqueue_log_msg_to_writer(share, id, share->philos_time_to_dead[id], LET_DEAD);
+// 		return (FOUND_DEAD);
+// 	}
+// 	answer_request(share, wish, id, info.request);
+// 	ft_pthread_mutex_unlock(&wish->mutex);
+// 	if (enqueue_log_msg_to_writer(share, id, info.act_time, info.request) == ERROR)
+// 	{
+// 		return (ERROR);
+// 	}
+// 	// update_dead_time(share, id)
+// 	if (info.request == LET_EAT || info.request == LET_INIT)
+// 	{
+// 		share->philos_time_to_dead[id] = (info.act_time + share->time_to_starve);
+// 		if (info.request == LET_EAT)
+// 			++share->philos_eat_times[id];
+// 	}
+// 	return (SUCCESS);
+// }
+
+
+// int	answer_request(t_share *share, t_wish *wish, int id, t_wish_info info)
+// {
+// 	if (did_the_old_man_go_heaven(share, id) == true)
+// 	{
+// 		enqueue_log_msg_to_writer(share, id, 
+// 			share->time_to_die_array[id].time_to_die, LET_DEAD);
+// 		ft_pthread_mutex_unlock(&wish->mutex);
+// 		answer_dead_to_all_request(share);
+// 		return (FOUND_DEAD);
+// 	}
+// 	else if (info.request == LET_DEAD)
+// 	{
+// 		enqueue_log_msg_to_writer(share, id, info.act_time, LET_DEAD);
+// 		ft_pthread_mutex_unlock(&wish->mutex);
+// 		answer_dead_to_all_request(share);
+// 		return (FOUND_DEAD);
+// 	}
+// 	else if (info.request == LET_TRY_TO_TAKE_FORKS)
+// 	{
+// 		if (whethre_allow_taking_the_fork(share, id, share->philo_num))
+// 		{
+// 			wish->request_info.request = LET_OK;
+// 			share->time_to_die_array[id].is_taking_fork = true;
+// 		}
+// 	}
+// 	else
+// 		wish->request_info.request = LET_OK;
+// 	return (SUCCESS);
+// }
 
 // bus error が出た。なんでだろ
 // static int	take_fork(t_philo *philo, t_fork *fork, t_fork *had)
@@ -1123,3 +1398,75 @@ int	is_ok_the_guy_eat2(t_share *share,int id, int num)
 // 	ft_pthread_mutex_unlock(&wish->mutex);
 // 	return (SUCCESS);
 // }
+// int	print_time(int id, long sec_milli, int act, int fork_id)
+// {
+// 	static char	*remain;
+// 	static int	remain_count;
+// 	char	*out_put;
+// 	char	*tmp;
+
+// 	out_put = make_msg(id, sec_milli, act);
+// 	if (out_put == NULL)
+// 		return (ERROR);
+// 	if (write(1, out_put, ft_strlen(out_put)) == -1)
+// 		return (ERROR);
+// 	free (out_put);
+// 	if (act == LET_DEAD)
+// 		return (ERROR);
+// 	return (SUCCESS);
+// }
+
+
+// void	print_time_printf(int id, long sec_milli, int act, int fork_id)
+// {
+// 	if (act == LET_TAKE_A_FORK)
+// 		printf("%ld %d has taken a fork\n", sec_milli, id);
+// 	else if (act == LET_EAT)
+// 		printf("%ld %d is eating\n",  sec_milli, id);
+// 	else if (act == LET_THINK)
+// 		printf("%ld %d is thinking\n",  sec_milli, id);
+// 	else if (act == LET_SLEEP)
+// 		printf("%ld %d is sleeping\n",  sec_milli, id);
+// 	else if (act == LET_DEAD)
+// 		printf("%ld %d died\n", sec_milli, id);
+// }
+
+// int	print_time(int id, long sec_milli, int act, int fork_id)
+// {
+// 	static char	*remain;
+// 	static int	remain_count;
+// 	char	*out_put;
+// 	char	*tmp;
+
+// 	out_put = make_msg(id, sec_milli, act, fork_id);
+// 	if (out_put == NULL)
+// 		return (ERROR);
+// 	if (remain_count == 0)
+// 	{
+// 		remain = out_put;
+// 		remain_count++;
+// 	}
+// 	else if (remain_count < 10)
+// 	{
+// 		tmp = ft_strjoin(remain, out_put);
+// 		if (tmp == NULL)
+// 			return (ERROR);
+// 		free (remain);
+// 		remain = tmp;
+// 		remain_count++;
+// 	}
+// 	if (remain_count == 10)
+// 	{
+// 		if (write(1, remain, ft_strlen(remain)) == -1)
+// 			return (ERROR);
+// 		remain_count = 0;
+// 	}
+
+// 	if (write(1, out_put, ft_strlen(out_put)) == -1)
+// 		return (ERROR);
+// 	free (out_put);
+// 	if (act == LET_DEAD)
+// 		return (ERROR);
+// 	return (SUCCESS);
+// }
+

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_struct_share2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:46:58 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/28 15:10:05 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/30 20:34:47 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,37 @@
 // 	return (SUCCESS);
 // }
 
+t_wish	*init_wishs(int philo_num)
+{
+	t_wish	*wishs;
+	int		i;
+
+	wishs = malloc(sizeof(t_wish) * philo_num);
+	if (wishs == NULL)
+	{
+		exit(1);
+		return (NULL);
+	}
+	i = 0;
+	while (i < philo_num)
+	{
+		if (init_shared_resourse(&wishs[i].mutex) == ERROR)
+		{
+			exit(1);
+			return (NULL);
+		}
+		wishs[i].request_info.request = LET_OK;
+		wishs[i].request_info.fork_id = 0;
+		wishs[i].request_info.act_time = 0;
+		i++;
+	}
+	return (wishs);
+}
+
 int	init_shared_resourse(t_shared_resourse	*resourse)
 {
 	resourse->is_available_mutex = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
 	resourse->stuff = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
-	// pthread_mutex_init(&resourse->is_available_mutex, NULL);
-	// resourse->stuff = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
 	resourse->is_available = true;
 	return (SUCCESS);
 }

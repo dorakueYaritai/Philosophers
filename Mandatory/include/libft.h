@@ -6,24 +6,24 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 09:58:16 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/23 17:46:45 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/30 20:47:25 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef LIBFFT_H
-#define LIBFFT_H
+#ifndef LIBFFT_H
+# define LIBFFT_H
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/time.h>
-#include <pthread.h>
-#include <stdbool.h>
-#include <sys/time.h>
-#include <ctype.h>
-#include <errno.h>
-#include <limits.h>
+# include <stdio.h>
+# include <string.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <sys/time.h>
+# include <pthread.h>
+# include <stdbool.h>
+# include <sys/time.h>
+# include <ctype.h>
+# include <errno.h>
+# include <limits.h>
 
 
 // libft

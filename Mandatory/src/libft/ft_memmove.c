@@ -6,12 +6,11 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 02:25:16 by hioikawa          #+#    #+#             */
-/*   Updated: 2023/03/20 10:00:06 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/30 20:54:46 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
-
 
 static void	*ft_normal_memcpy(void *dst, const void *src, size_t n)
 {

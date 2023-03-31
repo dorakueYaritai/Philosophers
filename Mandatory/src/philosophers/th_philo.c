@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   th_philo.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:36:38 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/28 15:31:10 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/31 12:13:54 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,11 @@ void	*routine_init(void *_philo)
 	t_philo			*philo;
 
 	philo = (t_philo *)_philo;
+	if (philo->philo_id % 2 == 0)
+		ft_msleep(philo->status.time_to_eat / 2);
 	exe_act(philo, LET_INIT);
+	printf("%d\n", philo->philo_id);
+	return (NULL);
 	philo_think(philo);
 	return (NULL);
 }
@@ -59,75 +63,30 @@ static int	philo_sleep(t_philo *philo)
 	return (philo_think(philo));
 }
 
-// static int	ft_usleep(long now_time, long sleep_time)
-// {
-// 	const long	goal_time = now_time + sleep_time / 1000;
-
-// 	while (goal_time < ft_get_time_in_millisec());
-// 		;
-// 	return (0);
-// }
-
 int	exe_act(t_philo *philo, int act)
 {
 	int				answer;
 	t_wish_info		info;
 
-	// printf("DONE!\n");
 	info.act_time = ft_get_time_in_millisec();
 	if (info.act_time == -1)
 		return (ERROR);
 	info.request = act;
 	info.fork_id = NONE;
-	// printf("3\n");
 	if (update_wish_status(philo->wish, &info) == ERROR)
 		return (ERROR);
-	// printf("1\n");
 	if (act == LET_EAT)
 		ft_msleep(philo->status.time_to_eat);
 	else if (act == LET_SLEEP)
 		ft_msleep(philo->status.time_to_sleep);
-	// printf("2\n");
 	while (1)
 	{
 		usleep(10);
-		// printf("22!\n");
 		answer = get_monitor_answer(philo->wish);
 		if (answer == LET_OK)
 			break ;
 		else if (answer == LET_DEAD)
 			return (ERROR);
 	}
-	// printf("DONE!\n");
 	return (SUCCESS);
 }
-
-// int	exe_act(t_philo *philo, int act)
-// {
-// 	int				answer;
-// 	t_wish_info		info;
-
-// 	info.act_time = ft_get_time_in_millisec();
-// 	if (info.act_time == -1)
-// 		return (ERROR);
-// 	info.request = act;
-// 	info.fork_id = NONE;
-// 	if (update_wish_status(philo->wish, &info) == ERROR)
-// 		return (ERROR);
-// 	if (act == LET_EAT)
-// 		ft_msleep(philo->status.time_to_eat);
-// 	else if (act == LET_SLEEP)
-// 		ft_msleep(philo->status.time_to_sleep);
-// 	else if (act == LET_DEAD)
-// 		return (ERROR);
-// 	while (1)
-// 	{
-// 		usleep(10);
-// 		answer = get_monitor_answer(philo->wish);
-// 		if (answer == LET_OK)
-// 			break ;
-// 		else if (answer == LET_DEAD)
-// 			return (ERROR);
-// 	}
-// 	return (SUCCESS);
-// }

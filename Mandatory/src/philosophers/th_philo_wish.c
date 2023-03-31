@@ -3,43 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   th_philo_wish.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:33:21 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/28 15:31:26 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/31 13:16:12 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <philosophers.h>
 
-	// wish->request_info.request = info->request;
-	// wish->request_info.act_time = info->act_time;
-	// wish->request_info.fork_id = info->fork_id;
-
 int	update_wish_status(t_wish *wish, t_wish_info *info)
 {
-	// printf("7\n");
 	if (ft_pthread_mutex_lock(&wish->mutex))
-	{
-		// printf("5\n");
 		return (ERROR);
-	}
-	// printf("9\n");
 	if (wish->request_info.request == LET_DEAD)
 	{
-		// printf("11\n");
 		ft_pthread_mutex_unlock(&wish->mutex);
 		return (ERROR);
 	}
 	wish->request_info = *info;
-	// printf("10\n");
 	if (ft_pthread_mutex_unlock(&wish->mutex))
-	{
-		// printf("6\n");
 		return (ERROR);
-	}
-	// printf("8\n");
 	return (SUCCESS);
 }
 

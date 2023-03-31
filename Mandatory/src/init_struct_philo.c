@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_struct_philo.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kakiba <kakiba@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 23:05:11 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/29 08:35:12 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/30 20:38:57 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,48 +44,7 @@ static int	init_philo_sub(t_philo *philo, t_status *status, t_share *share)
 	i = philo->philo_id;
 	philo->status = *status;
 	philo->wish = &share->wishs[i];
-	
-	if (i == 0)
-	{
-		philo->forks[FIRST] = &share->forks[i];
-		philo->forks[SECOND] = &share->forks[(i + 1) % philo_num];
-	}
-	else
-	{
-		philo->forks[FIRST] = &share->forks[(i + 1) % philo_num];
-		philo->forks[SECOND] = &share->forks[i];
-	}
-	// if (i % 2 == 0)
-	// {
-	// 	philo->forks[FIRST] = &share->forks[i];
-	// 	philo->forks[SECOND] = &share->forks[(i + 1) % philo_num];
-	// }
-	// else
-	// {
-	// 	philo->forks[FIRST] = &share->forks[(i + 1) % philo_num];
-	// 	philo->forks[SECOND] = &share->forks[i];
-	// }
+	philo->forks[FIRST] = &share->forks[i];
+	philo->forks[SECOND] = &share->forks[(i + 1) % philo_num];
 	return (SUCCESS);
 }
-
-// static int	init_philo_sub(t_philo *philo, t_status *status, t_share *share)
-// {
-// 	int	i;
-// 	int	philo_num;
-
-// 	philo_num = share->philo_num;
-// 	i = philo->philo_id;
-// 	philo->status = *status;
-// 	philo->wish = &share->wishs[i];
-// 	if (i % 2 == 0)
-// 	{
-// 		philo->forks[FIRST] = &share->forks[i];
-// 		philo->forks[SECOND] = &share->forks[(i + 1) % philo_num];
-// 	}
-// 	else
-// 	{
-// 		philo->forks[FIRST] = &share->forks[(i + 1) % philo_num];
-// 		philo->forks[SECOND] = &share->forks[i];
-// 	}
-// 	return (SUCCESS);
-// }

@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 18:03:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/27 22:40:49 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/30 20:50:13 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,24 @@ int				init_shared_resourse(t_shared_resourse	*resourse);
 t_queue			*init_queue(void);
 pthread_t		*init_th_id(int thread_num);
 int				init_status(t_status *status, char **argv, int argc);
+
+t_share	*init_shares(t_share *share)
+{
+	t_share	*share_array;
+	long	i;
+
+	share_array = malloc(sizeof(t_share) * share->philo_num);
+	if (share_array == NULL)
+		return (NULL);
+	i = 0;
+	while (i < share->philo_num)
+	{
+		share_array[i] = *share;
+		share_array[i].philo_id = i;
+		i++;
+	}
+	return (share_array);
+}
 
 int	init_share(t_share *share, t_status *status, char *philo_num_arg)
 {
@@ -81,7 +99,7 @@ t_time_to_die	*init_time_to_die_array(int philo_num)
 		if (init_shared_resourse(&time_to_die_array[i].mutex) == ERROR)
 			return (NULL);
 		time_to_die_array[i].time_to_die = -1;
-		time_to_die_array[i].is_eating = false;
+		time_to_die_array[i].is_taking_fork = false;
 		i++;
 	}
 	return (time_to_die_array);
@@ -104,31 +122,4 @@ t_fork	*init_fork(int philo_num)
 		i++;
 	}
 	return (forks);
-}
-
-t_wish	*init_wishs(int philo_num)
-{
-	t_wish	*wishs;
-	int		i;
-
-	wishs = malloc(sizeof(t_wish) * philo_num);
-	if (wishs == NULL)
-	{
-		exit(1);
-		return (NULL);
-	}
-	i = 0;
-	while (i < philo_num)
-	{
-		if (init_shared_resourse(&wishs[i].mutex) == ERROR)
-		{
-			exit(1);
-			return (NULL);
-		}
-		wishs[i].request_info.request = LET_OK;
-		wishs[i].request_info.fork_id = 0;
-		wishs[i].request_info.act_time = 0;
-		i++;
-	}
-	return (wishs);
 }
