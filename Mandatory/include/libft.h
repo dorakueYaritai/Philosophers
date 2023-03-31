@@ -6,12 +6,12 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 09:58:16 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/30 20:47:25 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/31 13:46:24 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFFT_H
-# define LIBFFT_H
+#ifndef LIBFT_H
+# define LIBFT_H
 
 # include <stdio.h>
 # include <string.h>
@@ -25,13 +25,12 @@
 # include <errno.h>
 # include <limits.h>
 
-
 // libft
 char		*ft_strjoin(char const *s1, char const *s2);
 size_t		ft_strlcat(char *dst, const char *src, size_t dstsize);
 char		*ft_itoa(int n);
 char		*ft_ltoa(long n);
-int			 ft_positive_mod(int dividend, int divisor);
+int			ft_positive_mod(int dividend, int divisor);
 void		*ft_memmove(void *dst, const void *src, size_t len);
 size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t		ft_strlen(const char *s);

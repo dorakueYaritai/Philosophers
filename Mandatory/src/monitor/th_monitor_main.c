@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 14:24:18 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/31 13:35:52 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/31 13:44:38 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,6 @@ int	answer_request(t_share *share, t_wish *wish, int id, t_wish_info info)
 			share->time_to_die_array[id].is_taking_fork = true;
 		}
 	}
-	else if (info.request == LET_INIT)
-		wish->request_info.request = LET_OK;
 	else
 	{
 		if (enqueue_log_msg_to_writer(share, id, info.act_time, info.request))

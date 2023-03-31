@@ -6,12 +6,72 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:29:52 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/31 13:33:24 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/31 13:45:33 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <philosophers.h>
+
+
+// void	ultra_debug(t_share *share, int id, int left_id, int right_id)
+// {
+//    char    *str;
+
+//     str = ft_strjoin("", "A[");
+//     str = ft_strjoin(str, ft_ltoa(id));
+//     str = ft_strjoin(str, "]");
+//     str = ft_strjoin(str, ": ");
+//     str = ft_strjoin(str, ft_ltoa(share->time_to_die_array[id].time_to_die));
+//     str = ft_strjoin(str, ": ");
+
+//     str = ft_strjoin(str, ft_ltoa(left_id));
+//     str = ft_strjoin(str, " ");
+//     str = ft_strjoin(str, ": ");
+//     str = ft_strjoin(str, ft_ltoa(share->time_to_die_array[left_id].time_to_die));
+//     str = ft_strjoin(str, ": ");
+
+//     str = ft_strjoin(str, ft_ltoa(right_id));
+//     str = ft_strjoin(str, " ");
+//     str = ft_strjoin(str, ":");
+//     str = ft_strjoin(str, ft_ltoa(share->time_to_die_array[right_id].time_to_die));
+//     str = ft_strjoin(str, ":\n");
+
+// 	if (write(1, str, strlen(str)) == -1)
+// 		return ;
+// }
+
+// void	ultra_debug2(t_share *share, int id, int left_id, int right_id)
+// {
+//     // char *red = "\x1b[31m"; // 赤色
+//     // char *green = "\x1b[32m"; // 緑色
+//     // char *reset = "\x1b[0m"; // リセット（色を元に戻す）
+//    char    *str;
+
+//     // str = ft_strjoin(green, "A");
+//     str = ft_strjoin("=======", "A[");
+//     str = ft_strjoin(str, ft_ltoa(id));
+//     str = ft_strjoin(str, "] ");
+//     str = ft_strjoin(str, ": ");
+//     str = ft_strjoin(str, ft_ltoa(share->time_to_die_array[id].time_to_die));
+//     str = ft_strjoin(str, ": ");
+
+//     str = ft_strjoin(str, ft_ltoa(left_id));
+//     str = ft_strjoin(str, " ");
+//     str = ft_strjoin(str, ": ");
+//     str = ft_strjoin(str, ft_ltoa(share->time_to_die_array[left_id].time_to_die));
+//     str = ft_strjoin(str, ": ");
+
+//     str = ft_strjoin(str, ft_ltoa(right_id));
+//     str = ft_strjoin(str, " ");
+//     str = ft_strjoin(str, ":");
+//     str = ft_strjoin(str, ft_ltoa(share->time_to_die_array[right_id].time_to_die));
+//     str = ft_strjoin(str, ":=======\n");
+//     // str = ft_strjoin(str, reset);
+
+// 	if (write(1, str, strlen(str)) == -1)
+// 		return ;
+// }
 
 
 int	lock_data_avoiding_race(t_share *share, int own_id, int num)
