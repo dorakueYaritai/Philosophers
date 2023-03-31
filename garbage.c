@@ -6,12 +6,133 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:29:52 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/30 21:04:58 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/31 13:33:24 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <philosophers.h>
+
+
+int	lock_data_avoiding_race(t_share *share, int own_id, int num)
+{
+	int	left_id;
+	int	right_id;
+
+	left_id = ft_positive_mod(own_id - 1, num);
+	right_id = ft_positive_mod(own_id + 1, num);
+	if (share->philo_num == 1)
+	{
+		printf("1A! : %d: %d\n", share->philo_id, own_id);
+		return (ft_pthread_mutex_lock(&share->time_to_die_array[own_id].mutex));
+	}
+	else if (share->philo_num == 2)
+	{
+		printf("2B! : %d: %d\n", share->philo_id, own_id);
+		return (lock_for_two_people(share, own_id, left_id));
+	}
+
+	// if (ft_pthread_mutex_lock(&share->time_to_die_array[left_id].mutex))
+	// {
+	// 	printf("NO\n");
+	// 	return (ERROR);
+	// }
+	// printf("1! : %d: %d\n", share->philo_id, left_id);
+	// if (ft_pthread_mutex_lock(&share->time_to_die_array[own_id].mutex))
+	// {
+	// 	printf("NO\n");
+	// 	return (ERROR);
+	// }
+	// printf("2! : %d: %d\n", share->philo_id, own_id);
+	// if (ft_pthread_mutex_lock(&share->time_to_die_array[right_id].mutex))
+	// {
+	// 	printf("NO\n");
+	// 	return (ERROR);
+	// }
+	// printf("3! : %d: %d\n", share->philo_id, right_id);
+	// lock_mini_first(share, left_id, own_id, right_id);
+
+	if (own_id < left_id && own_id < right_id)
+	{
+		// printf("1! : %d: %d\n", share->philo_id, left_id);
+		return (lock_mini_first(share, own_id, left_id, right_id));
+		// printf("DONE\n");
+	}
+	else if (left_id < own_id && left_id < right_id)
+	{
+		// printf("2! : %d: %d\n", share->philo_id, left_id);
+		return (lock_mini_first(share, left_id, own_id, right_id));
+		// printf("DONE\n");
+	}
+	else
+	{
+		// printf("3! : %d: %d\n", share->philo_id, right_id);
+		return (lock_mini_first(share, right_id, left_id, own_id));
+		// printf("DONE\n");
+	}
+	return (SUCCESS);
+}
+
+int	unlock_data_avoiding_race(t_share *share, int own_id, int num)
+{
+	int	left_id;
+	int	right_id;
+
+	left_id = ft_positive_mod(own_id - 1, num);
+	right_id = ft_positive_mod(own_id + 1, num);
+	if (share->philo_num == 1)
+		return (ft_pthread_mutex_unlock \
+			(&share->time_to_die_array[own_id].mutex));
+	else if (share->philo_num == 2)
+		return (unlock_for_two_people(share, own_id, left_id));
+	// unlock_mini_first(share, left_id, own_id, right_id);
+
+	// if (ft_pthread_mutex_unlock(&share->time_to_die_array[left_id].mutex))
+	// {
+		// printf("FOO!\n");
+	// 	return (ERROR);
+	// }
+	printf("a! : %d: %d\n", share->philo_id, left_id);
+	// if (ft_pthread_mutex_unlock(&share->time_to_die_array[own_id].mutex))
+	// {
+		// printf("FOO!\n");
+	// 	return (ERROR);
+	// }
+	printf("b! : %d: %d\n", share->philo_id, own_id);
+	// if (ft_pthread_mutex_unlock(&share->time_to_die_array[right_id].mutex))
+	// {
+		// printf("FOO!\n");
+	// 	return (ERROR);
+	// }
+	printf("c! : %d: %d\n", share->philo_id, right_id);
+
+	if (own_id < left_id && own_id < right_id)
+	{
+		// printf("A! : %d: %d\n", share->philo_id, left_id);
+		return (unlock_mini_first(share, own_id, left_id, right_id));
+		// printf("DONE\n");
+	}
+	else if (left_id < own_id && left_id < right_id)
+	{
+		// printf("B! : %d: %d\n", share->philo_id, left_id);
+		return (unlock_mini_first(share, left_id, own_id, right_id));
+		// printf("DONE\n");
+	}
+	else
+	{
+		// printf("C! : %d: %d\n", share->philo_id, right_id);
+		return (unlock_mini_first(share, right_id, left_id, own_id));
+		// printf("DONE\n");
+	}
+
+	// if (own_id < left_id && own_id < right_id)
+	// 	return (unlock_mini_first(share, own_id, left_id, right_id));
+	// else if (left_id < own_id && left_id < right_id)
+	// 	return (unlock_mini_first(share, left_id, own_id, right_id));
+	// else
+	// 	return (unlock_mini_first(share, right_id, own_id, left_id));
+	return (SUCCESS);
+}
 
 // int	exe_act(t_philo *philo, int act)
 // {

@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 14:24:18 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/31 13:17:19 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/31 13:35:52 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,13 @@ int	answer_to_philo_request(t_share *share, int id)
 
 	wish = &share->wishs[id];
 	if (lock_data_avoiding_race(share, id, share->philo_num) == ERROR)
-	{
-		printf("NOOOOO!\n");
 		return (ERROR);
-	}
 	ft_pthread_mutex_lock(&wish->mutex);
 	save_info = wish->request_info;
 	if (answer_request(share, wish, id, save_info))
 	{
 		ft_pthread_mutex_unlock(&wish->mutex);
 		unlock_data_avoiding_race(share, id, share->philo_num);
-		write(1, "YESSSSSS!\n", 10);
 		return (FOUND_DEAD);
 	}
 	update_dead_time(share, id, save_info);
@@ -75,8 +71,6 @@ int	answer_request(t_share *share, t_wish *wish, int id, t_wish_info info)
 {
 	if (did_the_old_man_go_heaven(share, id) || info.request == LET_DEAD)
 	{
-		write(1, "YESSSSSS!\n", 10);
-		exit(1);
 		if (info.request == LET_DEAD)
 			enqueue_log_msg_to_writer(share, id, info.act_time, LET_DEAD);
 		else

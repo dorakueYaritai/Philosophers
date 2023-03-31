@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 17:29:34 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/31 13:02:24 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/31 13:37:33 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,17 +74,10 @@ bool	did_the_old_man_go_heaven(t_share *share, int id)
 
 	crrent_time = ft_get_time_in_millisec();
 	if (crrent_time == -1)
-	{
-		printf("get error!\n");
 		return (true);
-	}
 	if ((share->time_to_die_array[id].time_to_die < crrent_time && \
 		share->time_to_die_array[id].time_to_die != -1))
-	{
-		printf("%ld: %ld\n", share->time_to_die_array[id].time_to_die, crrent_time);
 		return (true);
-	}
-	printf("false %ld: %ld\n", share->time_to_die_array[id].time_to_die, crrent_time);
 	return (false);
 }
 

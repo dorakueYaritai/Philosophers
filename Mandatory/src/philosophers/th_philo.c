@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:36:38 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/31 12:13:54 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/03/31 13:39:54 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	*routine_init(void *_philo)
 	if (philo->philo_id % 2 == 0)
 		ft_msleep(philo->status.time_to_eat / 2);
 	exe_act(philo, LET_INIT);
-	printf("%d\n", philo->philo_id);
 	return (NULL);
 	philo_think(philo);
 	return (NULL);
