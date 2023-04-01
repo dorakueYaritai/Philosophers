@@ -1,7 +1,6 @@
 *.a
 *.o
 *.d
-philo
 a.out
 out
 settings.json
