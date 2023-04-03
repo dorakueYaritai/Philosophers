@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 10:37:21 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/30 21:29:57 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/04/04 08:07:46 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static char	*make_prefix_msg(int id, long sec_milli)
 	free (sec_milli_str);
 	if (join == NULL)
 		return (NULL);
-	id_str = ft_itoa(id);
+	id_str = ft_itoa(id + 1);
 	if (id_str == NULL)
 		return (NULL);
 	tmp = ft_strjoin(join, id_str);

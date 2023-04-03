@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:36:38 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/31 13:41:43 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/04/04 08:08:35 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int	exe_act(t_philo *philo, int act)
 		ft_msleep(philo->status.time_to_sleep);
 	while (1)
 	{
-		usleep(10);
 		answer = get_monitor_answer(philo->wish);
 		if (answer == LET_OK)
 			break ;
