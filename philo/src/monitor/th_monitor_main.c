@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 14:24:18 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/31 13:44:38 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/04/04 08:46:58 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	update_dead_time(t_share *share, int id, t_wish_info info);
 int		answer_dead_to_all_request(t_share *share);
 
 // answer the philo's request
-// if philo is dead, monitor will answer to all philo's request to be dead(exit)
+// if philo is dead, monitor will answer to all philo's request to be dead
 
 void	*monitor_init(void *share_)
 {
@@ -37,6 +37,9 @@ void	*monitor_init(void *share_)
 		}
 		if (is_must_eat_times_fulfilled(share) == true)
 		{
+			ft_pthread_mutex_lock(&share->queue->mutex);
+			share->queue->do_proceed = false;
+			ft_pthread_mutex_unlock(&share->queue->mutex);
 			answer_dead_to_all_request(share);
 			return ((void *)SUCCESS);
 		}
@@ -100,7 +103,7 @@ void	update_dead_time(t_share *share, int id, t_wish_info info)
 	if (info.request == LET_EAT || info.request == LET_INIT)
 	{
 		share->time_to_die_array[id].time_to_die
-			= info.act_time + share->time_to_starve;
+			= info.act_time + share->time_to_starve + 1;
 		if (info.request == LET_EAT)
 			++share->philos_eat_times[id];
 	}
@@ -120,6 +123,11 @@ int	answer_dead_to_all_request(t_share *share)
 		if (ft_pthread_mutex_lock(&share->wishs[i].mutex))
 			return (ERROR);
 		share->wishs[i].request_info.request = LET_DEAD;
+		i++;
+	}
+	i = 0;
+	while (i < share->philo_num)
+	{
 		if (ft_pthread_mutex_unlock(&share->wishs[i].mutex))
 			return (ERROR);
 		i++;

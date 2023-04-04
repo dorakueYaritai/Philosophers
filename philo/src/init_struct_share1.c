@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 18:03:13 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/30 20:50:13 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/04/04 09:04:47 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,16 @@ int	init_alloc_member(t_share *share)
 	if (share->wishs == NULL || share->forks == NULL || share->queue == NULL || \
 		share->th_id == NULL || share->philos_time_to_dead == NULL || \
 		share->time_to_die_array == NULL || share->philos_eat_times == NULL)
+	{
+		ft_free(share->wishs);
+		ft_free(share->forks);
+		ft_free(share->queue);
+		ft_free(share->th_id);
+		ft_free(share->philos_time_to_dead);
+		ft_free(share->time_to_die_array);
+		ft_free(share->philos_eat_times);
 		return (ERROR);
+	}
 	return (SUCCESS);
 }
 

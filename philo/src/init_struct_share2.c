@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:46:58 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/30 20:34:47 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/04/04 08:49:23 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,12 @@ t_wish	*init_wishs(int philo_num)
 
 	wishs = malloc(sizeof(t_wish) * philo_num);
 	if (wishs == NULL)
-	{
-		exit(1);
 		return (NULL);
-	}
 	i = 0;
 	while (i < philo_num)
 	{
 		if (init_shared_resourse(&wishs[i].mutex) == ERROR)
 		{
-			exit(1);
 			return (NULL);
 		}
 		wishs[i].request_info.request = LET_OK;

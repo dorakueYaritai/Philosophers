@@ -4,11 +4,8 @@
 NAME		:= philo
 CC			:= cc 
 RM			:= rm -f
-CFLAGS		:= -O
-# CFLAGS		:= -O -Weverything
-# CFLAGS		:= -fsanitize=thread -Wall -Wextra -O
-# CFLAGS		:= -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=undefined -O
-# CFLAGS		:= -Wall -Wextra -g -fsanitize=address -fsanitize=undefined -O 
+# CFLAGS		:= -Wall -Wextra -Werror -O
+CFLAGS		:= -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=undefined -O
 DFLAGS		:= -MMD -MP
 #=============================
 #src
@@ -96,15 +93,6 @@ $(OBJDIR)/%.o: $(WRITERRDIR)/%.c
 	-mkdir -p $(OBJDIR) 
 	$(CC) $(CFLAGS) $(DFLAGS) $(INCLUDE) -c $< -o $@
 
-# $(OBJDIR)/%.o: $(EXE_DIR)/%.c
-# 	 -mkdir -p $(OBJDIR) 
-# 	$(CC) $(CFLAGS) $(DFLAGS) $(INCLUDE) -c $< -o $@
-
-# $(OBJDIR)/%.o: $(UTIL_DIR)/%.c
-# 	 -mkdir -p $(OBJDIR) 
-# 	$(CC) $(CFLAGS) $(DFLAGS) $(INCLUDE) -c $< -o $@
-#-----
-
 FORCE:
 
 all: $(NAME) 
@@ -118,9 +106,6 @@ fclean:	clean
 	@echo $(RED)"----- $(NAME) fclean done-----"$(RESET)
 
 re: fclean all
-
-# debug:	CFLAGS+= -g
-# debug:	re
 
 NAME_DEBUG = dbg
 debug: CFLAGS += -g
@@ -141,20 +126,6 @@ $(NAME_DEBUG): $(OBJECTS)
 #=============================
 #make option
 #=============================
-s:	CFLAGS +=  -g  -fsanitize=address -fsanitize=undefined 
-s:	re
-
-run: 
-	make re
-	./$(NAME)
-	
-p: 
-	make
-	bash test_parse.sh
-
-e: 
-	make
-	bash test_echo.sh
 
 .PHONY: all clean fclean re bonus sani run sani2
 

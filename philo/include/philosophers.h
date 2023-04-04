@@ -6,7 +6,7 @@
 /*   By: kakiba <kotto555555@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 09:53:14 by kakiba            #+#    #+#             */
-/*   Updated: 2023/03/31 13:53:24 by kakiba           ###   ########.fr       */
+/*   Updated: 2023/04/04 09:22:47 by kakiba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,14 @@ struct s_philo{
 	t_wish			*wish;
 };
 
+typedef struct s_env				t_env;
+struct s_env{
+	t_philo		*philos;
+	t_share		share;
+	t_share		*shares;
+	t_status	status;
+};
+
 enum {
 	LET_EAT,
 	LET_THINK,
@@ -174,6 +182,8 @@ bool		guys_forks_avilable(t_share *share, int left_id,
 				int right_id, int num);
 int			lock_data_avoiding_race(t_share *share, int own_id, int num);
 int			unlock_data_avoiding_race(t_share *share, int own_id, int num);
+void		ft_free(void *memory);
+void		free_all(t_share *shares, t_philo *philo);
 
 // monitor_death
 int			answer_dead_to_all_request(t_share *share);
